@@ -51,7 +51,6 @@ jobs:
         with:
           cache: true
           install: true
-          require-lockfile: true
 
       - id: release
         name: Prepare release (versions non-private packages only)
