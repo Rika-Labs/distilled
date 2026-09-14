@@ -191,15 +191,20 @@ export const ModalProtocol: Layer.Layer<API.Protocol> =
       "x-modal-client-version": CLIENT_VERSION,
       "x-modal-libmodal-version": "distilled-modal/1.0.0-rc.8",
     }),
-    authenticate: ({ credentials: creds, path }) =>
-      path === AUTH_TOKEN_GET_PATH
-        ? Effect.succeed({
-            "x-modal-token-id": Redacted.value(creds.tokenId),
-            "x-modal-token-secret": Redacted.value(creds.tokenSecret),
-          })
+    authenticate: ({ credentials: creds, path }) => {
+      const bootstrap = {
+        "x-modal-token-id": Redacted.value(creds.tokenId),
+        "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+      };
+      // Modal's server requires the token-id/secret pair on every call; the
+      // auth-token JWT alone is only accepted on some read paths.
+      return path === AUTH_TOKEN_GET_PATH
+        ? Effect.succeed(bootstrap)
         : Effect.map(authTokenFor(creds), (token) => ({
+            ...bootstrap,
             "x-modal-auth-token": token,
-          })),
+          }));
+    },
     unknownError: ({
       grpcStatusName,
       grpcStatus,
