@@ -22,10 +22,28 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.modal.clients#WarningWarningType"
+          "target": "com.modal.clients#WarningWarningType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "WARNING_TYPE_UNSPECIFIED": 0,
+                "WARNING_TYPE_CLIENT_DEPRECATION": 1,
+                "WARNING_TYPE_RESOURCE_LIMIT": 2,
+                "WARNING_TYPE_FUNCTION_CONFIGURATION": 3
+              }
+            }
+          }
         },
         "message": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -68,15 +86,32 @@
       "type": "structure",
       "members": {
         "warning": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "imageBuilderVersion": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "serverWarnings": {
           "target": "com.modal.clients#WarningList",
           "traits": {
-            "smithy.api#documentation": "Deprecated, no longer used in client"
+            "smithy.api#documentation": "Deprecated, no longer used in client",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
           }
         }
       },
@@ -111,7 +146,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Client",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Client`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Client`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

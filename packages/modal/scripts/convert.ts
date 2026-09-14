@@ -9,12 +9,15 @@
  *
  * The proto→Smithy converter lives in `@distilled.cloud/core/codegen/proto`.
  * Operations are unary gRPC methods, stamped as
- * `POST /<package>.<Service>/<Method>` with proto3 JSON field names.
- * Streaming RPCs are skipped (they are not a request/response POST).
+ * `POST /<package>.<Service>/<Method>`; members carry the
+ * `com.distilled.proto#field` wire descriptor (field number + kind) so the
+ * generated SDK can encode binary `application/grpc` frames via
+ * `core/protobuf`. Streaming RPCs are skipped (they are not a
+ * request/response POST).
  *
- * Modal's production control plane speaks binary gRPC; this model describes
- * the proto3 JSON encoding of that surface (Connect-JSON / grpc-JSON
- * transcoding shape). Direct use of the gRPC API is unsupported by Modal.
+ * Modal's production control plane speaks binary gRPC — see
+ * `src/protocol.ts`. Direct use of the gRPC API is unsupported by Modal and
+ * may change without notice.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -121,7 +124,7 @@ for (const file of files) {
           group,
           `Modal ${group}`,
           `${service.fullName} RPCs whose names start with \`${group}\`. ` +
-            `Each operation is POST /${service.fullName}/<Method> with a proto3 JSON body.`,
+            `Each operation is a unary binary gRPC call to POST /${service.fullName}/<Method>.`,
           service.fullName,
           new Set(groups.get(group)!),
         );
@@ -132,7 +135,7 @@ for (const file of files) {
         slug,
         service.name,
         `Modal ${service.name}`,
-        `${service.fullName}. Each operation is POST /${service.fullName}/<Method> with a proto3 JSON body.`,
+        `${service.fullName}. Each operation is a unary binary gRPC call to POST /${service.fullName}/<Method>.`,
         service.fullName,
       );
     }

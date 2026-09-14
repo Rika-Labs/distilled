@@ -29,13 +29,31 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "repo": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "ref": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -49,7 +67,14 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.template#ListTemplateResponseTemplateListItemList"
+          "target": "com.modal.template#ListTemplateResponseTemplateListItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -83,7 +108,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Template",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Template`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Template`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

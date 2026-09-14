@@ -48,8 +48,31 @@ export interface GenericPayloadType {
 }
 export const GenericPayloadType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseType: S.optional(ParameterType),
-    subTypes: S.optional(GenericPayloadTypeList),
+    baseType: S.optional(
+      ParameterType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            PARAM_TYPE_UNSPECIFIED: 0,
+            PARAM_TYPE_STRING: 1,
+            PARAM_TYPE_INT: 2,
+            PARAM_TYPE_PICKLE: 3,
+            PARAM_TYPE_BYTES: 4,
+            PARAM_TYPE_UNKNOWN: 5,
+            PARAM_TYPE_LIST: 6,
+            PARAM_TYPE_DICT: 7,
+            PARAM_TYPE_NONE: 8,
+            PARAM_TYPE_BOOL: 9,
+          },
+        }),
+      ),
+    ),
+    subTypes: S.optional(
+      GenericPayloadTypeList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "GenericPayloadType",
@@ -71,15 +94,40 @@ export interface ClassParameterSpec {
 }
 export const ClassParameterSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(ParameterType),
-    hasDefault: S.optional(S.Boolean),
-    stringDefault: S.optional(S.String),
-    intDefault: S.optional(S.String),
-    pickleDefault: S.optional(S.String),
-    bytesDefault: S.optional(S.String),
-    boolDefault: S.optional(S.Boolean),
-    fullType: S.optional(GenericPayloadType),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    type: S.optional(
+      ParameterType.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            PARAM_TYPE_UNSPECIFIED: 0,
+            PARAM_TYPE_STRING: 1,
+            PARAM_TYPE_INT: 2,
+            PARAM_TYPE_PICKLE: 3,
+            PARAM_TYPE_BYTES: 4,
+            PARAM_TYPE_UNKNOWN: 5,
+            PARAM_TYPE_LIST: 6,
+            PARAM_TYPE_DICT: 7,
+            PARAM_TYPE_NONE: 8,
+            PARAM_TYPE_BOOL: 9,
+          },
+        }),
+      ),
+    ),
+    hasDefault: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+    stringDefault: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    intDefault: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "int64" }))),
+    pickleDefault: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "bytes" })),
+    ),
+    bytesDefault: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "bytes" }))),
+    boolDefault: S.optional(S.Boolean.pipe(T.ProtoField({ n: 9, t: "bool" }))),
+    fullType: S.optional(
+      GenericPayloadType.pipe(T.ProtoField({ n: 8, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ClassParameterSpec",
@@ -97,8 +145,24 @@ export interface ClassParameterInfo {
 }
 export const ClassParameterInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    format: S.optional(ClassParameterInfoParameterSerializationFormat),
-    schema: S.optional(ClassParameterSpecList),
+    format: S.optional(
+      ClassParameterInfoParameterSerializationFormat.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            PARAM_SERIALIZATION_FORMAT_UNSPECIFIED: 0,
+            PARAM_SERIALIZATION_FORMAT_PICKLE: 1,
+            PARAM_SERIALIZATION_FORMAT_PROTO: 2,
+          },
+        }),
+      ),
+    ),
+    schema: S.optional(
+      ClassParameterSpecList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ClassParameterInfo",
@@ -125,9 +189,23 @@ export interface FunctionSchema {
 }
 export const FunctionSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schemaType: S.optional(FunctionSchemaFunctionSchemaType),
-    arguments: S.optional(ClassParameterSpecList),
-    returnType: S.optional(GenericPayloadType),
+    schemaType: S.optional(
+      FunctionSchemaFunctionSchemaType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: { FUNCTION_SCHEMA_UNSPECIFIED: 0, FUNCTION_SCHEMA_V1: 1 },
+        }),
+      ),
+    ),
+    arguments: S.optional(
+      ClassParameterSpecList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
+    returnType: S.optional(
+      GenericPayloadType.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "FunctionSchema" }) as any as S.Schema<FunctionSchema>;
 
@@ -175,27 +253,100 @@ export interface FunctionHandleMetadata {
   supportedInputFormats?: DataFormatList;
   supportedOutputFormats?: DataFormatList;
   appId?: string;
+  /** The base Function ID for a variant, or the Function's own ID otherwise. */
+  baseFunctionId?: string;
 }
 export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionName: S.optional(S.String),
-    functionType: S.optional(FunctionFunctionType),
-    webUrl: S.optional(S.String),
-    isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
-    useMethodName: S.optional(S.String),
-    definitionId: S.optional(S.String),
-    classParameterInfo: S.optional(ClassParameterInfo),
-    methodHandleMetadata: S.optional(FunctionHandleMetadataMap),
-    functionSchema: S.optional(FunctionSchema),
-    inputPlaneUrl: S.optional(S.String),
-    inputPlaneRegion: S.optional(S.String),
-    maxObjectSizeBytes: S.optional(S.String),
-    maxAsyncObjectSizeBytes: S.optional(S.String),
-    ExperimentalFlashUrls: S.optional(StringList),
-    supportedInputFormats: S.optional(DataFormatList),
-    supportedOutputFormats: S.optional(DataFormatList),
-    appId: S.optional(S.String),
+    functionName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    functionType: S.optional(
+      FunctionFunctionType.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FUNCTION_TYPE_UNSPECIFIED: 0,
+            FUNCTION_TYPE_GENERATOR: 1,
+            FUNCTION_TYPE_FUNCTION: 2,
+          },
+        }),
+      ),
+    ),
+    webUrl: S.optional(S.String.pipe(T.ProtoField({ n: 28, t: "string" }))),
+    isMethod: S.optional(S.Boolean.pipe(T.ProtoField({ n: 39, t: "bool" }))),
+    useFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 40, t: "string" })),
+    ),
+    useMethodName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 41, t: "string" })),
+    ),
+    definitionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 42, t: "string" })),
+    ),
+    classParameterInfo: S.optional(
+      ClassParameterInfo.pipe(T.ProtoField({ n: 43, t: "message" })),
+    ),
+    methodHandleMetadata: S.optional(
+      FunctionHandleMetadataMap.pipe(
+        T.ProtoField({ n: 44, t: "map", k: "string", v: { t: "message" } }),
+      ),
+    ),
+    functionSchema: S.optional(
+      FunctionSchema.pipe(T.ProtoField({ n: 45, t: "message" })),
+    ),
+    inputPlaneUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 46, t: "string" })),
+    ),
+    inputPlaneRegion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 47, t: "string" })),
+    ),
+    maxObjectSizeBytes: S.optional(
+      S.String.pipe(T.ProtoField({ n: 48, t: "uint64" })),
+    ),
+    maxAsyncObjectSizeBytes: S.optional(
+      S.String.pipe(T.ProtoField({ n: 53, t: "uint64" })),
+    ),
+    ExperimentalFlashUrls: S.optional(
+      StringList.pipe(T.ProtoField({ n: 49, t: "string", rep: true })),
+    ),
+    supportedInputFormats: S.optional(
+      DataFormatList.pipe(
+        T.ProtoField({
+          n: 50,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    supportedOutputFormats: S.optional(
+      DataFormatList.pipe(
+        T.ProtoField({
+          n: 51,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 52, t: "string" }))),
+    baseFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 54, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "FunctionHandleMetadata",
@@ -209,9 +360,13 @@ export interface ClassMethod {
 }
 export const ClassMethod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionName: S.optional(S.String),
-    functionId: S.optional(S.String),
-    functionHandleMetadata: S.optional(FunctionHandleMetadata),
+    functionName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    functionHandleMetadata: S.optional(
+      FunctionHandleMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "ClassMethod" }) as any as S.Schema<ClassMethod>;
 
@@ -229,10 +384,16 @@ export interface CreateClassRequest {
 }
 export const CreateClassRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    existingClassId: S.optional(S.String),
-    methods: S.optional(ClassMethodList),
-    onlyClassFunction: S.optional(S.Boolean),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    existingClassId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    methods: S.optional(
+      ClassMethodList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
+    onlyClassFunction: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -251,9 +412,15 @@ export interface ClassHandleMetadata {
 }
 export const ClassHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    methods: S.optional(ClassMethodList),
-    classFunctionId: S.optional(S.String),
-    classFunctionMetadata: S.optional(FunctionHandleMetadata),
+    methods: S.optional(
+      ClassMethodList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+    classFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    classFunctionMetadata: S.optional(
+      FunctionHandleMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ClassHandleMetadata",
@@ -265,8 +432,10 @@ export interface CreateClassResponse {
 }
 export const CreateClassResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    classId: S.optional(S.String),
-    handleMetadata: S.optional(ClassHandleMetadata),
+    classId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    handleMetadata: S.optional(
+      ClassHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "CreateClassResponse",
@@ -284,11 +453,15 @@ export interface GetClassRequest {
 }
 export const GetClassRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appName: S.optional(S.String),
-    objectTag: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    onlyClassFunction: S.optional(S.Boolean),
-    appVersion: S.optional(S.Number),
+    appName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    objectTag: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    onlyClassFunction: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" })),
+    ),
+    appVersion: S.optional(S.Number.pipe(T.ProtoField({ n: 11, t: "int32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -313,8 +486,21 @@ export interface Warning {
 }
 export const Warning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(WarningWarningType),
-    message: S.optional(S.String),
+    type: S.optional(
+      WarningWarningType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            WARNING_TYPE_UNSPECIFIED: 0,
+            WARNING_TYPE_CLIENT_DEPRECATION: 1,
+            WARNING_TYPE_RESOURCE_LIMIT: 2,
+            WARNING_TYPE_FUNCTION_CONFIGURATION: 3,
+          },
+        }),
+      ),
+    ),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
 
@@ -330,9 +516,13 @@ export interface GetClassResponse {
 }
 export const GetClassResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    classId: S.optional(S.String),
-    handleMetadata: S.optional(ClassHandleMetadata),
-    serverWarnings: S.optional(WarningList),
+    classId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    handleMetadata: S.optional(
+      ClassHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "GetClassResponse",

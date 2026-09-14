@@ -22,9 +22,17 @@ export interface StartTunnelRequest {
 }
 export const StartTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    port: S.optional(S.Number),
-    unencrypted: S.optional(S.Boolean),
-    tunnelType: S.optional(TunnelType),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" }))),
+    unencrypted: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    tunnelType: S.optional(
+      TunnelType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { TUNNEL_TYPE_UNSPECIFIED: 0, TUNNEL_TYPE_H2: 1 },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -44,10 +52,14 @@ export interface StartTunnelResponse {
 }
 export const StartTunnelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
-    unencryptedHost: S.optional(S.String),
-    unencryptedPort: S.optional(S.Number),
+    host: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    unencryptedHost: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    unencryptedPort: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" })),
+    ),
   }),
 ).annotate({
   identifier: "StartTunnelResponse",
@@ -58,7 +70,7 @@ export interface StopTunnelRequest {
 }
 export const StopTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    port: S.optional(S.Number),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -75,7 +87,7 @@ export interface StopTunnelResponse {
 }
 export const StopTunnelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exists: S.optional(S.Boolean),
+    exists: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "StopTunnelResponse",

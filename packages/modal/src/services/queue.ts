@@ -19,9 +19,11 @@ export interface ClearQueueRequest {
 }
 export const ClearQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    partitionKey: S.optional(S.String),
-    allPartitions: S.optional(S.Boolean),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    partitionKey: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    allPartitions: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -45,7 +47,7 @@ export interface DeleteQueueRequest {
 }
 export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -72,10 +74,10 @@ export interface GetQueueRequest {
 }
 export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    timeout: S.optional(S.Number),
-    nValues: S.optional(S.Number),
-    partitionKey: S.optional(S.String),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "float" }))),
+    nValues: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "int32" }))),
+    partitionKey: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -97,7 +99,9 @@ export interface GetQueueResponse {
 }
 export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    values: S.optional(BlobList),
+    values: S.optional(
+      BlobList.pipe(T.ProtoField({ n: 2, t: "bytes", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "GetQueueResponse",
@@ -109,8 +113,10 @@ export interface ListPagination {
 }
 export const ListPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxObjects: S.optional(S.Number),
-    createdBefore: S.optional(S.Number),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    createdBefore: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
   }),
 ).annotate({ identifier: "ListPagination" }) as any as S.Schema<ListPagination>;
 
@@ -122,9 +128,15 @@ export interface ListQueueRequest {
 }
 export const ListQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    totalSizeLimit: S.optional(S.Number),
-    pagination: S.optional(ListPagination),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    totalSizeLimit: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "int32" })),
+    ),
+    pagination: S.optional(
+      ListPagination.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -144,8 +156,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -155,8 +167,10 @@ export interface QueueMetadata {
 }
 export const QueueMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "QueueMetadata" }) as any as S.Schema<QueueMetadata>;
 
@@ -171,12 +185,16 @@ export interface ListQueueResponseQueueInfo {
 }
 export const ListQueueResponseQueueInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    numPartitions: S.optional(S.Number),
-    totalSize: S.optional(S.Number),
-    queueId: S.optional(S.String),
-    metadata: S.optional(QueueMetadata),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    numPartitions: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "int32" })),
+    ),
+    totalSize: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "int32" }))),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    metadata: S.optional(
+      QueueMetadata.pipe(T.ProtoField({ n: 6, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ListQueueResponseQueueInfo",
@@ -193,8 +211,14 @@ export interface ListQueueResponse {
 }
 export const ListQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queues: S.optional(ListQueueResponseQueueInfoList),
-    environmentName: S.optional(S.String),
+    queues: S.optional(
+      ListQueueResponseQueueInfoList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListQueueResponse",
@@ -208,10 +232,14 @@ export interface PutQueueRequest {
 }
 export const PutQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    values: S.optional(BlobList),
-    partitionKey: S.optional(S.String),
-    partitionTtlSeconds: S.optional(S.Number),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    values: S.optional(
+      BlobList.pipe(T.ProtoField({ n: 4, t: "bytes", rep: true })),
+    ),
+    partitionKey: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    partitionTtlSeconds: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 6, t: "int32" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -235,7 +263,7 @@ export interface QueueGetByIdRequest {
 }
 export const QueueGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -253,8 +281,10 @@ export interface QueueGetByIdResponse {
 }
 export const QueueGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    metadata: S.optional(QueueMetadata),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      QueueMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "QueueGetByIdResponse",
@@ -277,9 +307,28 @@ export interface QueueGetOrCreateRequest {
 }
 export const QueueGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -297,8 +346,10 @@ export interface QueueGetOrCreateResponse {
 }
 export const QueueGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    metadata: S.optional(QueueMetadata),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      QueueMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "QueueGetOrCreateResponse",
@@ -309,7 +360,7 @@ export interface QueueHeartbeatRequest {
 }
 export const QueueHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -335,9 +386,9 @@ export interface QueueLenRequest {
 }
 export const QueueLenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    partitionKey: S.optional(S.String),
-    total: S.optional(S.Boolean),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    partitionKey: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    total: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -354,7 +405,7 @@ export interface QueueLenResponse {
 }
 export const QueueLenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    len: S.optional(S.Number),
+    len: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
   }),
 ).annotate({
   identifier: "QueueLenResponse",
@@ -368,10 +419,12 @@ export interface QueueNextItemsRequest {
 }
 export const QueueNextItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    queueId: S.optional(S.String),
-    partitionKey: S.optional(S.String),
-    lastEntryId: S.optional(S.String),
-    itemPollTimeout: S.optional(S.Number),
+    queueId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    partitionKey: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    itemPollTimeout: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "float" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -389,8 +442,8 @@ export interface QueueItem {
 }
 export const QueueItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
-    entryId: S.optional(S.String),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    entryId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "QueueItem" }) as any as S.Schema<QueueItem>;
 
@@ -404,7 +457,9 @@ export interface QueueNextItemsResponse {
 }
 export const QueueNextItemsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(QueueItemList),
+    items: S.optional(
+      QueueItemList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "QueueNextItemsResponse",

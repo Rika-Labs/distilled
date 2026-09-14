@@ -2,9 +2,9 @@
  * Modal SDK trait surface — hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
- * import everything from one place. Modal operations are proto3 JSON POSTs
- * at gRPC method paths, so there are no provider-specific traits beyond
- * the bearer-REST sensitive-value helper.
+ * import everything from one place. Modal operations are unary binary gRPC
+ * calls at `/<package>.<Service>/<Method>` paths; members carry
+ * `T.ProtoField` wire descriptors for `core/protobuf`.
  */
 export {
   Body,
@@ -17,10 +17,12 @@ export {
   FormDataFile,
   KeyDictionary,
   UnionCases,
+  ProtoField,
   applyErrorMatchers,
   getErrorMatchers,
   type HttpTrait,
   type ErrorMatcher,
+  type ProtoFieldDesc,
   bodySymbol,
   headerSymbol,
   querySymbol,
@@ -31,6 +33,7 @@ export {
   formDataFileSymbol,
   keyDictionarySymbol,
   unionCasesSymbol,
+  protoFieldSymbol,
   errorMatchersSymbol,
 } from "@distilled.cloud/core/trait";
 

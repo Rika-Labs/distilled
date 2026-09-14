@@ -33,9 +33,9 @@ export interface ListTemplateResponseTemplateListItem {
 export const ListTemplateResponseTemplateListItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.optional(S.String),
-      repo: S.optional(S.String),
-      ref: S.optional(S.String),
+      name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      repo: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+      ref: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
     }),
 ).annotate({
   identifier: "ListTemplateResponseTemplateListItem",
@@ -52,7 +52,11 @@ export interface ListTemplateResponse {
 }
 export const ListTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(ListTemplateResponseTemplateListItemList),
+    items: S.optional(
+      ListTemplateResponseTemplateListItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListTemplateResponse",

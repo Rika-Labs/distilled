@@ -30,19 +30,43 @@ export interface AppCountLogsRequest {
   until?: string;
   bucketSecs?: number;
   source?: FileDescriptor | (string & {});
+  /** Restrict logs to this exact Function ID, including when it is the base Function. */
+  parametrizedFunctionId?: string;
 }
 export const AppCountLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    taskId: S.optional(S.String),
-    functionId: S.optional(S.String),
-    functionCallId: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    searchText: S.optional(S.String),
-    since: S.optional(S.String),
-    until: S.optional(S.String),
-    bucketSecs: S.optional(S.Number),
-    source: S.optional(FileDescriptor),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    searchText: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    since: S.optional(
+      S.String.pipe(T.ProtoField({ n: 7, t: "wkt", w: "Timestamp" })),
+    ),
+    until: S.optional(
+      S.String.pipe(T.ProtoField({ n: 8, t: "wkt", w: "Timestamp" })),
+    ),
+    bucketSecs: S.optional(S.Number.pipe(T.ProtoField({ n: 9, t: "uint32" }))),
+    source: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 10,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    parametrizedFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -62,10 +86,12 @@ export interface AppCountLogsResponseLogBucket {
 }
 export const AppCountLogsResponseLogBucket = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bucketStartAt: S.optional(S.String),
-    stdoutLogs: S.optional(S.String),
-    stderrLogs: S.optional(S.String),
-    systemLogs: S.optional(S.String),
+    bucketStartAt: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
+    stdoutLogs: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    stderrLogs: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    systemLogs: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
   }),
 ).annotate({
   identifier: "AppCountLogsResponseLogBucket",
@@ -83,8 +109,12 @@ export interface AppCountLogsResponse {
 }
 export const AppCountLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    buckets: S.optional(AppCountLogsResponseLogBucketList),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    buckets: S.optional(
+      AppCountLogsResponseLogBucketList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "AppCountLogsResponse",
@@ -95,7 +125,7 @@ export interface AppDeploymentHistoryRequest {
 }
 export const AppDeploymentHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -120,14 +150,16 @@ export interface CommitInfo {
 }
 export const CommitInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vcs: S.optional(S.String),
-    branch: S.optional(S.String),
-    commitHash: S.optional(S.String),
-    commitTimestamp: S.optional(S.String),
-    dirty: S.optional(S.Boolean),
-    authorName: S.optional(S.String),
-    authorEmail: S.optional(S.String),
-    repoUrl: S.optional(S.String),
+    vcs: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    branch: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    commitHash: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    commitTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "int64" })),
+    ),
+    dirty: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
+    authorName: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    authorEmail: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    repoUrl: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
   }),
 ).annotate({ identifier: "CommitInfo" }) as any as S.Schema<CommitInfo>;
 
@@ -155,17 +187,42 @@ export interface AppDeploymentHistory2 {
 }
 export const AppDeploymentHistory2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    version: S.optional(S.Number),
-    clientVersion: S.optional(S.String),
-    deployedAt: S.optional(S.Number),
-    deployedBy: S.optional(S.String),
-    deployedByAvatarUrl: S.optional(S.String),
-    tag: S.optional(S.String),
-    rollbackVersion: S.optional(S.Number),
-    rollbackAllowed: S.optional(S.Boolean),
-    commitInfo: S.optional(CommitInfo),
-    deploymentType: S.optional(DeploymentType),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    version: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    clientVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    deployedBy: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    deployedByAvatarUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    rollbackVersion: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 7, t: "uint32" })),
+    ),
+    rollbackAllowed: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 8, t: "bool" })),
+    ),
+    commitInfo: S.optional(
+      CommitInfo.pipe(T.ProtoField({ n: 10, t: "message" })),
+    ),
+    deploymentType: S.optional(
+      DeploymentType.pipe(
+        T.ProtoField({
+          n: 11,
+          t: "enum",
+          e: {
+            DEPLOYMENT_TYPE_UNSPECIFIED: 0,
+            DEPLOYMENT_TYPE_STANDARD: 1,
+            DEPLOYMENT_TYPE_ROLLBACK: 2,
+            DEPLOYMENT_TYPE_ROLLOVER: 3,
+            DEPLOYMENT_TYPE_PROMOTION: 4,
+            DEPLOYMENT_TYPE_STAGED: 5,
+          },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "AppDeploymentHistory2",
@@ -182,8 +239,14 @@ export interface AppDeploymentHistoryResponse {
 }
 export const AppDeploymentHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appDeploymentHistories: S.optional(AppDeploymentHistory2List),
-    productionAppVersion: S.optional(S.Number),
+    appDeploymentHistories: S.optional(
+      AppDeploymentHistory2List.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    productionAppVersion: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" })),
+    ),
   }),
 ).annotate({
   identifier: "AppDeploymentHistoryResponse",
@@ -200,19 +263,43 @@ export interface AppFetchLogsRequest {
   taskId?: string;
   sandboxId?: string;
   searchText?: string;
+  /** Restrict logs to this exact Function ID, including when it is the base Function. */
+  parametrizedFunctionId?: string;
 }
 export const AppFetchLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    since: S.optional(S.String),
-    until: S.optional(S.String),
-    limit: S.optional(S.Number),
-    source: S.optional(FileDescriptor),
-    functionId: S.optional(S.String),
-    functionCallId: S.optional(S.String),
-    taskId: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    searchText: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    since: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Timestamp" })),
+    ),
+    until: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "wkt", w: "Timestamp" })),
+    ),
+    limit: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" }))),
+    source: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 7, t: "string" })),
+    ),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 9, t: "string" }))),
+    searchText: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    parametrizedFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -250,10 +337,18 @@ export interface TaskProgress {
 }
 export const TaskProgress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    len: S.optional(S.String),
-    pos: S.optional(S.String),
-    progressType: S.optional(ProgressType),
-    description: S.optional(S.String),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "uint64" }))),
+    pos: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    progressType: S.optional(
+      ProgressType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { IMAGE_SNAPSHOT_UPLOAD: 0, FUNCTION_QUEUED: 1 },
+        }),
+      ),
+    ),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({ identifier: "TaskProgress" }) as any as S.Schema<TaskProgress>;
 
@@ -271,16 +366,60 @@ export interface TaskLogs {
 }
 export const TaskLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    taskState: S.optional(TaskState),
-    timestamp: S.optional(S.Number),
-    fileDescriptor: S.optional(FileDescriptor),
-    taskProgress: S.optional(TaskProgress),
-    functionCallId: S.optional(S.String),
-    inputId: S.optional(S.String),
-    timestampNs: S.optional(S.String),
-    containerId: S.optional(S.String),
-    containerName: S.optional(S.String),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskState: S.optional(
+      TaskState.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            TASK_STATE_UNSPECIFIED: 0,
+            TASK_STATE_CREATED: 6,
+            TASK_STATE_QUEUED: 1,
+            TASK_STATE_WORKER_ASSIGNED: 2,
+            TASK_STATE_LOADING_IMAGE: 3,
+            TASK_STATE_ACTIVE: 4,
+            TASK_STATE_COMPLETED: 5,
+            TASK_STATE_CREATING_CONTAINER: 7,
+            TASK_STATE_IDLE: 8,
+            TASK_STATE_PREEMPTIBLE: 9,
+            TASK_STATE_PREEMPTED: 10,
+            TASK_STATE_LOADING_CHECKPOINT_IMAGE: 11,
+          },
+        }),
+      ),
+    ),
+    timestamp: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    taskProgress: S.optional(
+      TaskProgress.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 10, t: "string" })),
+    ),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    timestampNs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "uint64" })),
+    ),
+    containerId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 14, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "TaskLogs" }) as any as S.Schema<TaskLogs>;
 
@@ -306,17 +445,21 @@ export interface TaskLogsBatch {
 }
 export const TaskLogsBatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    items: S.optional(TaskLogsList),
-    entryId: S.optional(S.String),
-    appDone: S.optional(S.Boolean),
-    functionId: S.optional(S.String),
-    inputId: S.optional(S.String),
-    imageId: S.optional(S.String),
-    eof: S.optional(S.Boolean),
-    ptyExecId: S.optional(S.String),
-    rootFunctionId: S.optional(S.String),
-    ttlDays: S.optional(S.Number),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    items: S.optional(
+      TaskLogsList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    entryId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    appDone: S.optional(S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "string" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 13, t: "string" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 14, t: "bool" }))),
+    ptyExecId: S.optional(S.String.pipe(T.ProtoField({ n: 15, t: "string" }))),
+    rootFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 16, t: "string" })),
+    ),
+    ttlDays: S.optional(S.Number.pipe(T.ProtoField({ n: 17, t: "uint32" }))),
   }),
 ).annotate({ identifier: "TaskLogsBatch" }) as any as S.Schema<TaskLogsBatch>;
 
@@ -330,7 +473,9 @@ export interface AppFetchLogsResponse {
 }
 export const AppFetchLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    batches: S.optional(TaskLogsBatchList),
+    batches: S.optional(
+      TaskLogsBatchList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "AppFetchLogsResponse",
@@ -343,8 +488,10 @@ export interface AppGetByDeploymentNameRequest {
 }
 export const AppGetByDeploymentNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -388,14 +535,33 @@ export interface AppLifecycle {
 }
 export const AppLifecycle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appState: S.optional(AppState),
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
-    deployedAt: S.optional(S.Number),
-    deployedBy: S.optional(S.String),
-    version: S.optional(S.Number),
-    stoppedAt: S.optional(S.Number),
-    stoppedBy: S.optional(S.String),
+    appState: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    deployedBy: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    version: S.optional(S.Number.pipe(T.ProtoField({ n: 6, t: "int32" }))),
+    stoppedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    stoppedBy: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
   }),
 ).annotate({ identifier: "AppLifecycle" }) as any as S.Schema<AppLifecycle>;
 
@@ -410,10 +576,16 @@ export interface AppGetByDeploymentNameResponse {
 }
 export const AppGetByDeploymentNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    previousAppId: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    lifecycle: S.optional(AppLifecycle),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    previousAppId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    lifecycle: S.optional(
+      AppLifecycle.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "AppGetByDeploymentNameResponse",
@@ -424,7 +596,7 @@ export interface AppGetInfoRequest {
 }
 export const AppGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -453,12 +625,24 @@ export interface AppHandleMetadata {
 }
 export const AppHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    appId: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    lifecycle: S.optional(AppLifecycle),
-    functions: S.optional(StringMap),
-    servers: S.optional(StringMap),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    lifecycle: S.optional(
+      AppLifecycle.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    functions: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    servers: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 6, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "AppHandleMetadata",
@@ -469,7 +653,9 @@ export interface AppGetInfoResponse {
 }
 export const AppGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    info: S.optional(AppHandleMetadata),
+    info: S.optional(
+      AppHandleMetadata.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "AppGetInfoResponse",
@@ -480,7 +666,7 @@ export interface AppGetLayoutRequest {
 }
 export const AppGetLayoutRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -528,8 +714,31 @@ export interface GenericPayloadType {
 }
 export const GenericPayloadType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseType: S.optional(ParameterType),
-    subTypes: S.optional(GenericPayloadTypeList),
+    baseType: S.optional(
+      ParameterType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            PARAM_TYPE_UNSPECIFIED: 0,
+            PARAM_TYPE_STRING: 1,
+            PARAM_TYPE_INT: 2,
+            PARAM_TYPE_PICKLE: 3,
+            PARAM_TYPE_BYTES: 4,
+            PARAM_TYPE_UNKNOWN: 5,
+            PARAM_TYPE_LIST: 6,
+            PARAM_TYPE_DICT: 7,
+            PARAM_TYPE_NONE: 8,
+            PARAM_TYPE_BOOL: 9,
+          },
+        }),
+      ),
+    ),
+    subTypes: S.optional(
+      GenericPayloadTypeList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "GenericPayloadType",
@@ -551,15 +760,40 @@ export interface ClassParameterSpec {
 }
 export const ClassParameterSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(ParameterType),
-    hasDefault: S.optional(S.Boolean),
-    stringDefault: S.optional(S.String),
-    intDefault: S.optional(S.String),
-    pickleDefault: S.optional(S.String),
-    bytesDefault: S.optional(S.String),
-    boolDefault: S.optional(S.Boolean),
-    fullType: S.optional(GenericPayloadType),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    type: S.optional(
+      ParameterType.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            PARAM_TYPE_UNSPECIFIED: 0,
+            PARAM_TYPE_STRING: 1,
+            PARAM_TYPE_INT: 2,
+            PARAM_TYPE_PICKLE: 3,
+            PARAM_TYPE_BYTES: 4,
+            PARAM_TYPE_UNKNOWN: 5,
+            PARAM_TYPE_LIST: 6,
+            PARAM_TYPE_DICT: 7,
+            PARAM_TYPE_NONE: 8,
+            PARAM_TYPE_BOOL: 9,
+          },
+        }),
+      ),
+    ),
+    hasDefault: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+    stringDefault: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    intDefault: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "int64" }))),
+    pickleDefault: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "bytes" })),
+    ),
+    bytesDefault: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "bytes" }))),
+    boolDefault: S.optional(S.Boolean.pipe(T.ProtoField({ n: 9, t: "bool" }))),
+    fullType: S.optional(
+      GenericPayloadType.pipe(T.ProtoField({ n: 8, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ClassParameterSpec",
@@ -577,8 +811,24 @@ export interface ClassParameterInfo {
 }
 export const ClassParameterInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    format: S.optional(ClassParameterInfoParameterSerializationFormat),
-    schema: S.optional(ClassParameterSpecList),
+    format: S.optional(
+      ClassParameterInfoParameterSerializationFormat.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            PARAM_SERIALIZATION_FORMAT_UNSPECIFIED: 0,
+            PARAM_SERIALIZATION_FORMAT_PICKLE: 1,
+            PARAM_SERIALIZATION_FORMAT_PROTO: 2,
+          },
+        }),
+      ),
+    ),
+    schema: S.optional(
+      ClassParameterSpecList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ClassParameterInfo",
@@ -605,9 +855,23 @@ export interface FunctionSchema {
 }
 export const FunctionSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schemaType: S.optional(FunctionSchemaFunctionSchemaType),
-    arguments: S.optional(ClassParameterSpecList),
-    returnType: S.optional(GenericPayloadType),
+    schemaType: S.optional(
+      FunctionSchemaFunctionSchemaType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: { FUNCTION_SCHEMA_UNSPECIFIED: 0, FUNCTION_SCHEMA_V1: 1 },
+        }),
+      ),
+    ),
+    arguments: S.optional(
+      ClassParameterSpecList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
+    returnType: S.optional(
+      GenericPayloadType.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "FunctionSchema" }) as any as S.Schema<FunctionSchema>;
 
@@ -655,27 +919,100 @@ export interface FunctionHandleMetadata {
   supportedInputFormats?: DataFormatList;
   supportedOutputFormats?: DataFormatList;
   appId?: string;
+  /** The base Function ID for a variant, or the Function's own ID otherwise. */
+  baseFunctionId?: string;
 }
 export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionName: S.optional(S.String),
-    functionType: S.optional(FunctionFunctionType),
-    webUrl: S.optional(S.String),
-    isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
-    useMethodName: S.optional(S.String),
-    definitionId: S.optional(S.String),
-    classParameterInfo: S.optional(ClassParameterInfo),
-    methodHandleMetadata: S.optional(FunctionHandleMetadataMap),
-    functionSchema: S.optional(FunctionSchema),
-    inputPlaneUrl: S.optional(S.String),
-    inputPlaneRegion: S.optional(S.String),
-    maxObjectSizeBytes: S.optional(S.String),
-    maxAsyncObjectSizeBytes: S.optional(S.String),
-    ExperimentalFlashUrls: S.optional(StringList),
-    supportedInputFormats: S.optional(DataFormatList),
-    supportedOutputFormats: S.optional(DataFormatList),
-    appId: S.optional(S.String),
+    functionName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    functionType: S.optional(
+      FunctionFunctionType.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FUNCTION_TYPE_UNSPECIFIED: 0,
+            FUNCTION_TYPE_GENERATOR: 1,
+            FUNCTION_TYPE_FUNCTION: 2,
+          },
+        }),
+      ),
+    ),
+    webUrl: S.optional(S.String.pipe(T.ProtoField({ n: 28, t: "string" }))),
+    isMethod: S.optional(S.Boolean.pipe(T.ProtoField({ n: 39, t: "bool" }))),
+    useFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 40, t: "string" })),
+    ),
+    useMethodName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 41, t: "string" })),
+    ),
+    definitionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 42, t: "string" })),
+    ),
+    classParameterInfo: S.optional(
+      ClassParameterInfo.pipe(T.ProtoField({ n: 43, t: "message" })),
+    ),
+    methodHandleMetadata: S.optional(
+      FunctionHandleMetadataMap.pipe(
+        T.ProtoField({ n: 44, t: "map", k: "string", v: { t: "message" } }),
+      ),
+    ),
+    functionSchema: S.optional(
+      FunctionSchema.pipe(T.ProtoField({ n: 45, t: "message" })),
+    ),
+    inputPlaneUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 46, t: "string" })),
+    ),
+    inputPlaneRegion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 47, t: "string" })),
+    ),
+    maxObjectSizeBytes: S.optional(
+      S.String.pipe(T.ProtoField({ n: 48, t: "uint64" })),
+    ),
+    maxAsyncObjectSizeBytes: S.optional(
+      S.String.pipe(T.ProtoField({ n: 53, t: "uint64" })),
+    ),
+    ExperimentalFlashUrls: S.optional(
+      StringList.pipe(T.ProtoField({ n: 49, t: "string", rep: true })),
+    ),
+    supportedInputFormats: S.optional(
+      DataFormatList.pipe(
+        T.ProtoField({
+          n: 50,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    supportedOutputFormats: S.optional(
+      DataFormatList.pipe(
+        T.ProtoField({
+          n: 51,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 52, t: "string" }))),
+    baseFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 54, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "FunctionHandleMetadata",
@@ -686,7 +1023,9 @@ export interface MountHandleMetadata {
 }
 export const MountHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentChecksumSha256Hex: S.optional(S.String),
+    contentChecksumSha256Hex: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "MountHandleMetadata",
@@ -700,9 +1039,13 @@ export interface ClassMethod {
 }
 export const ClassMethod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionName: S.optional(S.String),
-    functionId: S.optional(S.String),
-    functionHandleMetadata: S.optional(FunctionHandleMetadata),
+    functionName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    functionHandleMetadata: S.optional(
+      FunctionHandleMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "ClassMethod" }) as any as S.Schema<ClassMethod>;
 
@@ -718,9 +1061,15 @@ export interface ClassHandleMetadata {
 }
 export const ClassHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    methods: S.optional(ClassMethodList),
-    classFunctionId: S.optional(S.String),
-    classFunctionMetadata: S.optional(FunctionHandleMetadata),
+    methods: S.optional(
+      ClassMethodList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+    classFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    classFunctionMetadata: S.optional(
+      FunctionHandleMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ClassHandleMetadata",
@@ -761,15 +1110,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -779,8 +1150,10 @@ export interface SandboxHandleMetadata {
 }
 export const SandboxHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    appId: S.optional(S.String),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxHandleMetadata",
@@ -801,8 +1174,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -813,9 +1186,23 @@ export interface VolumeMetadata {
 }
 export const VolumeMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(VolumeFsVersion),
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    version: S.optional(
+      VolumeFsVersion.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            VOLUME_FS_VERSION_UNSPECIFIED: 0,
+            VOLUME_FS_VERSION_V1: 1,
+            VOLUME_FS_VERSION_V2: 2,
+          },
+        }),
+      ),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "VolumeMetadata" }) as any as S.Schema<VolumeMetadata>;
 
@@ -829,12 +1216,22 @@ export interface Object {
 }
 export const Object = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    objectId: S.optional(S.String),
-    functionHandleMetadata: S.optional(FunctionHandleMetadata),
-    mountHandleMetadata: S.optional(MountHandleMetadata),
-    classHandleMetadata: S.optional(ClassHandleMetadata),
-    sandboxHandleMetadata: S.optional(SandboxHandleMetadata),
-    volumeMetadata: S.optional(VolumeMetadata),
+    objectId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    functionHandleMetadata: S.optional(
+      FunctionHandleMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
+    mountHandleMetadata: S.optional(
+      MountHandleMetadata.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    classHandleMetadata: S.optional(
+      ClassHandleMetadata.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
+    sandboxHandleMetadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 6, t: "message" })),
+    ),
+    volumeMetadata: S.optional(
+      VolumeMetadata.pipe(T.ProtoField({ n: 7, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "Object" }) as any as S.Schema<Object>;
 
@@ -851,9 +1248,19 @@ export interface AppLayout {
 }
 export const AppLayout = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    objects: S.optional(ObjectList),
-    functionIds: S.optional(StringMap),
-    classIds: S.optional(StringMap),
+    objects: S.optional(
+      ObjectList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+    functionIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    classIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 3, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({ identifier: "AppLayout" }) as any as S.Schema<AppLayout>;
 
@@ -862,7 +1269,7 @@ export interface AppGetLayoutResponse {
 }
 export const AppGetLayoutResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appLayout: S.optional(AppLayout),
+    appLayout: S.optional(AppLayout.pipe(T.ProtoField({ n: 1, t: "message" }))),
   }),
 ).annotate({
   identifier: "AppGetLayoutResponse",
@@ -873,7 +1280,7 @@ export interface AppGetLifecycleRequest {
 }
 export const AppGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -890,7 +1297,9 @@ export interface AppGetLifecycleResponse {
 }
 export const AppGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lifecycle: S.optional(AppLifecycle),
+    lifecycle: S.optional(
+      AppLifecycle.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "AppGetLifecycleResponse",
@@ -903,9 +1312,13 @@ export interface AppGetObjectsRequest {
 }
 export const AppGetObjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    includeUnindexed: S.optional(S.Boolean),
-    onlyClassFunction: S.optional(S.Boolean),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    includeUnindexed: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" })),
+    ),
+    onlyClassFunction: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -923,8 +1336,8 @@ export interface AppGetObjectsItem {
 }
 export const AppGetObjectsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
-    object: S.optional(Object),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    object: S.optional(Object.pipe(T.ProtoField({ n: 6, t: "message" }))),
   }),
 ).annotate({
   identifier: "AppGetObjectsItem",
@@ -940,7 +1353,11 @@ export interface AppGetObjectsResponse {
 }
 export const AppGetObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(AppGetObjectsItemList),
+    items: S.optional(
+      AppGetObjectsItemList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "AppGetObjectsResponse",
@@ -962,9 +1379,26 @@ export interface AppGetOrCreateRequest {
 }
 export const AppGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
+    appName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -982,8 +1416,10 @@ export interface AppGetOrCreateResponse {
 }
 export const AppGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    handleMetadata: S.optional(AppHandleMetadata),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    handleMetadata: S.optional(
+      AppHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "AppGetOrCreateResponse",
@@ -994,7 +1430,7 @@ export interface AppGetTagsRequest {
 }
 export const AppGetTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1011,7 +1447,11 @@ export interface AppGetTagsResponse {
 }
 export const AppGetTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(StringMap),
+    tags: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 1, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "AppGetTagsResponse",
@@ -1022,7 +1462,7 @@ export interface AppHeartbeatRequest {
 }
 export const AppHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1047,8 +1487,8 @@ export interface AppRollbackRequest {
 }
 export const AppRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    version: S.optional(S.Number),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    version: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1073,8 +1513,21 @@ export interface Warning {
 }
 export const Warning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(WarningWarningType),
-    message: S.optional(S.String),
+    type: S.optional(
+      WarningWarningType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            WARNING_TYPE_UNSPECIFIED: 0,
+            WARNING_TYPE_CLIENT_DEPRECATION: 1,
+            WARNING_TYPE_RESOURCE_LIMIT: 2,
+            WARNING_TYPE_FUNCTION_CONFIGURATION: 3,
+          },
+        }),
+      ),
+    ),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
 
@@ -1090,9 +1543,11 @@ export interface AppRollbackResponse {
 }
 export const AppRollbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    serverWarnings: S.optional(WarningList),
-    deployedAt: S.optional(S.Number),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
   }),
 ).annotate({
   identifier: "AppRollbackResponse",
@@ -1103,7 +1558,7 @@ export interface AppRolloverRequest {
 }
 export const AppRolloverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1122,9 +1577,11 @@ export interface AppRolloverResponse {
 }
 export const AppRolloverResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    serverWarnings: S.optional(WarningList),
-    deployedAt: S.optional(S.Number),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
   }),
 ).annotate({
   identifier: "AppRolloverResponse",
@@ -1139,11 +1596,36 @@ export interface AppSetObjectsRequest {
 }
 export const AppSetObjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    indexedObjectIds: S.optional(StringMap),
-    clientId: S.optional(S.String),
-    unindexedObjectIds: S.optional(StringList),
-    newAppState: S.optional(AppState),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    indexedObjectIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    clientId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    unindexedObjectIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    newAppState: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1168,8 +1650,12 @@ export interface AppSetTagsRequest {
 }
 export const AppSetTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    tags: S.optional(StringMap),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tags: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1198,11 +1684,36 @@ export interface CreateAppRequest {
 }
 export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientId: S.optional(S.String),
-    description: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    appState: S.optional(AppState),
-    tags: S.optional(StringMap),
+    clientId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
+    appState: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
+    tags: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 7, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1221,9 +1732,9 @@ export interface CreateAppResponse {
 }
 export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    appPageUrl: S.optional(S.String),
-    appLogsUrl: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    appPageUrl: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    appLogsUrl: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }),
 ).annotate({
   identifier: "CreateAppResponse",
@@ -1246,11 +1757,25 @@ export interface DeployAppRequest {
 }
 export const DeployAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    name: S.optional(S.String),
-    objectEntity: S.optional(S.String),
-    visibility: S.optional(AppDeployVisibility),
-    tag: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    objectEntity: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    visibility: S.optional(
+      AppDeployVisibility.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            APP_DEPLOY_VISIBILITY_UNSPECIFIED: 0,
+            APP_DEPLOY_VISIBILITY_WORKSPACE: 1,
+            APP_DEPLOY_VISIBILITY_PUBLIC: 2,
+          },
+        }),
+      ),
+    ),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1267,7 +1792,7 @@ export interface DeployAppResponse {
 }
 export const DeployAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "DeployAppResponse",
@@ -1289,9 +1814,24 @@ export interface DisconnectAppClientRequest {
 }
 export const DisconnectAppClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    reason: S.optional(AppDisconnectReason),
-    exception: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    reason: S.optional(
+      AppDisconnectReason.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            APP_DISCONNECT_REASON_UNSPECIFIED: 0,
+            APP_DISCONNECT_REASON_LOCAL_EXCEPTION: 1,
+            APP_DISCONNECT_REASON_KEYBOARD_INTERRUPT: 2,
+            APP_DISCONNECT_REASON_ENTRYPOINT_COMPLETED: 3,
+            APP_DISCONNECT_REASON_DEPLOYMENT_EXCEPTION: 4,
+            APP_DISCONNECT_REASON_REMOTE_EXCEPTION: 5,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1315,7 +1855,9 @@ export interface ListAppRequest {
 }
 export const ListAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1336,13 +1878,34 @@ export interface ListAppResponseAppListItem {
 }
 export const ListAppResponseAppListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    description: S.optional(S.String),
-    state: S.optional(AppState),
-    createdAt: S.optional(S.Number),
-    stoppedAt: S.optional(S.Number),
-    nRunningTasks: S.optional(S.Number),
-    name: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    state: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
+    stoppedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 6, t: "double" }))),
+    nRunningTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 8, t: "int32" })),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
   }),
 ).annotate({
   identifier: "ListAppResponseAppListItem",
@@ -1358,7 +1921,11 @@ export interface ListAppResponse {
 }
 export const ListAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    apps: S.optional(ListAppResponseAppListItemList),
+    apps: S.optional(
+      ListAppResponseAppListItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListAppResponse",
@@ -1370,8 +1937,10 @@ export interface LookupAppRequest {
 }
 export const LookupAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appName: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    appName: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1388,7 +1957,7 @@ export interface LookupAppResponse {
 }
 export const LookupAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "LookupAppResponse",
@@ -1400,8 +1969,8 @@ export interface PromoteAppRequest {
 }
 export const PromoteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    version: S.optional(S.Number),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    version: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1420,9 +1989,11 @@ export interface PromoteAppResponse {
 }
 export const PromoteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    serverWarnings: S.optional(WarningList),
-    deployedAt: S.optional(S.Number),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
   }),
 ).annotate({
   identifier: "PromoteAppResponse",
@@ -1454,19 +2025,77 @@ export interface PublishAppRequest {
 }
 export const PublishAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    name: S.optional(S.String),
-    deploymentTag: S.optional(S.String),
-    appState: S.optional(AppState),
-    functionIds: S.optional(StringMap),
-    classIds: S.optional(StringMap),
-    definitionIds: S.optional(StringMap),
-    rollbackVersion: S.optional(S.Number),
-    clientVersion: S.optional(S.String),
-    commitInfo: S.optional(CommitInfo),
-    tags: S.optional(StringMap),
-    staged: S.optional(S.Boolean),
-    deploymentType: S.optional(DeploymentType),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    deploymentTag: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    appState: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
+    functionIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    classIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 6, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    definitionIds: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 7, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    rollbackVersion: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 8, t: "uint32" })),
+    ),
+    clientVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    commitInfo: S.optional(
+      CommitInfo.pipe(T.ProtoField({ n: 10, t: "message" })),
+    ),
+    tags: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 11, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    staged: S.optional(S.Boolean.pipe(T.ProtoField({ n: 12, t: "bool" }))),
+    deploymentType: S.optional(
+      DeploymentType.pipe(
+        T.ProtoField({
+          n: 13,
+          t: "enum",
+          e: {
+            DEPLOYMENT_TYPE_UNSPECIFIED: 0,
+            DEPLOYMENT_TYPE_STANDARD: 1,
+            DEPLOYMENT_TYPE_ROLLBACK: 2,
+            DEPLOYMENT_TYPE_ROLLOVER: 3,
+            DEPLOYMENT_TYPE_PROMOTION: 4,
+            DEPLOYMENT_TYPE_STAGED: 5,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1485,9 +2114,11 @@ export interface PublishAppResponse {
 }
 export const PublishAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    serverWarnings: S.optional(WarningList),
-    deployedAt: S.optional(S.Number),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
+    deployedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
   }),
 ).annotate({
   identifier: "PublishAppResponse",
@@ -1506,8 +2137,21 @@ export interface StopAppRequest {
 }
 export const StopAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    source: S.optional(AppStopSource),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    source: S.optional(
+      AppStopSource.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            APP_STOP_SOURCE_UNSPECIFIED: 0,
+            APP_STOP_SOURCE_CLI: 1,
+            APP_STOP_SOURCE_PYTHON_CLIENT: 2,
+            APP_STOP_SOURCE_WEB: 3,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

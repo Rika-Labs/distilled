@@ -17,7 +17,7 @@ export interface CreateDomainRequest {
 }
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainName: S.optional(S.String),
+    domainName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -43,9 +43,21 @@ export interface DNSRecord {
 }
 export const DNSRecord = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(DNSRecordType),
-    name: S.optional(S.String),
-    value: S.optional(S.String),
+    type: S.optional(
+      DNSRecordType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            DNS_RECORD_TYPE_A: 0,
+            DNS_RECORD_TYPE_TXT: 1,
+            DNS_RECORD_TYPE_CNAME: 2,
+          },
+        }),
+      ),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }),
 ).annotate({ identifier: "DNSRecord" }) as any as S.Schema<DNSRecord>;
 
@@ -60,8 +72,10 @@ export interface CreateDomainResponse {
 }
 export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainId: S.optional(S.String),
-    dnsRecords: S.optional(DNSRecordList),
+    domainId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    dnsRecords: S.optional(
+      DNSRecordList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "CreateDomainResponse",
@@ -96,11 +110,26 @@ export interface Domain {
 }
 export const Domain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainId: S.optional(S.String),
-    domainName: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    certificateStatus: S.optional(CertificateStatus),
-    dnsRecords: S.optional(DNSRecordList),
+    domainId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    domainName: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    certificateStatus: S.optional(
+      CertificateStatus.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            CERTIFICATE_STATUS_PENDING: 0,
+            CERTIFICATE_STATUS_ISSUED: 1,
+            CERTIFICATE_STATUS_FAILED: 2,
+            CERTIFICATE_STATUS_REVOKED: 3,
+          },
+        }),
+      ),
+    ),
+    dnsRecords: S.optional(
+      DNSRecordList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
   }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 
@@ -114,7 +143,9 @@ export interface ListDomainResponse {
 }
 export const ListDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domains: S.optional(DomainList2),
+    domains: S.optional(
+      DomainList2.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListDomainResponse",
@@ -125,7 +156,7 @@ export interface VerifyDomainCertificateRequest {
 }
 export const VerifyDomainCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainId: S.optional(S.String),
+    domainId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -142,7 +173,7 @@ export interface VerifyDomainCertificateResponse {
 }
 export const VerifyDomainCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domain: S.optional(Domain),
+    domain: S.optional(Domain.pipe(T.ProtoField({ n: 1, t: "message" }))),
   }),
 ).annotate({
   identifier: "VerifyDomainCertificateResponse",

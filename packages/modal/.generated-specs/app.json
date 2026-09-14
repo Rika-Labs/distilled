@@ -63,13 +63,39 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "reason": {
-          "target": "com.modal.app#AppDisconnectReason"
+          "target": "com.modal.app#AppDisconnectReason",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "APP_DISCONNECT_REASON_UNSPECIFIED": 0,
+                "APP_DISCONNECT_REASON_LOCAL_EXCEPTION": 1,
+                "APP_DISCONNECT_REASON_KEYBOARD_INTERRUPT": 2,
+                "APP_DISCONNECT_REASON_ENTRYPOINT_COMPLETED": 3,
+                "APP_DISCONNECT_REASON_DEPLOYMENT_EXCEPTION": 4,
+                "APP_DISCONNECT_REASON_REMOTE_EXCEPTION": 5
+              }
+            }
+          }
         },
         "exception": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -126,34 +152,112 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "functionCallId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "searchText": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "since": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "until": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "bucketSecs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "uint32"
+            }
+          }
         },
         "source": {
-          "target": "com.modal.app#FileDescriptor"
+          "target": "com.modal.app#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
+        },
+        "parametrizedFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict logs to this exact Function ID, including when it is the base Function.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -164,16 +268,41 @@
       "type": "structure",
       "members": {
         "bucketStartAt": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "stdoutLogs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "stderrLogs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         },
         "systemLogs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
         }
       }
     },
@@ -187,10 +316,23 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "buckets": {
-          "target": "com.modal.app#AppCountLogsResponseLogBucketList"
+          "target": "com.modal.app#AppCountLogsResponseLogBucketList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -303,22 +445,66 @@
       "type": "structure",
       "members": {
         "clientId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Human readable label for the app"
+            "smithy.api#documentation": "Human readable label for the app",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         },
         "appState": {
-          "target": "com.modal.app#AppState"
+          "target": "com.modal.app#AppState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -329,13 +515,31 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "appPageUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "appLogsUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -388,22 +592,55 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "namespace"
+            "smithy.api#documentation": "namespace",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "objectEntity": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "visibility": {
-          "target": "com.modal.app#AppDeployVisibility"
+          "target": "com.modal.app#AppDeployVisibility",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "APP_DEPLOY_VISIBILITY_UNSPECIFIED": 0,
+                "APP_DEPLOY_VISIBILITY_WORKSPACE": 1,
+                "APP_DEPLOY_VISIBILITY_PUBLIC": 2
+              }
+            }
+          }
         },
         "tag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -414,7 +651,13 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -441,7 +684,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -452,37 +701,111 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "version": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "clientVersion": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "deployedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         },
         "deployedBy": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "deployedByAvatarUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "tag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "rollbackVersion": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "uint32"
+            }
+          }
         },
         "rollbackAllowed": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "bool"
+            }
+          }
         },
         "commitInfo": {
-          "target": "com.modal.app#CommitInfo"
+          "target": "com.modal.app#CommitInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "message"
+            }
+          }
         },
         "deploymentType": {
-          "target": "com.modal.app#DeploymentType"
+          "target": "com.modal.app#DeploymentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "enum",
+              "e": {
+                "DEPLOYMENT_TYPE_UNSPECIFIED": 0,
+                "DEPLOYMENT_TYPE_STANDARD": 1,
+                "DEPLOYMENT_TYPE_ROLLBACK": 2,
+                "DEPLOYMENT_TYPE_ROLLOVER": 3,
+                "DEPLOYMENT_TYPE_PROMOTION": 4,
+                "DEPLOYMENT_TYPE_STAGED": 5
+              }
+            }
+          }
         }
       }
     },
@@ -490,31 +813,77 @@
       "type": "structure",
       "members": {
         "vcs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "branch": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Only git is supported for now"
+            "smithy.api#documentation": "Only git is supported for now",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "commitHash": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "commitTimestamp": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "int64"
+            }
+          }
         },
         "dirty": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         },
         "authorName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "authorEmail": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "repoUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -569,10 +938,23 @@
       "type": "structure",
       "members": {
         "appDeploymentHistories": {
-          "target": "com.modal.app#AppDeploymentHistory2List"
+          "target": "com.modal.app#AppDeploymentHistory2List",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "productionAppVersion": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         }
       },
       "traits": {
@@ -599,34 +981,112 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "since": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "until": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "limit": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
+          }
         },
         "source": {
-          "target": "com.modal.app#FileDescriptor"
+          "target": "com.modal.app#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
         },
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "functionCallId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "searchText": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
+        },
+        "parametrizedFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict logs to this exact Function ID, including when it is the base Function.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -637,43 +1097,106 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "items": {
-          "target": "com.modal.app#TaskLogsList"
+          "target": "com.modal.app#TaskLogsList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "entryId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "appDone": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
+          }
         },
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         },
         "inputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "string"
+            }
+          }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
+          }
         },
         "eof": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Used for image logs"
+            "smithy.api#documentation": "Used for image logs",
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "bool"
+            }
           }
         },
         "ptyExecId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "string"
+            }
+          }
         },
         "rootFunctionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Used for interactive functions"
+            "smithy.api#documentation": "Used for interactive functions",
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "string"
+            }
           }
         },
         "ttlDays": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -681,34 +1204,114 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskState": {
-          "target": "com.modal.app#TaskState"
+          "target": "com.modal.app#TaskState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "TASK_STATE_UNSPECIFIED": 0,
+                "TASK_STATE_CREATED": 6,
+                "TASK_STATE_QUEUED": 1,
+                "TASK_STATE_WORKER_ASSIGNED": 2,
+                "TASK_STATE_LOADING_IMAGE": 3,
+                "TASK_STATE_ACTIVE": 4,
+                "TASK_STATE_COMPLETED": 5,
+                "TASK_STATE_CREATING_CONTAINER": 7,
+                "TASK_STATE_IDLE": 8,
+                "TASK_STATE_PREEMPTIBLE": 9,
+                "TASK_STATE_PREEMPTED": 10,
+                "TASK_STATE_LOADING_CHECKPOINT_IMAGE": 11
+              }
+            }
+          }
         },
         "timestamp": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "double"
+            }
+          }
         },
         "fileDescriptor": {
-          "target": "com.modal.app#FileDescriptor"
+          "target": "com.modal.app#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
         },
         "taskProgress": {
-          "target": "com.modal.app#TaskProgress"
+          "target": "com.modal.app#TaskProgress",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
+          }
         },
         "functionCallId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
         },
         "inputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         },
         "timestampNs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "uint64"
+            }
+          }
         },
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -793,16 +1396,44 @@
       "type": "structure",
       "members": {
         "len": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint64"
+            }
+          }
         },
         "pos": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "progressType": {
-          "target": "com.modal.app#ProgressType"
+          "target": "com.modal.app#ProgressType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "IMAGE_SNAPSHOT_UPLOAD": 0,
+                "FUNCTION_QUEUED": 1
+              }
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -840,7 +1471,14 @@
       "type": "structure",
       "members": {
         "batches": {
-          "target": "com.modal.app#TaskLogsBatchList"
+          "target": "com.modal.app#TaskLogsBatchList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -869,11 +1507,21 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "removed namespace"
+            "smithy.api#documentation": "removed namespace",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -884,42 +1532,92 @@
       "type": "structure",
       "members": {
         "appState": {
-          "target": "com.modal.app#AppState"
+          "target": "com.modal.app#AppState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "createdBy": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "deployedAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "User or service user name"
+            "smithy.api#documentation": "User or service user name",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
           }
         },
         "deployedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Most recent deployment event"
+            "smithy.api#documentation": "Most recent deployment event",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         },
         "version": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "User or service user name"
+            "smithy.api#documentation": "User or service user name",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "int32"
+            }
           }
         },
         "stoppedAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Only meaningful when App is deployed"
+            "smithy.api#documentation": "Only meaningful when App is deployed",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "double"
+            }
           }
         },
         "stoppedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unset when App is still running"
+            "smithy.api#documentation": "Unset when App is still running",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
           }
         }
       },
@@ -931,24 +1629,42 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "previousAppId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Null when App with requested name is not deployed"
+            "smithy.api#documentation": "Null when App with requested name is not deployed",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Populated if App with requested name was recently stopped"
+            "smithy.api#documentation": "Populated if App with requested name was recently stopped",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "lifecycle": {
           "target": "com.modal.app#AppLifecycle",
           "traits": {
-            "smithy.api#documentation": "Populated because server may resolve default environment"
+            "smithy.api#documentation": "Populated because server may resolve default environment",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
           }
         }
       },
@@ -976,7 +1692,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -987,24 +1709,66 @@
       "type": "structure",
       "members": {
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "lifecycle": {
-          "target": "com.modal.app#AppLifecycle"
+          "target": "com.modal.app#AppLifecycle",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "functions": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         },
         "servers": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "tag -> function id"
+            "smithy.api#documentation": "tag -> function id",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         }
       }
@@ -1013,7 +1777,13 @@
       "type": "structure",
       "members": {
         "info": {
-          "target": "com.modal.app#AppHandleMetadata"
+          "target": "com.modal.app#AppHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1040,7 +1810,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1051,15 +1827,40 @@
       "type": "structure",
       "members": {
         "objects": {
-          "target": "com.modal.app#ObjectList"
+          "target": "com.modal.app#ObjectList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "functionIds": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         },
         "classIds": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "tag -> function id"
+            "smithy.api#documentation": "tag -> function id",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         }
       }
@@ -1068,22 +1869,58 @@
       "type": "structure",
       "members": {
         "objectId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "functionHandleMetadata": {
-          "target": "com.modal.app#FunctionHandleMetadata"
+          "target": "com.modal.app#FunctionHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "mountHandleMetadata": {
-          "target": "com.modal.app#MountHandleMetadata"
+          "target": "com.modal.app#MountHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "classHandleMetadata": {
-          "target": "com.modal.app#ClassHandleMetadata"
+          "target": "com.modal.app#ClassHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         },
         "sandboxHandleMetadata": {
-          "target": "com.modal.app#SandboxHandleMetadata"
+          "target": "com.modal.app#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message"
+            }
+          }
         },
         "volumeMetadata": {
-          "target": "com.modal.app#VolumeMetadata"
+          "target": "com.modal.app#VolumeMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1093,74 +1930,206 @@
         "functionName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above"
+            "smithy.api#documentation": "contains all the info about a function that is needed to trigger the right behaviour when using a FunctionHandler. Notably excludes things purely used for *executing* the function in a container entrypoint Should be a subset and use IDs/types from `Function` above",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "functionType": {
-          "target": "com.modal.app#FunctionFunctionType"
+          "target": "com.modal.app#FunctionFunctionType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "FUNCTION_TYPE_UNSPECIFIED": 0,
+                "FUNCTION_TYPE_GENERATOR": 1,
+                "FUNCTION_TYPE_FUNCTION": 2
+              }
+            }
+          }
         },
         "webUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 28,
+              "t": "string"
+            }
+          }
         },
         "isMethod": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 39,
+              "t": "bool"
+            }
+          }
         },
         "useFunctionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 40,
+              "t": "string"
+            }
+          }
         },
         "useMethodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "used for methods"
+            "smithy.api#documentation": "used for methods",
+            "com.distilled.proto#field": {
+              "n": 41,
+              "t": "string"
+            }
           }
         },
         "definitionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "used for methods"
+            "smithy.api#documentation": "used for methods",
+            "com.distilled.proto#field": {
+              "n": 42,
+              "t": "string"
+            }
           }
         },
         "classParameterInfo": {
-          "target": "com.modal.app#ClassParameterInfo"
+          "target": "com.modal.app#ClassParameterInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 43,
+              "t": "message"
+            }
+          }
         },
         "methodHandleMetadata": {
           "target": "com.modal.app#FunctionHandleMetadataMap",
           "traits": {
-            "smithy.api#documentation": "Mapping of method names to their metadata, only non-empty for class service functions"
+            "smithy.api#documentation": "Mapping of method names to their metadata, only non-empty for class service functions",
+            "com.distilled.proto#field": {
+              "n": 44,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
           }
         },
         "functionSchema": {
-          "target": "com.modal.app#FunctionSchema"
+          "target": "com.modal.app#FunctionSchema",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 45,
+              "t": "message"
+            }
+          }
         },
         "inputPlaneUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 46,
+              "t": "string"
+            }
+          }
         },
         "inputPlaneRegion": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 47,
+              "t": "string"
+            }
+          }
         },
         "maxObjectSizeBytes": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Use optional to ensure unset values default to None instead of 0"
+            "smithy.api#documentation": "Use optional to ensure unset values default to None instead of 0",
+            "com.distilled.proto#field": {
+              "n": 48,
+              "t": "uint64"
+            }
           }
         },
         "maxAsyncObjectSizeBytes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 53,
+              "t": "uint64"
+            }
+          }
         },
         "ExperimentalFlashUrls": {
-          "target": "com.modal.app#StringList"
+          "target": "com.modal.app#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 49,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "supportedInputFormats": {
           "target": "com.modal.app#DataFormatList",
           "traits": {
-            "smithy.api#documentation": "(Optional) urls for flash services"
+            "smithy.api#documentation": "(Optional) urls for flash services",
+            "com.distilled.proto#field": {
+              "n": 50,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              },
+              "rep": true
+            }
           }
         },
         "supportedOutputFormats": {
-          "target": "com.modal.app#DataFormatList"
+          "target": "com.modal.app#DataFormatList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 51,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              },
+              "rep": true
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 52,
+              "t": "string"
+            }
+          }
+        },
+        "baseFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base Function ID for a variant, or the Function's own ID otherwise.",
+            "com.distilled.proto#field": {
+              "n": 54,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1193,11 +2162,27 @@
         "format": {
           "target": "com.modal.app#ClassParameterInfoParameterSerializationFormat",
           "traits": {
-            "smithy.api#documentation": "new format using api.FunctionParameterSet"
+            "smithy.api#documentation": "new format using api.FunctionParameterSet",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "PARAM_SERIALIZATION_FORMAT_UNSPECIFIED": 0,
+                "PARAM_SERIALIZATION_FORMAT_PICKLE": 1,
+                "PARAM_SERIALIZATION_FORMAT_PROTO": 2
+              }
+            }
           }
         },
         "schema": {
-          "target": "com.modal.app#ClassParameterSpecList"
+          "target": "com.modal.app#ClassParameterSpecList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -1231,38 +2216,98 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "TODO: rename into NamedPayloadType or similar"
+            "smithy.api#documentation": "TODO: rename into NamedPayloadType or similar",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "type": {
-          "target": "com.modal.app#ParameterType"
+          "target": "com.modal.app#ParameterType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "PARAM_TYPE_UNSPECIFIED": 0,
+                "PARAM_TYPE_STRING": 1,
+                "PARAM_TYPE_INT": 2,
+                "PARAM_TYPE_PICKLE": 3,
+                "PARAM_TYPE_BYTES": 4,
+                "PARAM_TYPE_UNKNOWN": 5,
+                "PARAM_TYPE_LIST": 6,
+                "PARAM_TYPE_DICT": 7,
+                "PARAM_TYPE_NONE": 8,
+                "PARAM_TYPE_BOOL": 9
+              }
+            }
+          }
         },
         "hasDefault": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "TODO: deprecate - use full_type instead"
+            "smithy.api#documentation": "TODO: deprecate - use full_type instead",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         },
         "stringDefault": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Default *values* are only registered for class parameters"
+            "smithy.api#documentation": "Default *values* are only registered for class parameters",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "intDefault": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "int64"
+            }
+          }
         },
         "pickleDefault": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "bytes"
+            }
+          }
         },
         "bytesDefault": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "bytes"
+            }
+          }
         },
         "boolDefault": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "bool"
+            }
+          }
         },
         "fullType": {
-          "target": "com.modal.app#GenericPayloadType"
+          "target": "com.modal.app#GenericPayloadType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1337,10 +2382,35 @@
       "type": "structure",
       "members": {
         "baseType": {
-          "target": "com.modal.app#ParameterType"
+          "target": "com.modal.app#ParameterType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "PARAM_TYPE_UNSPECIFIED": 0,
+                "PARAM_TYPE_STRING": 1,
+                "PARAM_TYPE_INT": 2,
+                "PARAM_TYPE_PICKLE": 3,
+                "PARAM_TYPE_BYTES": 4,
+                "PARAM_TYPE_UNKNOWN": 5,
+                "PARAM_TYPE_LIST": 6,
+                "PARAM_TYPE_DICT": 7,
+                "PARAM_TYPE_NONE": 8,
+                "PARAM_TYPE_BOOL": 9
+              }
+            }
+          }
         },
         "subTypes": {
-          "target": "com.modal.app#GenericPayloadTypeList"
+          "target": "com.modal.app#GenericPayloadTypeList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -1369,16 +2439,37 @@
       "type": "structure",
       "members": {
         "schemaType": {
-          "target": "com.modal.app#FunctionSchemaFunctionSchemaType"
+          "target": "com.modal.app#FunctionSchemaFunctionSchemaType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "FUNCTION_SCHEMA_UNSPECIFIED": 0,
+                "FUNCTION_SCHEMA_V1": 1
+              }
+            }
+          }
         },
         "arguments": {
           "target": "com.modal.app#ClassParameterSpecList",
           "traits": {
-            "smithy.api#documentation": "allows easy disambiguation between empty schema and no schema collection etc."
+            "smithy.api#documentation": "allows easy disambiguation between empty schema and no schema collection etc.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "returnType": {
-          "target": "com.modal.app#GenericPayloadType"
+          "target": "com.modal.app#GenericPayloadType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1456,7 +2547,13 @@
       "type": "structure",
       "members": {
         "contentChecksumSha256Hex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1464,13 +2561,32 @@
       "type": "structure",
       "members": {
         "methods": {
-          "target": "com.modal.app#ClassMethodList"
+          "target": "com.modal.app#ClassMethodList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "classFunctionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "classFunctionMetadata": {
-          "target": "com.modal.app#FunctionHandleMetadata"
+          "target": "com.modal.app#FunctionHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1478,15 +2594,31 @@
       "type": "structure",
       "members": {
         "functionName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "functionHandleMetadata": {
           "target": "com.modal.app#FunctionHandleMetadata",
           "traits": {
-            "smithy.api#documentation": "Class methods need to hydrate all functions on the class"
+            "smithy.api#documentation": "Class methods need to hydrate all functions on the class",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         }
       }
@@ -1501,10 +2633,22 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.app#GenericResult"
+          "target": "com.modal.app#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1512,54 +2656,103 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.app#GenericResultGenericStatus"
+          "target": "com.modal.app#GenericResultGenericStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GENERIC_STATUS_UNSPECIFIED": 0,
+                "GENERIC_STATUS_SUCCESS": 1,
+                "GENERIC_STATUS_FAILURE": 2,
+                "GENERIC_STATUS_TERMINATED": 3,
+                "GENERIC_STATUS_TIMEOUT": 4,
+                "GENERIC_STATUS_INIT_FAILURE": 5,
+                "GENERIC_STATUS_INTERNAL_FAILURE": 6,
+                "GENERIC_STATUS_IDLE_TIMEOUT": 7,
+                "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": 8
+              }
+            }
+          }
         },
         "exception": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the task or function output."
+            "smithy.api#documentation": "Status of the task or function output.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "exitcode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exception message for failures, if available."
+            "smithy.api#documentation": "Exception message for failures, if available.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
           }
         },
         "traceback": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "serializedTb": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "String value of the Python traceback."
+            "smithy.api#documentation": "String value of the Python traceback.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bytes"
+            }
           }
         },
         "tbLineCache": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled traceback object."
+            "smithy.api#documentation": "Pickled traceback object.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bytes"
+            }
           }
         },
         "data": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled line cache for traceback object."
+            "smithy.api#documentation": "Pickled line cache for traceback object.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "dataBlobId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Inline data of the result."
+            "smithy.api#documentation": "Inline data of the result.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
           }
         },
         "propagationReason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Blob ID for large data."
+            "smithy.api#documentation": "Blob ID for large data.",
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
           }
         }
       },
@@ -1637,13 +2830,36 @@
       "type": "structure",
       "members": {
         "version": {
-          "target": "com.modal.app#VolumeFsVersion"
+          "target": "com.modal.app#VolumeFsVersion",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "VOLUME_FS_VERSION_UNSPECIFIED": 0,
+                "VOLUME_FS_VERSION_V1": 1,
+                "VOLUME_FS_VERSION_V2": 2
+              }
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "creationInfo": {
-          "target": "com.modal.app#CreationInfo"
+          "target": "com.modal.app#CreationInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1679,13 +2895,21 @@
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
           }
         },
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Timestamp of resource creation"
+            "smithy.api#documentation": "Timestamp of resource creation",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       }
@@ -1700,7 +2924,13 @@
       "type": "structure",
       "members": {
         "appLayout": {
-          "target": "com.modal.app#AppLayout"
+          "target": "com.modal.app#AppLayout",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1727,7 +2957,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1738,7 +2974,13 @@
       "type": "structure",
       "members": {
         "lifecycle": {
-          "target": "com.modal.app#AppLifecycle"
+          "target": "com.modal.app#AppLifecycle",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1765,13 +3007,31 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "includeUnindexed": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "onlyClassFunction": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -1782,10 +3042,22 @@
       "type": "structure",
       "members": {
         "tag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "object": {
-          "target": "com.modal.app#Object"
+          "target": "com.modal.app#Object",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1799,7 +3071,14 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.app#AppGetObjectsItemList"
+          "target": "com.modal.app#AppGetObjectsItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -1869,13 +3148,39 @@
       "type": "structure",
       "members": {
         "appName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "objectCreationType": {
-          "target": "com.modal.app#ObjectCreationType"
+          "target": "com.modal.app#ObjectCreationType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "OBJECT_CREATION_TYPE_UNSPECIFIED": 0,
+                "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": 1,
+                "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": 2,
+                "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": 3,
+                "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": 4,
+                "OBJECT_CREATION_TYPE_EPHEMERAL": 5
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -1886,10 +3191,22 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "handleMetadata": {
-          "target": "com.modal.app#AppHandleMetadata"
+          "target": "com.modal.app#AppHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1916,7 +3233,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1927,7 +3250,17 @@
       "type": "structure",
       "members": {
         "tags": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -1954,7 +3287,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1981,7 +3320,13 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1992,25 +3337,79 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "state": {
-          "target": "com.modal.app#AppState"
+          "target": "com.modal.app#AppState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "double"
+            }
+          }
         },
         "stoppedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "double"
+            }
+          }
         },
         "nRunningTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "int32"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -2024,7 +3423,14 @@
       "type": "structure",
       "members": {
         "apps": {
-          "target": "com.modal.app#ListAppResponseAppListItemList"
+          "target": "com.modal.app#ListAppResponseAppListItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2051,10 +3457,22 @@
       "type": "structure",
       "members": {
         "appName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2065,7 +3483,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2092,10 +3516,22 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "version": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
+          }
         }
       },
       "traits": {
@@ -2106,10 +3542,28 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.modal.app#WarningWarningType"
+          "target": "com.modal.app#WarningWarningType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "WARNING_TYPE_UNSPECIFIED": 0,
+                "WARNING_TYPE_CLIENT_DEPRECATION": 1,
+                "WARNING_TYPE_RESOURCE_LIMIT": 2,
+                "WARNING_TYPE_FUNCTION_CONFIGURATION": 3
+              }
+            }
+          }
         },
         "message": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -2152,13 +3606,32 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serverWarnings": {
-          "target": "com.modal.app#WarningList"
+          "target": "com.modal.app#WarningList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "deployedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -2185,70 +3658,166 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "deploymentTag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "appState": {
           "target": "com.modal.app#AppState",
           "traits": {
-            "smithy.api#documentation": "Additional metadata to identify a deployment"
+            "smithy.api#documentation": "Additional metadata to identify a deployment",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
           }
         },
         "functionIds": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "Published app will be in this state"
+            "smithy.api#documentation": "Published app will be in this state",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "classIds": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "function_name -> function_id"
+            "smithy.api#documentation": "function_name -> function_id",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "definitionIds": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "class_name -> class_id"
+            "smithy.api#documentation": "class_name -> class_id",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "rollbackVersion": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "function_id -> definition_id"
+            "smithy.api#documentation": "function_id -> definition_id",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "uint32"
+            }
           }
         },
         "clientVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unused by client, but used internally"
+            "smithy.api#documentation": "Unused by client, but used internally",
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
           }
         },
         "commitInfo": {
           "target": "com.modal.app#CommitInfo",
           "traits": {
-            "smithy.api#documentation": "Unused by client, but used internally"
+            "smithy.api#documentation": "Unused by client, but used internally",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "message"
+            }
           }
         },
         "tags": {
           "target": "com.modal.app#StringMap",
           "traits": {
-            "smithy.api#documentation": "Git information for deployment tracking"
+            "smithy.api#documentation": "Git information for deployment tracking",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "staged": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Additional metadata to attach to the App If true, create a version pinned deployment but don't update the production deployment definition on publish"
+            "smithy.api#documentation": "Additional metadata to attach to the App If true, create a version pinned deployment but don't update the production deployment definition on publish",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bool"
+            }
           }
         },
         "deploymentType": {
-          "target": "com.modal.app#DeploymentType"
+          "target": "com.modal.app#DeploymentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "enum",
+              "e": {
+                "DEPLOYMENT_TYPE_UNSPECIFIED": 0,
+                "DEPLOYMENT_TYPE_STANDARD": 1,
+                "DEPLOYMENT_TYPE_ROLLBACK": 2,
+                "DEPLOYMENT_TYPE_ROLLOVER": 3,
+                "DEPLOYMENT_TYPE_PROMOTION": 4,
+                "DEPLOYMENT_TYPE_STAGED": 5
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -2259,13 +3828,32 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serverWarnings": {
-          "target": "com.modal.app#WarningList"
+          "target": "com.modal.app#WarningList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "deployedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -2292,10 +3880,22 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "version": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
+          }
         }
       },
       "traits": {
@@ -2306,13 +3906,32 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serverWarnings": {
-          "target": "com.modal.app#WarningList"
+          "target": "com.modal.app#WarningList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "deployedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -2339,7 +3958,13 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2350,13 +3975,32 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serverWarnings": {
-          "target": "com.modal.app#WarningList"
+          "target": "com.modal.app#WarningList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "deployedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -2383,19 +4027,66 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "indexedObjectIds": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         },
         "clientId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "unindexedObjectIds": {
-          "target": "com.modal.app#StringList"
+          "target": "com.modal.app#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "newAppState": {
-          "target": "com.modal.app#AppState"
+          "target": "com.modal.app#AppState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -2422,10 +4113,26 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.app#StringMap"
+          "target": "com.modal.app#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -2481,10 +4188,28 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "source": {
-          "target": "com.modal.app#AppStopSource"
+          "target": "com.modal.app#AppStopSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "APP_STOP_SOURCE_UNSPECIFIED": 0,
+                "APP_STOP_SOURCE_CLI": 1,
+                "APP_STOP_SOURCE_PYTHON_CLIENT": 2,
+                "APP_STOP_SOURCE_WEB": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -2583,7 +4308,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal App",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `App`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `App`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

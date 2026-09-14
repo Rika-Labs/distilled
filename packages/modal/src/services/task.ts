@@ -18,8 +18,10 @@ export interface ListTaskRequest {
 }
 export const ListTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    appId: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -40,11 +42,13 @@ export interface TaskStats {
 }
 export const TaskStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    appId: S.optional(S.String),
-    appDescription: S.optional(S.String),
-    startedAt: S.optional(S.Number),
-    enqueuedAt: S.optional(S.Number),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    appDescription: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    startedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    enqueuedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
   }),
 ).annotate({ identifier: "TaskStats" }) as any as S.Schema<TaskStats>;
 
@@ -58,7 +62,9 @@ export interface ListTaskResponse {
 }
 export const ListTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tasks: S.optional(TaskStatsList),
+    tasks: S.optional(
+      TaskStatsList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListTaskResponse",
@@ -71,9 +77,9 @@ export interface TaskClusterHelloRequest {
 }
 export const TaskClusterHelloRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerIp: S.optional(S.String),
-    imexHostIp: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerIp: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    imexHostIp: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -103,12 +109,20 @@ export interface TaskClusterHelloResponse {
 }
 export const TaskClusterHelloResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clusterId: S.optional(S.String),
-    clusterRank: S.optional(S.Number),
-    containerIps: S.optional(StringList),
-    containerIpv4Ips: S.optional(StringList),
-    imexPeerIps: S.optional(StringList),
-    fabricIds: S.optional(StringList),
+    clusterId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    clusterRank: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    containerIps: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
+    containerIpv4Ips: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    imexPeerIps: S.optional(
+      StringList.pipe(T.ProtoField({ n: 5, t: "string", rep: true })),
+    ),
+    fabricIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 6, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "TaskClusterHelloResponse",
@@ -132,7 +146,9 @@ export interface TaskCurrentInputsResponse {
 }
 export const TaskCurrentInputsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputIds: S.optional(StringList),
+    inputIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "TaskCurrentInputsResponse",
@@ -143,7 +159,7 @@ export interface TaskGetCommandRouterAccessRequest {
 }
 export const TaskGetCommandRouterAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -161,8 +177,8 @@ export interface TaskGetCommandRouterAccessResponse {
 }
 export const TaskGetCommandRouterAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    jwt: S.optional(S.String),
-    url: S.optional(S.String),
+    jwt: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "TaskGetCommandRouterAccessResponse",
@@ -173,7 +189,7 @@ export interface TaskGetInfoRequest {
 }
 export const TaskGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -220,15 +236,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -261,9 +299,28 @@ export interface GPUConfig {
 }
 export const GPUConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(GPUType),
-    count: S.optional(S.Number),
-    gpuType: S.optional(S.String),
+    type: S.optional(
+      GPUType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GPU_TYPE_UNSPECIFIED: 0,
+            GPU_TYPE_T4: 1,
+            GPU_TYPE_A100: 2,
+            GPU_TYPE_A10G: 3,
+            GPU_TYPE_ANY: 4,
+            GPU_TYPE_A100_80GB: 8,
+            GPU_TYPE_L4: 9,
+            GPU_TYPE_H100: 10,
+            GPU_TYPE_L40S: 11,
+            GPU_TYPE_H200: 12,
+          },
+        }),
+      ),
+    ),
+    count: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({ identifier: "GPUConfig" }) as any as S.Schema<GPUConfig>;
 
@@ -281,15 +338,30 @@ export interface TaskInfo {
 }
 export const TaskInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    startedAt: S.optional(S.Number),
-    finishedAt: S.optional(S.Number),
-    result: S.optional(GenericResult),
-    enqueuedAt: S.optional(S.Number),
-    gpuType: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    snapshotBehavior: S.optional(TaskSnapshotBehavior),
-    gpuConfig: S.optional(GPUConfig),
+    id: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    startedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    finishedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    enqueuedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    snapshotBehavior: S.optional(
+      TaskSnapshotBehavior.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED: 0,
+            TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT: 1,
+            TASK_SNAPSHOT_BEHAVIOR_RESTORE: 2,
+            TASK_SNAPSHOT_BEHAVIOR_NONE: 3,
+          },
+        }),
+      ),
+    ),
+    gpuConfig: S.optional(GPUConfig.pipe(T.ProtoField({ n: 9, t: "message" }))),
   }),
 ).annotate({ identifier: "TaskInfo" }) as any as S.Schema<TaskInfo>;
 
@@ -299,8 +371,8 @@ export interface TaskGetInfoResponse {
 }
 export const TaskGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    info: S.optional(TaskInfo),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    info: S.optional(TaskInfo.pipe(T.ProtoField({ n: 2, t: "message" }))),
   }),
 ).annotate({
   identifier: "TaskGetInfoResponse",
@@ -311,7 +383,9 @@ export interface TaskResultRequest {
 }
 export const TaskResultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

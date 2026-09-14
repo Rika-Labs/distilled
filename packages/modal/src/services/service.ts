@@ -36,13 +36,17 @@ export interface ServiceUser {
 }
 export const ServiceUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    tokenId: S.optional(S.String),
-    createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    lastUsedAt: S.optional(S.Number),
-    createdByAvatarUrl: S.optional(S.String),
-    serviceUserId: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    lastUsedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
+    createdByAvatarUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    serviceUserId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 7, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "ServiceUser" }) as any as S.Schema<ServiceUser>;
 
@@ -56,7 +60,9 @@ export interface ListServiceUserResponse {
 }
 export const ListServiceUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceUsers: S.optional(ServiceUserList2),
+    serviceUsers: S.optional(
+      ServiceUserList2.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListServiceUserResponse",

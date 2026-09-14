@@ -20,8 +20,8 @@ export interface CommitVolumeRequest {
 }
 export const CommitVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    containerId: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -38,7 +38,7 @@ export interface CommitVolumeResponse {
 }
 export const CommitVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    skipReload: S.optional(S.Boolean),
+    skipReload: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "CommitVolumeResponse",
@@ -50,8 +50,10 @@ export interface DeleteVolumeRequest {
 }
 export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -76,8 +78,10 @@ export interface ListPagination {
 }
 export const ListPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxObjects: S.optional(S.Number),
-    createdBefore: S.optional(S.Number),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    createdBefore: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
   }),
 ).annotate({ identifier: "ListPagination" }) as any as S.Schema<ListPagination>;
 
@@ -87,8 +91,12 @@ export interface ListVolumeRequest {
 }
 export const ListVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    pagination: S.optional(ListPagination),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pagination: S.optional(
+      ListPagination.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -115,8 +123,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -127,9 +135,23 @@ export interface VolumeMetadata {
 }
 export const VolumeMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(VolumeFsVersion),
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    version: S.optional(
+      VolumeFsVersion.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            VOLUME_FS_VERSION_UNSPECIFIED: 0,
+            VOLUME_FS_VERSION_V1: 1,
+            VOLUME_FS_VERSION_V2: 2,
+          },
+        }),
+      ),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "VolumeMetadata" }) as any as S.Schema<VolumeMetadata>;
 
@@ -143,10 +165,12 @@ export interface VolumeListItem {
 }
 export const VolumeListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(S.String),
-    volumeId: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    metadata: S.optional(VolumeMetadata),
+    label: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    metadata: S.optional(
+      VolumeMetadata.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "VolumeListItem" }) as any as S.Schema<VolumeListItem>;
 
@@ -161,8 +185,12 @@ export interface ListVolumeResponse {
 }
 export const ListVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(VolumeListItemList),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      VolumeListItemList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListVolumeResponse",
@@ -174,8 +202,8 @@ export interface RenameVolumeRequest {
 }
 export const RenameVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    name: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -207,10 +235,12 @@ export interface VolumeCopyFilesRequest {
 }
 export const VolumeCopyFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    srcPaths: S.optional(StringList),
-    dstPath: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    srcPaths: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    dstPath: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -237,10 +267,12 @@ export interface VolumeCopyFiles2Request {
 }
 export const VolumeCopyFiles2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    srcPaths: S.optional(StringList),
-    dstPath: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    srcPaths: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    dstPath: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -264,7 +296,7 @@ export interface VolumeGetByIdRequest {
 }
 export const VolumeGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -282,8 +314,10 @@ export interface VolumeGetByIdResponse {
 }
 export const VolumeGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    metadata: S.optional(VolumeMetadata),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      VolumeMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "VolumeGetByIdResponse",
@@ -297,10 +331,10 @@ export interface VolumeGetFileRequest {
 }
 export const VolumeGetFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    start: S.optional(S.String),
-    len: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    start: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -323,11 +357,11 @@ export interface VolumeGetFileResponse {
 }
 export const VolumeGetFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    size: S.optional(S.String),
-    start: S.optional(S.String),
-    len: S.optional(S.String),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    start: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "uint64" }))),
   }),
 ).annotate({
   identifier: "VolumeGetFileResponse",
@@ -338,13 +372,18 @@ export interface VolumeGetFile2Request {
   path?: string;
   start?: string;
   len?: string;
+  /** 0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes. */
+  clientPadsBlocks?: boolean;
 }
 export const VolumeGetFile2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    start: S.optional(S.String),
-    len: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    start: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+    clientPadsBlocks: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -366,10 +405,12 @@ export interface VolumeGetFile2Response {
 }
 export const VolumeGetFile2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    getUrls: S.optional(StringList),
-    size: S.optional(S.String),
-    start: S.optional(S.String),
-    len: S.optional(S.String),
+    getUrls: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    start: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
   }),
 ).annotate({
   identifier: "VolumeGetFile2Response",
@@ -395,7 +436,11 @@ export interface VolumeCreateOptions {
 }
 export const VolumeCreateOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    experimentalOptions: S.optional(StringMap),
+    experimentalOptions: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 1, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "VolumeCreateOptions",
@@ -413,12 +458,45 @@ export interface VolumeGetOrCreateRequest {
 }
 export const VolumeGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
-    appId: S.optional(S.String),
-    version: S.optional(VolumeFsVersion),
-    createOptions: S.optional(VolumeCreateOptions),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    version: S.optional(
+      VolumeFsVersion.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            VOLUME_FS_VERSION_UNSPECIFIED: 0,
+            VOLUME_FS_VERSION_V1: 1,
+            VOLUME_FS_VERSION_V2: 2,
+          },
+        }),
+      ),
+    ),
+    createOptions: S.optional(
+      VolumeCreateOptions.pipe(T.ProtoField({ n: 7, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -438,9 +516,23 @@ export interface VolumeGetOrCreateResponse {
 }
 export const VolumeGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    version: S.optional(VolumeFsVersion),
-    metadata: S.optional(VolumeMetadata),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    version: S.optional(
+      VolumeFsVersion.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            VOLUME_FS_VERSION_UNSPECIFIED: 0,
+            VOLUME_FS_VERSION_V1: 1,
+            VOLUME_FS_VERSION_V2: 2,
+          },
+        }),
+      ),
+    ),
+    metadata: S.optional(
+      VolumeMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "VolumeGetOrCreateResponse",
@@ -451,7 +543,7 @@ export interface VolumeHeartbeatRequest {
 }
 export const VolumeHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -480,10 +572,10 @@ export interface MountFile {
 }
 export const MountFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filename: S.optional(S.String),
-    sha256Hex: S.optional(S.String),
-    size: S.optional(S.String),
-    mode: S.optional(S.Number),
+    filename: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sha256Hex: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+    mode: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" }))),
   }),
 ).annotate({ identifier: "MountFile" }) as any as S.Schema<MountFile>;
 
@@ -501,9 +593,13 @@ export interface VolumePutFilesRequest {
 }
 export const VolumePutFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    files: S.optional(MountFileList),
-    disallowOverwriteExistingFiles: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    files: S.optional(
+      MountFileList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    disallowOverwriteExistingFiles: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -530,8 +626,10 @@ export interface VolumePutFiles2RequestBlock {
 }
 export const VolumePutFiles2RequestBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentsSha256: S.optional(S.String),
-    putResponse: S.optional(S.String),
+    contentsSha256: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "bytes" })),
+    ),
+    putResponse: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({
   identifier: "VolumePutFiles2RequestBlock",
@@ -555,10 +653,14 @@ export interface VolumePutFiles2RequestFile {
 }
 export const VolumePutFiles2RequestFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    size: S.optional(S.String),
-    blocks: S.optional(VolumePutFiles2RequestBlockList),
-    mode: S.optional(S.Number),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    blocks: S.optional(
+      VolumePutFiles2RequestBlockList.pipe(
+        T.ProtoField({ n: 3, t: "message", rep: true }),
+      ),
+    ),
+    mode: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" }))),
   }),
 ).annotate({
   identifier: "VolumePutFiles2RequestFile",
@@ -579,9 +681,15 @@ export interface VolumePutFiles2Request {
 }
 export const VolumePutFiles2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    files: S.optional(VolumePutFiles2RequestFileList),
-    disallowOverwriteExistingFiles: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    files: S.optional(
+      VolumePutFiles2RequestFileList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
+    disallowOverwriteExistingFiles: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -603,9 +711,9 @@ export interface VolumePutFiles2ResponseMissingBlock {
 }
 export const VolumePutFiles2ResponseMissingBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileIndex: S.optional(S.String),
-    blockIndex: S.optional(S.String),
-    putUrl: S.optional(S.String),
+    fileIndex: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "uint64" }))),
+    blockIndex: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    putUrl: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }),
 ).annotate({
   identifier: "VolumePutFiles2ResponseMissingBlock",
@@ -623,7 +731,11 @@ export interface VolumePutFiles2Response {
 }
 export const VolumePutFiles2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    missingBlocks: S.optional(VolumePutFiles2ResponseMissingBlockList),
+    missingBlocks: S.optional(
+      VolumePutFiles2ResponseMissingBlockList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "VolumePutFiles2Response",
@@ -635,7 +747,7 @@ export interface VolumeReloadRequest {
 }
 export const VolumeReloadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -661,9 +773,9 @@ export interface VolumeRemoveFileRequest {
 }
 export const VolumeRemoveFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -689,9 +801,9 @@ export interface VolumeRemoveFile2Request {
 }
 export const VolumeRemoveFile2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",

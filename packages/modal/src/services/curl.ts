@@ -17,7 +17,7 @@ export interface CurlGetAuthTokenRequest {
 }
 export const CurlGetAuthTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -34,7 +34,7 @@ export interface CurlGetAuthTokenResponse {
 }
 export const CurlGetAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String),
+    token: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "CurlGetAuthTokenResponse",

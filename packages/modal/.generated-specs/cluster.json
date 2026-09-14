@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "clusterId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,16 +39,41 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskIds": {
-          "target": "com.modal.cluster#StringList"
+          "target": "com.modal.cluster#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "clusterId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "startedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         }
       }
     },
@@ -56,7 +87,13 @@
       "type": "structure",
       "members": {
         "cluster": {
-          "target": "com.modal.cluster#ClusterStats"
+          "target": "com.modal.cluster#ClusterStats",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -84,7 +121,13 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -101,7 +144,14 @@
       "type": "structure",
       "members": {
         "clusters": {
-          "target": "com.modal.cluster#ClusterStatsList"
+          "target": "com.modal.cluster#ClusterStatsList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -137,7 +187,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Cluster",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Cluster`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Cluster`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

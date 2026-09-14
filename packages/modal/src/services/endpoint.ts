@@ -31,7 +31,9 @@ export interface EndpointComputeRegionSpecExplicitRegions {
 export const EndpointComputeRegionSpecExplicitRegions = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      regions: S.optional(StringList),
+      regions: S.optional(
+        StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+      ),
     }),
 ).annotate({
   identifier: "EndpointComputeRegionSpecExplicitRegions",
@@ -44,9 +46,17 @@ export interface EndpointComputeRegionSpec {
 }
 export const EndpointComputeRegionSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auto: S.optional(GoogleProtobufEmpty),
-    colocated: S.optional(GoogleProtobufEmpty),
-    explicit: S.optional(EndpointComputeRegionSpecExplicitRegions),
+    auto: S.optional(
+      GoogleProtobufEmpty.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Empty" })),
+    ),
+    colocated: S.optional(
+      GoogleProtobufEmpty.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Empty" })),
+    ),
+    explicit: S.optional(
+      EndpointComputeRegionSpecExplicitRegions.pipe(
+        T.ProtoField({ n: 3, t: "message" }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "EndpointComputeRegionSpec",
@@ -59,9 +69,11 @@ export interface EndpointHuggingFaceModelSource {
 }
 export const EndpointHuggingFaceModelSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repoId: S.optional(S.String),
-    revision: S.optional(S.String),
-    huggingfaceToken: S.optional(S.String),
+    repoId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    revision: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    huggingfaceToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointHuggingFaceModelSource",
@@ -73,8 +85,8 @@ export interface EndpointModalVolumeModelSource {
 }
 export const EndpointModalVolumeModelSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    modelPath: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    modelPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "EndpointModalVolumeModelSource",
@@ -87,9 +99,15 @@ export interface EndpointCustomModelSource {
 }
 export const EndpointCustomModelSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseModelRepoId: S.optional(S.String),
-    huggingface: S.optional(EndpointHuggingFaceModelSource),
-    modalVolume: S.optional(EndpointModalVolumeModelSource),
+    baseModelRepoId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    huggingface: S.optional(
+      EndpointHuggingFaceModelSource.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    modalVolume: S.optional(
+      EndpointModalVolumeModelSource.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointCustomModelSource",
@@ -101,8 +119,12 @@ export interface EndpointModelSource {
 }
 export const EndpointModelSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseModelRepoId: S.optional(S.String),
-    custom: S.optional(EndpointCustomModelSource),
+    baseModelRepoId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    custom: S.optional(
+      EndpointCustomModelSource.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointModelSource",
@@ -154,16 +176,66 @@ export interface CreateEndpointRequest {
 }
 export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    proxyRegions: S.optional(StringList),
-    computeRegion: S.optional(EndpointComputeRegionSpec),
-    model: S.optional(EndpointModelSource),
-    apiSurfaces: S.optional(EndpointApiSurfaceList),
-    inputModalities: S.optional(EndpointInputModalityList),
-    environmentName: S.optional(S.String),
-    unauthenticated: S.optional(S.Boolean),
-    servingMode: S.optional(EndpointServingMode),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    proxyRegions: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
+    computeRegion: S.optional(
+      EndpointComputeRegionSpec.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    model: S.optional(
+      EndpointModelSource.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
+    apiSurfaces: S.optional(
+      EndpointApiSurfaceList.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            ENDPOINT_API_SURFACE_UNSPECIFIED: 0,
+            ENDPOINT_API_SURFACE_OPENAI_CHAT_COMPLETIONS: 1,
+            ENDPOINT_API_SURFACE_OPENAI_RESPONSES: 2,
+            ENDPOINT_API_SURFACE_ANTHROPIC_MESSAGES: 3,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    inputModalities: S.optional(
+      EndpointInputModalityList.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            ENDPOINT_INPUT_MODALITY_UNSPECIFIED: 0,
+            ENDPOINT_INPUT_MODALITY_TEXT: 1,
+            ENDPOINT_INPUT_MODALITY_IMAGE: 2,
+            ENDPOINT_INPUT_MODALITY_AUDIO: 3,
+          },
+          rep: true,
+        }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 8, t: "string" })),
+    ),
+    unauthenticated: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 9, t: "bool" })),
+    ),
+    servingMode: S.optional(
+      EndpointServingMode.pipe(
+        T.ProtoField({
+          n: 10,
+          t: "enum",
+          e: {
+            ENDPOINT_SERVING_MODE_UNSPECIFIED: 0,
+            ENDPOINT_SERVING_MODE_DEDICATED: 1,
+            ENDPOINT_SERVING_MODE_SHARED: 2,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -182,9 +254,11 @@ export interface CreateEndpointResponse {
 }
 export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointId: S.optional(S.String),
-    endpointPageUrl: S.optional(S.String),
-    name: S.optional(S.String),
+    endpointId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    endpointPageUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }),
 ).annotate({
   identifier: "CreateEndpointResponse",
@@ -196,8 +270,10 @@ export interface EndpointGetByNameRequest {
 }
 export const EndpointGetByNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -215,8 +291,10 @@ export interface EndpointGetByNameResponse {
 }
 export const EndpointGetByNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointId: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    endpointId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointGetByNameResponse",
@@ -227,7 +305,7 @@ export interface EndpointGetLifecycleRequest {
 }
 export const EndpointGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointId: S.optional(S.String),
+    endpointId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -258,12 +336,26 @@ export interface EndpointLifecycle {
 }
 export const EndpointLifecycle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(EndpointLifecycleStatus),
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
-    stoppedAt: S.optional(S.Number),
-    stoppedBy: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    status: S.optional(
+      EndpointLifecycleStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            ENDPOINT_LIFECYCLE_STATUS_UNSPECIFIED: 0,
+            ENDPOINT_LIFECYCLE_STATUS_ACTIVE: 1,
+            ENDPOINT_LIFECYCLE_STATUS_STOPPED: 2,
+          },
+        }),
+      ),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    stoppedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    stoppedBy: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointLifecycle",
@@ -274,7 +366,9 @@ export interface EndpointGetLifecycleResponse {
 }
 export const EndpointGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lifecycle: S.optional(EndpointLifecycle),
+    lifecycle: S.optional(
+      EndpointLifecycle.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointGetLifecycleResponse",
@@ -286,8 +380,10 @@ export interface ListPagination {
 }
 export const ListPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxObjects: S.optional(S.Number),
-    createdBefore: S.optional(S.Number),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    createdBefore: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
   }),
 ).annotate({ identifier: "ListPagination" }) as any as S.Schema<ListPagination>;
 
@@ -297,8 +393,12 @@ export interface ListEndpointRequest {
 }
 export const ListEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    pagination: S.optional(ListPagination),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pagination: S.optional(
+      ListPagination.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -318,8 +418,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -329,8 +429,10 @@ export interface EndpointMetadata {
 }
 export const EndpointMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointMetadata",
@@ -373,21 +475,78 @@ export interface EndpointListItem {
   provisioningStatus?: EndpointProvisioningStatus;
   status?: string;
   servingMode?: EndpointServingMode;
+  unauthenticated?: boolean;
 }
 export const EndpointListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    activeDeploymentId: S.optional(S.String),
-    updatedAt: S.optional(S.Number),
-    metadata: S.optional(EndpointMetadata),
-    appState: S.optional(AppState),
-    functionId: S.optional(S.String),
-    createdByAvatarUrl: S.optional(S.String),
-    provisioningStatus: S.optional(EndpointProvisioningStatus),
-    status: S.optional(S.String),
-    servingMode: S.optional(EndpointServingMode),
+    endpointId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    activeDeploymentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    updatedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
+    metadata: S.optional(
+      EndpointMetadata.pipe(T.ProtoField({ n: 6, t: "message" })),
+    ),
+    appState: S.optional(
+      AppState.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            APP_STATE_UNSPECIFIED: 0,
+            APP_STATE_EPHEMERAL: 1,
+            APP_STATE_DETACHED: 2,
+            APP_STATE_DEPLOYED: 3,
+            APP_STATE_STOPPING: 4,
+            APP_STATE_STOPPED: 5,
+            APP_STATE_INITIALIZING: 6,
+            APP_STATE_DISABLED: 7,
+            APP_STATE_DETACHED_DISCONNECTED: 8,
+            APP_STATE_DERIVED: 9,
+          },
+        }),
+      ),
+    ),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    createdByAvatarUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    provisioningStatus: S.optional(
+      EndpointProvisioningStatus.pipe(
+        T.ProtoField({
+          n: 10,
+          t: "enum",
+          e: {
+            ENDPOINT_PROVISIONING_STATUS_UNSPECIFIED: 0,
+            ENDPOINT_PROVISIONING_STATUS_PENDING: 1,
+            ENDPOINT_PROVISIONING_STATUS_RUNNING: 2,
+            ENDPOINT_PROVISIONING_STATUS_SUCCEEDED: 3,
+            ENDPOINT_PROVISIONING_STATUS_FAILED: 4,
+            ENDPOINT_PROVISIONING_STATUS_CANCELLING: 5,
+            ENDPOINT_PROVISIONING_STATUS_CANCELLED: 6,
+          },
+        }),
+      ),
+    ),
+    status: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    servingMode: S.optional(
+      EndpointServingMode.pipe(
+        T.ProtoField({
+          n: 12,
+          t: "enum",
+          e: {
+            ENDPOINT_SERVING_MODE_UNSPECIFIED: 0,
+            ENDPOINT_SERVING_MODE_DEDICATED: 1,
+            ENDPOINT_SERVING_MODE_SHARED: 2,
+          },
+        }),
+      ),
+    ),
+    unauthenticated: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 13, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "EndpointListItem",
@@ -404,8 +563,14 @@ export interface ListEndpointResponse {
 }
 export const ListEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(EndpointListItemList),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      EndpointListItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListEndpointResponse",
@@ -423,8 +588,20 @@ export interface StopEndpointRequest {
 }
 export const StopEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endpointId: S.optional(S.String),
-    source: S.optional(EndpointStopSource),
+    endpointId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    source: S.optional(
+      EndpointStopSource.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            ENDPOINT_STOP_SOURCE_UNSPECIFIED: 0,
+            ENDPOINT_STOP_SOURCE_CLI: 1,
+            ENDPOINT_STOP_SOURCE_WEB: 2,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

@@ -17,7 +17,9 @@ export interface DeleteSharedVolumeRequest {
 }
 export const DeleteSharedVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -41,7 +43,9 @@ export interface ListSharedVolumeRequest {
 }
 export const ListSharedVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -71,10 +75,26 @@ export interface SharedVolumeListItem {
 }
 export const SharedVolumeListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(S.String),
-    sharedVolumeId: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    cloudProvider: S.optional(CloudProvider),
+    label: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    cloudProvider: S.optional(
+      CloudProvider.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            CLOUD_PROVIDER_UNSPECIFIED: 0,
+            CLOUD_PROVIDER_AWS: 1,
+            CLOUD_PROVIDER_GCP: 2,
+            CLOUD_PROVIDER_AUTO: 3,
+            CLOUD_PROVIDER_OCI: 4,
+          },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "SharedVolumeListItem",
@@ -91,8 +111,14 @@ export interface ListSharedVolumeResponse {
 }
 export const ListSharedVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(SharedVolumeListItemList),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      SharedVolumeListItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListSharedVolumeResponse",
@@ -104,8 +130,10 @@ export interface SharedVolumeGetFileRequest {
 }
 export const SharedVolumeGetFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
-    path: S.optional(S.String),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -123,8 +151,8 @@ export interface SharedVolumeGetFileResponse {
 }
 export const SharedVolumeGetFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SharedVolumeGetFileResponse",
@@ -148,10 +176,29 @@ export interface SharedVolumeGetOrCreateRequest {
 }
 export const SharedVolumeGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
-    appId: S.optional(S.String),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -168,7 +215,9 @@ export interface SharedVolumeGetOrCreateResponse {
 }
 export const SharedVolumeGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "SharedVolumeGetOrCreateResponse",
@@ -179,7 +228,9 @@ export interface SharedVolumeHeartbeatRequest {
 }
 export const SharedVolumeHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -204,8 +255,10 @@ export interface SharedVolumeListFilesRequest {
 }
 export const SharedVolumeListFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
-    path: S.optional(S.String),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -235,10 +288,25 @@ export interface FileEntry {
 }
 export const FileEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    type: S.optional(FileEntryFileType),
-    mtime: S.optional(S.String),
-    size: S.optional(S.String),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    type: S.optional(
+      FileEntryFileType.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            UNSPECIFIED: 0,
+            FILE: 1,
+            DIRECTORY: 2,
+            SYMLINK: 3,
+            FIFO: 4,
+            SOCKET: 5,
+          },
+        }),
+      ),
+    ),
+    mtime: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
   }),
 ).annotate({ identifier: "FileEntry" }) as any as S.Schema<FileEntry>;
 
@@ -252,7 +320,9 @@ export interface SharedVolumeListFilesResponse {
 }
 export const SharedVolumeListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entries: S.optional(FileEntryList),
+    entries: S.optional(
+      FileEntryList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "SharedVolumeListFilesResponse",
@@ -268,12 +338,14 @@ export interface SharedVolumePutFileRequest {
 }
 export const SharedVolumePutFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    sha256Hex: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    resumable: S.optional(S.Boolean),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    sha256Hex: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    resumable: S.optional(S.Boolean.pipe(T.ProtoField({ n: 6, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -290,7 +362,7 @@ export interface SharedVolumePutFileResponse {
 }
 export const SharedVolumePutFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exists: S.optional(S.Boolean),
+    exists: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "SharedVolumePutFileResponse",
@@ -303,9 +375,11 @@ export interface SharedVolumeRemoveFileRequest {
 }
 export const SharedVolumeRemoveFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sharedVolumeId: S.optional(S.String),
-    path: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",

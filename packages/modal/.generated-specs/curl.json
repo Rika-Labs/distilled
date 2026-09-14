@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,7 +39,13 @@
       "type": "structure",
       "members": {
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -67,7 +79,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Curl",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Curl`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Curl`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

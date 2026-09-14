@@ -38,8 +38,21 @@ export interface Warning {
 }
 export const Warning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(WarningWarningType),
-    message: S.optional(S.String),
+    type: S.optional(
+      WarningWarningType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            WARNING_TYPE_UNSPECIFIED: 0,
+            WARNING_TYPE_CLIENT_DEPRECATION: 1,
+            WARNING_TYPE_RESOURCE_LIMIT: 2,
+            WARNING_TYPE_FUNCTION_CONFIGURATION: 3,
+          },
+        }),
+      ),
+    ),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "Warning" }) as any as S.Schema<Warning>;
 
@@ -56,9 +69,13 @@ export interface ClientHelloResponse {
 }
 export const ClientHelloResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    warning: S.optional(S.String),
-    imageBuilderVersion: S.optional(S.String),
-    serverWarnings: S.optional(WarningList),
+    warning: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    serverWarnings: S.optional(
+      WarningList.pipe(T.ProtoField({ n: 4, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ClientHelloResponse",

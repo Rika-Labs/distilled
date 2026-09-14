@@ -17,7 +17,7 @@ export interface ClearDictRequest {
 }
 export const ClearDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -41,7 +41,7 @@ export interface DeleteDictRequest {
 }
 export const DeleteDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -66,8 +66,8 @@ export interface DictContainsRequest {
 }
 export const DictContainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    key: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -84,7 +84,7 @@ export interface DictContainsResponse {
 }
 export const DictContainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    found: S.optional(S.Boolean),
+    found: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "DictContainsResponse",
@@ -95,7 +95,7 @@ export interface DictGetByIdRequest {
 }
 export const DictGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -115,8 +115,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -126,8 +126,10 @@ export interface DictMetadata {
 }
 export const DictMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "DictMetadata" }) as any as S.Schema<DictMetadata>;
 
@@ -137,8 +139,10 @@ export interface DictGetByIdResponse {
 }
 export const DictGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    metadata: S.optional(DictMetadata),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      DictMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "DictGetByIdResponse",
@@ -159,8 +163,8 @@ export interface DictEntry {
 }
 export const DictEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
-    value: S.optional(S.String),
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({ identifier: "DictEntry" }) as any as S.Schema<DictEntry>;
 
@@ -178,10 +182,31 @@ export interface DictGetOrCreateRequest {
 }
 export const DictGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
-    data: S.optional(DictEntryList),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
+    data: S.optional(
+      DictEntryList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -199,8 +224,10 @@ export interface DictGetOrCreateResponse {
 }
 export const DictGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    metadata: S.optional(DictMetadata),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      DictMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "DictGetOrCreateResponse",
@@ -211,7 +238,7 @@ export interface DictHeartbeatRequest {
 }
 export const DictHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -235,7 +262,7 @@ export interface DictLenRequest {
 }
 export const DictLenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -250,7 +277,7 @@ export interface DictLenResponse {
 }
 export const DictLenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    len: S.optional(S.Number),
+    len: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
   }),
 ).annotate({
   identifier: "DictLenResponse",
@@ -262,8 +289,8 @@ export interface DictPopRequest {
 }
 export const DictPopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    key: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -279,8 +306,8 @@ export interface DictPopResponse {
 }
 export const DictPopResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    found: S.optional(S.Boolean),
-    value: S.optional(S.String),
+    found: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({
   identifier: "DictPopResponse",
@@ -292,8 +319,8 @@ export interface GetDictRequest {
 }
 export const GetDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    key: S.optional(S.String),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -309,8 +336,8 @@ export interface GetDictResponse {
 }
 export const GetDictResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    found: S.optional(S.Boolean),
-    value: S.optional(S.String),
+    found: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({
   identifier: "GetDictResponse",
@@ -322,8 +349,10 @@ export interface ListPagination {
 }
 export const ListPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxObjects: S.optional(S.Number),
-    createdBefore: S.optional(S.Number),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    createdBefore: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
   }),
 ).annotate({ identifier: "ListPagination" }) as any as S.Schema<ListPagination>;
 
@@ -333,8 +362,12 @@ export interface ListDictRequest {
 }
 export const ListDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    pagination: S.optional(ListPagination),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pagination: S.optional(
+      ListPagination.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -355,10 +388,12 @@ export interface ListDictResponseDictInfo {
 }
 export const ListDictResponseDictInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    dictId: S.optional(S.String),
-    metadata: S.optional(DictMetadata),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    metadata: S.optional(
+      DictMetadata.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ListDictResponseDictInfo",
@@ -375,8 +410,14 @@ export interface ListDictResponse {
 }
 export const ListDictResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dicts: S.optional(ListDictResponseDictInfoList),
-    environmentName: S.optional(S.String),
+    dicts: S.optional(
+      ListDictResponseDictInfoList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListDictResponse",
@@ -389,9 +430,11 @@ export interface UpdateDictRequest {
 }
 export const UpdateDictRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dictId: S.optional(S.String),
-    updates: S.optional(DictEntryList),
-    ifNotExists: S.optional(S.Boolean),
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    updates: S.optional(
+      DictEntryList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    ifNotExists: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -408,7 +451,7 @@ export interface UpdateDictResponse {
 }
 export const UpdateDictResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.Boolean),
+    created: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "UpdateDictResponse",

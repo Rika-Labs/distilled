@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "domainId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,19 +39,56 @@
       "type": "structure",
       "members": {
         "domainId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "domainName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "certificateStatus": {
-          "target": "com.modal.domain#CertificateStatus"
+          "target": "com.modal.domain#CertificateStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "CERTIFICATE_STATUS_PENDING": 0,
+                "CERTIFICATE_STATUS_ISSUED": 1,
+                "CERTIFICATE_STATUS_FAILED": 2,
+                "CERTIFICATE_STATUS_REVOKED": 3
+              }
+            }
+          }
         },
         "dnsRecords": {
-          "target": "com.modal.domain#DNSRecordList"
+          "target": "com.modal.domain#DNSRecordList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -82,13 +125,36 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.modal.domain#DNSRecordType"
+          "target": "com.modal.domain#DNSRecordType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "DNS_RECORD_TYPE_A": 0,
+                "DNS_RECORD_TYPE_TXT": 1,
+                "DNS_RECORD_TYPE_CNAME": 2
+              }
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "value": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -128,7 +194,13 @@
       "type": "structure",
       "members": {
         "domain": {
-          "target": "com.modal.domain#Domain"
+          "target": "com.modal.domain#Domain",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -156,7 +228,13 @@
       "type": "structure",
       "members": {
         "domainName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -167,10 +245,23 @@
       "type": "structure",
       "members": {
         "domainId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "dnsRecords": {
-          "target": "com.modal.domain#DNSRecordList"
+          "target": "com.modal.domain#DNSRecordList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -210,7 +301,14 @@
       "type": "structure",
       "members": {
         "domains": {
-          "target": "com.modal.domain#DomainList2"
+          "target": "com.modal.domain#DomainList2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -249,7 +347,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Domain",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Domain`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Domain`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

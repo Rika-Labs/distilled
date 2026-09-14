@@ -15,6 +15,12 @@ import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+/**
+ * Protobuf wire descriptor, stamped by the proto converter. Emitted as
+ * `T.ProtoField({…})` on each member schema so `core/protobuf` can drive
+ * the binary gRPC codec.
+ */
+const PROTO_FIELD_TRAIT = "com.distilled.proto#field";
 
 const camel = (slug: string): string =>
   slug
@@ -28,6 +34,7 @@ const spec: SdkSpec = {
 
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
+    [PROTO_FIELD_TRAIT]: "T.ProtoField",
   },
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits

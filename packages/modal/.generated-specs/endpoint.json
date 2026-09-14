@@ -28,13 +28,33 @@
       "type": "structure",
       "members": {
         "auto": {
-          "target": "com.modal.endpoint#GoogleProtobufEmpty"
+          "target": "com.modal.endpoint#GoogleProtobufEmpty",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Empty"
+            }
+          }
         },
         "colocated": {
-          "target": "com.modal.endpoint#GoogleProtobufEmpty"
+          "target": "com.modal.endpoint#GoogleProtobufEmpty",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Empty"
+            }
+          }
         },
         "explicit": {
-          "target": "com.modal.endpoint#EndpointComputeRegionSpecExplicitRegions"
+          "target": "com.modal.endpoint#EndpointComputeRegionSpecExplicitRegions",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -49,7 +69,14 @@
       "type": "structure",
       "members": {
         "regions": {
-          "target": "com.modal.endpoint#StringList"
+          "target": "com.modal.endpoint#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -57,10 +84,22 @@
       "type": "structure",
       "members": {
         "baseModelRepoId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "custom": {
-          "target": "com.modal.endpoint#EndpointCustomModelSource"
+          "target": "com.modal.endpoint#EndpointCustomModelSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -68,13 +107,31 @@
       "type": "structure",
       "members": {
         "baseModelRepoId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "huggingface": {
-          "target": "com.modal.endpoint#EndpointHuggingFaceModelSource"
+          "target": "com.modal.endpoint#EndpointHuggingFaceModelSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "modalVolume": {
-          "target": "com.modal.endpoint#EndpointModalVolumeModelSource"
+          "target": "com.modal.endpoint#EndpointModalVolumeModelSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -82,13 +139,31 @@
       "type": "structure",
       "members": {
         "repoId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "revision": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "huggingfaceToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -96,10 +171,22 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "modelPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -200,34 +287,114 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "proxyRegions": {
-          "target": "com.modal.endpoint#StringList"
+          "target": "com.modal.endpoint#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "computeRegion": {
-          "target": "com.modal.endpoint#EndpointComputeRegionSpec"
+          "target": "com.modal.endpoint#EndpointComputeRegionSpec",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "model": {
-          "target": "com.modal.endpoint#EndpointModelSource"
+          "target": "com.modal.endpoint#EndpointModelSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         },
         "apiSurfaces": {
-          "target": "com.modal.endpoint#EndpointApiSurfaceList"
+          "target": "com.modal.endpoint#EndpointApiSurfaceList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_API_SURFACE_UNSPECIFIED": 0,
+                "ENDPOINT_API_SURFACE_OPENAI_CHAT_COMPLETIONS": 1,
+                "ENDPOINT_API_SURFACE_OPENAI_RESPONSES": 2,
+                "ENDPOINT_API_SURFACE_ANTHROPIC_MESSAGES": 3
+              },
+              "rep": true
+            }
+          }
         },
         "inputModalities": {
-          "target": "com.modal.endpoint#EndpointInputModalityList"
+          "target": "com.modal.endpoint#EndpointInputModalityList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_INPUT_MODALITY_UNSPECIFIED": 0,
+                "ENDPOINT_INPUT_MODALITY_TEXT": 1,
+                "ENDPOINT_INPUT_MODALITY_IMAGE": 2,
+                "ENDPOINT_INPUT_MODALITY_AUDIO": 3
+              },
+              "rep": true
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "unauthenticated": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "bool"
+            }
+          }
         },
         "servingMode": {
-          "target": "com.modal.endpoint#EndpointServingMode"
+          "target": "com.modal.endpoint#EndpointServingMode",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_SERVING_MODE_UNSPECIFIED": 0,
+                "ENDPOINT_SERVING_MODE_DEDICATED": 1,
+                "ENDPOINT_SERVING_MODE_SHARED": 2
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -238,13 +405,31 @@
       "type": "structure",
       "members": {
         "endpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "endpointPageUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -272,10 +457,22 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -286,10 +483,22 @@
       "type": "structure",
       "members": {
         "endpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -316,7 +525,13 @@
       "type": "structure",
       "members": {
         "endpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -327,30 +542,65 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.endpoint#EndpointLifecycleStatus"
+          "target": "com.modal.endpoint#EndpointLifecycleStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_LIFECYCLE_STATUS_UNSPECIFIED": 0,
+                "ENDPOINT_LIFECYCLE_STATUS_ACTIVE": 1,
+                "ENDPOINT_LIFECYCLE_STATUS_STOPPED": 2
+              }
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "createdBy": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "stoppedAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "User or service user name"
+            "smithy.api#documentation": "User or service user name",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
           }
         },
         "stoppedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unset when Endpoint is active"
+            "smithy.api#documentation": "Unset when Endpoint is active",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "User or service user name"
+            "smithy.api#documentation": "User or service user name",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
           }
         }
       }
@@ -382,7 +632,13 @@
       "type": "structure",
       "members": {
         "lifecycle": {
-          "target": "com.modal.endpoint#EndpointLifecycle"
+          "target": "com.modal.endpoint#EndpointLifecycle",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -409,10 +665,22 @@
       "type": "structure",
       "members": {
         "maxObjects": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
+          }
         },
         "createdBefore": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         }
       }
     },
@@ -420,10 +688,22 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "pagination": {
-          "target": "com.modal.endpoint#ListPagination"
+          "target": "com.modal.endpoint#ListPagination",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -434,40 +714,147 @@
       "type": "structure",
       "members": {
         "endpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "activeDeploymentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "updatedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "double"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.endpoint#EndpointMetadata"
+          "target": "com.modal.endpoint#EndpointMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message"
+            }
+          }
         },
         "appState": {
-          "target": "com.modal.endpoint#AppState"
+          "target": "com.modal.endpoint#AppState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "APP_STATE_UNSPECIFIED": 0,
+                "APP_STATE_EPHEMERAL": 1,
+                "APP_STATE_DETACHED": 2,
+                "APP_STATE_DEPLOYED": 3,
+                "APP_STATE_STOPPING": 4,
+                "APP_STATE_STOPPED": 5,
+                "APP_STATE_INITIALIZING": 6,
+                "APP_STATE_DISABLED": 7,
+                "APP_STATE_DETACHED_DISCONNECTED": 8,
+                "APP_STATE_DERIVED": 9
+              }
+            }
+          }
         },
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "createdByAvatarUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "provisioningStatus": {
-          "target": "com.modal.endpoint#EndpointProvisioningStatus"
+          "target": "com.modal.endpoint#EndpointProvisioningStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_PROVISIONING_STATUS_UNSPECIFIED": 0,
+                "ENDPOINT_PROVISIONING_STATUS_PENDING": 1,
+                "ENDPOINT_PROVISIONING_STATUS_RUNNING": 2,
+                "ENDPOINT_PROVISIONING_STATUS_SUCCEEDED": 3,
+                "ENDPOINT_PROVISIONING_STATUS_FAILED": 4,
+                "ENDPOINT_PROVISIONING_STATUS_CANCELLING": 5,
+                "ENDPOINT_PROVISIONING_STATUS_CANCELLED": 6
+              }
+            }
+          }
         },
         "status": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         },
         "servingMode": {
-          "target": "com.modal.endpoint#EndpointServingMode"
+          "target": "com.modal.endpoint#EndpointServingMode",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_SERVING_MODE_UNSPECIFIED": 0,
+                "ENDPOINT_SERVING_MODE_DEDICATED": 1,
+                "ENDPOINT_SERVING_MODE_SHARED": 2
+              }
+            }
+          }
+        },
+        "unauthenticated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -475,10 +862,22 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "creationInfo": {
-          "target": "com.modal.endpoint#CreationInfo"
+          "target": "com.modal.endpoint#CreationInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -488,13 +887,21 @@
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
           }
         },
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Timestamp of resource creation"
+            "smithy.api#documentation": "Timestamp of resource creation",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       }
@@ -633,10 +1040,23 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.endpoint#EndpointListItemList"
+          "target": "com.modal.endpoint#EndpointListItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -686,10 +1106,27 @@
       "type": "structure",
       "members": {
         "endpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "source": {
-          "target": "com.modal.endpoint#EndpointStopSource"
+          "target": "com.modal.endpoint#EndpointStopSource",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "ENDPOINT_STOP_SOURCE_UNSPECIFIED": 0,
+                "ENDPOINT_STOP_SOURCE_CLI": 1,
+                "ENDPOINT_STOP_SOURCE_WEB": 2
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -741,7 +1178,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Endpoint",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Endpoint`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Endpoint`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

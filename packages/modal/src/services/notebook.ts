@@ -21,9 +21,15 @@ export interface NotebookOutputExecuteResult {
 }
 export const NotebookOutputExecuteResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    executionCount: S.optional(S.Number),
-    data: S.optional(S.Unknown),
-    metadata: S.optional(S.Unknown),
+    executionCount: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" })),
+    ),
+    data: S.optional(
+      S.Unknown.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Struct" })),
+    ),
+    metadata: S.optional(
+      S.Unknown.pipe(T.ProtoField({ n: 3, t: "wkt", w: "Struct" })),
+    ),
   }),
 ).annotate({
   identifier: "NotebookOutputExecuteResult",
@@ -39,9 +45,15 @@ export interface NotebookOutputDisplayData {
 }
 export const NotebookOutputDisplayData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.Unknown),
-    metadata: S.optional(S.Unknown),
-    transientDisplayId: S.optional(S.String),
+    data: S.optional(
+      S.Unknown.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Struct" })),
+    ),
+    metadata: S.optional(
+      S.Unknown.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Struct" })),
+    ),
+    transientDisplayId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "NotebookOutputDisplayData",
@@ -55,8 +67,8 @@ export interface NotebookOutputStream {
 }
 export const NotebookOutputStream = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    text: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    text: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "NotebookOutputStream",
@@ -75,9 +87,11 @@ export interface NotebookOutputError {
 }
 export const NotebookOutputError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ename: S.optional(S.String),
-    evalue: S.optional(S.String),
-    traceback: S.optional(StringList),
+    ename: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    evalue: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    traceback: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "NotebookOutputError",
@@ -92,10 +106,18 @@ export interface NotebookOutput {
 }
 export const NotebookOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    executeResult: S.optional(NotebookOutputExecuteResult),
-    displayData: S.optional(NotebookOutputDisplayData),
-    stream: S.optional(NotebookOutputStream),
-    error: S.optional(NotebookOutputError),
+    executeResult: S.optional(
+      NotebookOutputExecuteResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    displayData: S.optional(
+      NotebookOutputDisplayData.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    stream: S.optional(
+      NotebookOutputStream.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
+    error: S.optional(
+      NotebookOutputError.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "NotebookOutput" }) as any as S.Schema<NotebookOutput>;
 
@@ -108,9 +130,11 @@ export interface NotebookKernelPublishResultsRequestExecuteReply {
 export const NotebookKernelPublishResultsRequestExecuteReply =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      status: S.optional(S.String),
-      executionCount: S.optional(S.Number),
-      duration: S.optional(S.Number),
+      status: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      executionCount: S.optional(
+        S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" })),
+      ),
+      duration: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
     }),
   ).annotate({
     identifier: "NotebookKernelPublishResultsRequestExecuteReply",
@@ -129,10 +153,18 @@ export interface NotebookKernelPublishResultsRequestCellResult {
 export const NotebookKernelPublishResultsRequestCellResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      cellId: S.optional(S.String),
-      output: S.optional(NotebookOutput),
-      clearOutput: S.optional(S.Boolean),
-      executeReply: S.optional(NotebookKernelPublishResultsRequestExecuteReply),
+      cellId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      output: S.optional(
+        NotebookOutput.pipe(T.ProtoField({ n: 2, t: "message" })),
+      ),
+      clearOutput: S.optional(
+        S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+      ),
+      executeReply: S.optional(
+        NotebookKernelPublishResultsRequestExecuteReply.pipe(
+          T.ProtoField({ n: 4, t: "message" }),
+        ),
+      ),
     }),
   ).annotate({
     identifier: "NotebookKernelPublishResultsRequestCellResult",
@@ -151,8 +183,12 @@ export interface NotebookKernelPublishResultsRequest {
 }
 export const NotebookKernelPublishResultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notebookId: S.optional(S.String),
-    results: S.optional(NotebookKernelPublishResultsRequestCellResultList),
+    notebookId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    results: S.optional(
+      NotebookKernelPublishResultsRequestCellResultList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

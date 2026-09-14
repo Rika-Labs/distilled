@@ -22,7 +22,22 @@
       "type": "structure",
       "members": {
         "scoped": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,12 +48,22 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tokenSecret": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#sensitive": {}
+            "smithy.api#sensitive": {},
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -67,7 +92,13 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -94,10 +125,22 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -124,7 +167,13 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -141,7 +190,14 @@
       "type": "structure",
       "members": {
         "environmentIds": {
-          "target": "com.modal.webhook#StringList"
+          "target": "com.modal.webhook#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -168,10 +224,22 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -198,17 +266,76 @@
       "type": "structure",
       "members": {
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "scoped": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        },
+        "createdBy": {
+          "target": "com.modal.webhook#UserIdentity",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Additional URL suffix added for ephemeral Apps"
+      }
+    },
+    "com.modal.webhook#UserIdentity": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        }
       }
     },
     "com.modal.webhook#WebhookTokenList2": {
@@ -221,7 +348,14 @@
       "type": "structure",
       "members": {
         "tokens": {
-          "target": "com.modal.webhook#WebhookTokenList2"
+          "target": "com.modal.webhook#WebhookTokenList2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -248,7 +382,13 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -259,7 +399,14 @@
       "type": "structure",
       "members": {
         "tokens": {
-          "target": "com.modal.webhook#WebhookTokenList2"
+          "target": "com.modal.webhook#WebhookTokenList2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -310,7 +457,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Webhook",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Webhook`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Webhook`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

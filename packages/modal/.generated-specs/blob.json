@@ -24,14 +24,30 @@
         "contentMd5": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "TODO(erikbern): how are these garbage collected? Shouldn't they belong to an app?"
+            "smithy.api#documentation": "TODO(erikbern): how are these garbage collected? Shouldn't they belong to an app?",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "contentSha256Base64": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "contentLength": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int64"
+            }
+          }
         }
       },
       "traits": {
@@ -42,16 +58,33 @@
       "type": "structure",
       "members": {
         "partLength": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int64"
+            }
+          }
         },
         "uploadUrls": {
           "target": "com.modal.blob#StringList",
           "traits": {
-            "smithy.api#documentation": "split upload based on this part length - all except the last part must have this length"
+            "smithy.api#documentation": "split upload based on this part length - all except the last part must have this length",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "completionUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -65,7 +98,14 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.blob#StringList"
+          "target": "com.modal.blob#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -73,7 +113,14 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.blob#MultiPartUploadList2"
+          "target": "com.modal.blob#MultiPartUploadList2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -87,22 +134,59 @@
       "type": "structure",
       "members": {
         "blobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "uploadUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "multipart": {
-          "target": "com.modal.blob#MultiPartUpload"
+          "target": "com.modal.blob#MultiPartUpload",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "blobIds": {
-          "target": "com.modal.blob#StringList"
+          "target": "com.modal.blob#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "uploadUrls": {
-          "target": "com.modal.blob#UploadUrlList"
+          "target": "com.modal.blob#UploadUrlList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         },
         "multiparts": {
-          "target": "com.modal.blob#MultiPartUploadList"
+          "target": "com.modal.blob#MultiPartUploadList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -130,7 +214,13 @@
       "type": "structure",
       "members": {
         "blobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -141,7 +231,13 @@
       "type": "structure",
       "members": {
         "downloadUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -177,7 +273,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Blob",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Blob`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Blob`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

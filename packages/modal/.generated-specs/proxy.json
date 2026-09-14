@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "proxyId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,16 +39,47 @@
       "type": "structure",
       "members": {
         "proxyIp": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "status": {
-          "target": "com.modal.proxy#ProxyIpStatus"
+          "target": "com.modal.proxy#ProxyIpStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "PROXY_IP_STATUS_UNSPECIFIED": 0,
+                "PROXY_IP_STATUS_CREATING": 1,
+                "PROXY_IP_STATUS_ONLINE": 2,
+                "PROXY_IP_STATUS_TERMINATED": 3,
+                "PROXY_IP_STATUS_UNHEALTHY": 4
+              }
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -88,7 +125,13 @@
       "type": "structure",
       "members": {
         "proxyIp": {
-          "target": "com.modal.proxy#ProxyIp"
+          "target": "com.modal.proxy#ProxyIp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -116,13 +159,31 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "region": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -133,22 +194,59 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "proxyIps": {
-          "target": "com.modal.proxy#ProxyIpList"
+          "target": "com.modal.proxy#ProxyIpList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "proxyId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "region": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -162,7 +260,13 @@
       "type": "structure",
       "members": {
         "proxy": {
-          "target": "com.modal.proxy#Proxy"
+          "target": "com.modal.proxy#Proxy",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -189,7 +293,13 @@
       "type": "structure",
       "members": {
         "proxyId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -216,10 +326,22 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -230,7 +352,13 @@
       "type": "structure",
       "members": {
         "proxy": {
-          "target": "com.modal.proxy#Proxy"
+          "target": "com.modal.proxy#Proxy",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -300,16 +428,40 @@
       "type": "structure",
       "members": {
         "deploymentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "namespace"
+            "smithy.api#documentation": "namespace",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "objectCreationType": {
-          "target": "com.modal.proxy#ObjectCreationType"
+          "target": "com.modal.proxy#ObjectCreationType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "OBJECT_CREATION_TYPE_UNSPECIFIED": 0,
+                "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": 1,
+                "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": 2,
+                "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": 3,
+                "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": 4,
+                "OBJECT_CREATION_TYPE_EPHEMERAL": 5
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -320,7 +472,13 @@
       "type": "structure",
       "members": {
         "proxyId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -353,7 +511,14 @@
       "type": "structure",
       "members": {
         "proxies": {
-          "target": "com.modal.proxy#ProxyList2"
+          "target": "com.modal.proxy#ProxyList2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -380,7 +545,13 @@
       "type": "structure",
       "members": {
         "proxyIp": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -431,7 +602,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Proxy",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Proxy`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Proxy`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

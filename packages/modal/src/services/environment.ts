@@ -18,13 +18,26 @@ export interface EnvironmentSettings {
   webhookSuffix?: string;
   maxConcurrentGpus?: number;
   maxConcurrentTasks?: number;
+  /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
+  blockUnauthenticatedResources?: boolean;
 }
 export const EnvironmentSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageBuilderVersion: S.optional(S.String),
-    webhookSuffix: S.optional(S.String),
-    maxConcurrentGpus: S.optional(S.Number),
-    maxConcurrentTasks: S.optional(S.Number),
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    webhookSuffix: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    maxConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "int32" })),
+    ),
+    maxConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "int32" })),
+    ),
+    blockUnauthenticatedResources: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentSettings",
@@ -53,12 +66,37 @@ export interface CreateEnvironmentRequest {
 }
 export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    isManaged: S.optional(S.Boolean),
-    settings: S.optional(EnvironmentSettings),
-    environmentType: S.optional(EnvironmentType),
-    defaultMemberRole: S.optional(EnvironmentRole),
-    defaultMemberRoleStr: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    isManaged: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    settings: S.optional(
+      EnvironmentSettings.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
+    environmentType: S.optional(
+      EnvironmentType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: { ENVIRONMENT_TYPE_UNSPECIFIED: 0, ENVIRONMENT_TYPE_PUBLIC: 1 },
+        }),
+      ),
+    ),
+    defaultMemberRole: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
+    defaultMemberRoleStr: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -82,7 +120,7 @@ export interface DeleteEnvironmentRequest {
 }
 export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -108,8 +146,12 @@ export interface EnvironmentBillingSummaryRequest {
 }
 export const EnvironmentBillingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTimestamp: S.optional(S.String),
-    environmentId: S.optional(S.String),
+    startTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -137,10 +179,18 @@ export interface EnvironmentBillingSummaryResponse {
 }
 export const EnvironmentBillingSummaryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTimestamp: S.optional(S.String),
-    endTimestamp: S.optional(S.String),
-    meteredCost: S.optional(S.String),
-    meteredCostBreakdown: S.optional(StringMap),
+    startTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
+    endTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Timestamp" })),
+    ),
+    meteredCost: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    meteredCostBreakdown: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 4, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentBillingSummaryResponse",
@@ -151,7 +201,9 @@ export interface EnvironmentGetBudgetRequest {
 }
 export const EnvironmentGetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -171,10 +223,18 @@ export interface EnvironmentGetBudgetResponse {
 }
 export const EnvironmentGetBudgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cycleBudgetDollars: S.optional(S.Number),
-    effectiveCycleSpendLimit: S.optional(S.Number),
-    currentCycleUsage: S.optional(S.Number),
-    spendLimitReached: S.optional(S.Boolean),
+    cycleBudgetDollars: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 1, t: "double" })),
+    ),
+    effectiveCycleSpendLimit: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
+    currentCycleUsage: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "double" })),
+    ),
+    spendLimitReached: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentGetBudgetResponse",
@@ -185,7 +245,9 @@ export interface EnvironmentGetManagedRequest {
 }
 export const EnvironmentGetManagedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -217,14 +279,44 @@ export interface EnvironmentGetManagedResponsePrincipalEnvRole {
 export const EnvironmentGetManagedResponsePrincipalEnvRole =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      userId: S.optional(S.String),
-      serviceUserId: S.optional(S.String),
-      email: S.optional(S.String),
-      avatarUrl: S.optional(S.String),
-      serviceUserName: S.optional(S.String),
-      role: S.optional(EnvironmentRole),
-      memberRole: S.optional(MemberRole),
-      userName: S.optional(S.String),
+      userId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      serviceUserId: S.optional(
+        S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+      ),
+      email: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+      avatarUrl: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+      serviceUserName: S.optional(
+        S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+      ),
+      role: S.optional(
+        EnvironmentRole.pipe(
+          T.ProtoField({
+            n: 6,
+            t: "enum",
+            e: {
+              ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+              ENVIRONMENT_ROLE_VIEWER: 1,
+              ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+              ENVIRONMENT_ROLE_NO_ACCESS: 3,
+            },
+          }),
+        ),
+      ),
+      memberRole: S.optional(
+        MemberRole.pipe(
+          T.ProtoField({
+            n: 7,
+            t: "enum",
+            e: {
+              MEMBER_ROLE_UNSPECIFIED: 0,
+              MEMBER_ROLE_USER: 1,
+              MEMBER_ROLE_MANAGER: 2,
+              MEMBER_ROLE_OWNER: 3,
+            },
+          }),
+        ),
+      ),
+      userName: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
     }),
   ).annotate({
     identifier: "EnvironmentGetManagedResponsePrincipalEnvRole",
@@ -246,14 +338,20 @@ export interface EnvironmentGetManagedResponse {
 }
 export const EnvironmentGetManagedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    name: S.optional(S.String),
-    createdAt: S.optional(S.Number),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
     principalRoles: S.optional(
-      EnvironmentGetManagedResponsePrincipalEnvRoleList,
+      EnvironmentGetManagedResponsePrincipalEnvRoleList.pipe(
+        T.ProtoField({ n: 4, t: "message", rep: true }),
+      ),
     ),
     additionalRoles: S.optional(
-      EnvironmentGetManagedResponsePrincipalEnvRoleList,
+      EnvironmentGetManagedResponsePrincipalEnvRoleList.pipe(
+        T.ProtoField({ n: 5, t: "message", rep: true }),
+      ),
     ),
   }),
 ).annotate({
@@ -275,8 +373,25 @@ export interface EnvironmentGetOrCreateRequest {
 }
 export const EnvironmentGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -295,9 +410,19 @@ export interface EnvironmentMetadata {
 }
 export const EnvironmentMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    settings: S.optional(EnvironmentSettings),
-    environmentType: S.optional(EnvironmentType),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    settings: S.optional(
+      EnvironmentSettings.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    environmentType: S.optional(
+      EnvironmentType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { ENVIRONMENT_TYPE_UNSPECIFIED: 0, ENVIRONMENT_TYPE_PUBLIC: 1 },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentMetadata",
@@ -309,8 +434,12 @@ export interface EnvironmentGetOrCreateResponse {
 }
 export const EnvironmentGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    metadata: S.optional(EnvironmentMetadata),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    metadata: S.optional(
+      EnvironmentMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentGetOrCreateResponse",
@@ -321,7 +450,9 @@ export interface EnvironmentGetRolesRequest {
 }
 export const EnvironmentGetRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -356,18 +487,66 @@ export interface EnvironmentGetRolesResponsePrincipal {
 export const EnvironmentGetRolesResponsePrincipal = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      userId: S.optional(S.String),
-      serviceUserId: S.optional(S.String),
-      email: S.optional(S.String),
-      avatarUrl: S.optional(S.String),
-      userName: S.optional(S.String),
-      serviceUserName: S.optional(S.String),
-      role: S.optional(EnvironmentRole),
-      roleStr: S.optional(S.String),
-      choosableRoles: S.optional(EnvironmentRoleList),
-      memberRole: S.optional(MemberRole),
-      inheritsDefaultMemberRole: S.optional(S.Boolean),
-      hasRoleAssignment: S.optional(S.Boolean),
+      userId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      serviceUserId: S.optional(
+        S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+      ),
+      email: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+      avatarUrl: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+      userName: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+      serviceUserName: S.optional(
+        S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+      ),
+      role: S.optional(
+        EnvironmentRole.pipe(
+          T.ProtoField({
+            n: 7,
+            t: "enum",
+            e: {
+              ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+              ENVIRONMENT_ROLE_VIEWER: 1,
+              ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+              ENVIRONMENT_ROLE_NO_ACCESS: 3,
+            },
+          }),
+        ),
+      ),
+      roleStr: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+      choosableRoles: S.optional(
+        EnvironmentRoleList.pipe(
+          T.ProtoField({
+            n: 9,
+            t: "enum",
+            e: {
+              ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+              ENVIRONMENT_ROLE_VIEWER: 1,
+              ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+              ENVIRONMENT_ROLE_NO_ACCESS: 3,
+            },
+            rep: true,
+          }),
+        ),
+      ),
+      memberRole: S.optional(
+        MemberRole.pipe(
+          T.ProtoField({
+            n: 10,
+            t: "enum",
+            e: {
+              MEMBER_ROLE_UNSPECIFIED: 0,
+              MEMBER_ROLE_USER: 1,
+              MEMBER_ROLE_MANAGER: 2,
+              MEMBER_ROLE_OWNER: 3,
+            },
+          }),
+        ),
+      ),
+      inheritsDefaultMemberRole: S.optional(
+        S.Boolean.pipe(T.ProtoField({ n: 11, t: "bool" })),
+      ),
+      hasRoleAssignment: S.optional(
+        S.Boolean.pipe(T.ProtoField({ n: 12, t: "bool" })),
+      ),
     }),
 ).annotate({
   identifier: "EnvironmentGetRolesResponsePrincipal",
@@ -387,10 +566,27 @@ export interface EnvironmentGetRolesResponse {
 }
 export const EnvironmentGetRolesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    principalRoles: S.optional(EnvironmentGetRolesResponsePrincipalList),
-    defaultMemberRole: S.optional(EnvironmentRole),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    principalRoles: S.optional(
+      EnvironmentGetRolesResponsePrincipalList.pipe(
+        T.ProtoField({ n: 3, t: "message", rep: true }),
+      ),
+    ),
+    defaultMemberRole: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentGetRolesResponse",
@@ -403,9 +599,13 @@ export interface EnvironmentSetBudgetRequest {
 }
 export const EnvironmentSetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    cycleBudgetDollars: S.optional(S.Number),
-    clearBudget: S.optional(S.Boolean),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    cycleBudgetDollars: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
+    clearBudget: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -431,8 +631,23 @@ export interface EnvironmentSetDefaultMemberRoleRequest {
 export const EnvironmentSetDefaultMemberRoleRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      environmentId: S.optional(S.String),
-      defaultMemberRole: S.optional(EnvironmentRole),
+      environmentId: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
+      defaultMemberRole: S.optional(
+        EnvironmentRole.pipe(
+          T.ProtoField({
+            n: 2,
+            t: "enum",
+            e: {
+              ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+              ENVIRONMENT_ROLE_VIEWER: 1,
+              ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+              ENVIRONMENT_ROLE_NO_ACCESS: 3,
+            },
+          }),
+        ),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -458,9 +673,24 @@ export interface EnvironmentSetManagedRequest {
 }
 export const EnvironmentSetManagedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    managed: S.optional(S.Boolean),
-    defaultMemberRole: S.optional(EnvironmentRole),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    managed: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    defaultMemberRole: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -510,25 +740,70 @@ export interface EnvironmentListItem {
   spendLimitReached?: boolean;
   environmentType?: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
+  blockUnauthenticatedResources?: boolean;
 }
 export const EnvironmentListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    webhookSuffix: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    default: S.optional(S.Boolean),
-    isManaged: S.optional(S.Boolean),
-    environmentId: S.optional(S.String),
-    maxConcurrentTasks: S.optional(S.Number),
-    maxConcurrentGpus: S.optional(S.Number),
-    currentConcurrentTasks: S.optional(S.Number),
-    currentConcurrentGpus: S.optional(S.Number),
-    cycleBudgetDollars: S.optional(S.Number),
-    effectiveCycleSpendLimit: S.optional(S.Number),
-    currentCycleUsage: S.optional(S.Number),
-    spendLimitReached: S.optional(S.Boolean),
-    environmentType: S.optional(EnvironmentType),
-    defaultMemberRole: S.optional(EnvironmentRole),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    webhookSuffix: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    default: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    isManaged: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    maxConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 7, t: "int32" })),
+    ),
+    maxConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 8, t: "int32" })),
+    ),
+    currentConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 9, t: "int32" })),
+    ),
+    currentConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 10, t: "int32" })),
+    ),
+    cycleBudgetDollars: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 11, t: "double" })),
+    ),
+    effectiveCycleSpendLimit: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 12, t: "double" })),
+    ),
+    currentCycleUsage: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 13, t: "double" })),
+    ),
+    spendLimitReached: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 14, t: "bool" })),
+    ),
+    environmentType: S.optional(
+      EnvironmentType.pipe(
+        T.ProtoField({
+          n: 15,
+          t: "enum",
+          e: { ENVIRONMENT_TYPE_UNSPECIFIED: 0, ENVIRONMENT_TYPE_PUBLIC: 1 },
+        }),
+      ),
+    ),
+    defaultMemberRole: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 16,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
+    blockUnauthenticatedResources: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 17, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentListItem",
@@ -544,7 +819,11 @@ export interface ListEnvironmentResponse {
 }
 export const ListEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(EnvironmentListItemList),
+    items: S.optional(
+      EnvironmentListItemList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListEnvironmentResponse",
@@ -559,11 +838,28 @@ export interface SetEnvironmentRoleRequest {
 }
 export const SetEnvironmentRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    userId: S.optional(S.String),
-    serviceUserId: S.optional(S.String),
-    role: S.optional(EnvironmentRole),
-    roleStr: S.optional(S.String),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    userId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    serviceUserId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    role: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
+    roleStr: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -582,20 +878,53 @@ export const SetEnvironmentRoleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetEnvironmentRoleResponse",
 }) as any as S.Schema<SetEnvironmentRoleResponse>;
 
+/** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
+export type EnvironmentBlockUnauthenticatedResources =
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
+export const EnvironmentBlockUnauthenticatedResources = S.String;
+
 export interface UpdateEnvironmentRequest {
   currentName?: string;
   name?: string;
   webSuffix?: string;
   maxConcurrentTasks?: number;
   maxConcurrentGpus?: number;
+  blockUnauthenticatedResources?:
+    | EnvironmentBlockUnauthenticatedResources
+    | (string & {});
 }
 export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    currentName: S.optional(S.String),
-    name: S.optional(S.String),
-    webSuffix: S.optional(S.String),
-    maxConcurrentTasks: S.optional(S.Number),
-    maxConcurrentGpus: S.optional(S.Number),
+    currentName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "StringValue" })),
+    ),
+    webSuffix: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "wkt", w: "StringValue" })),
+    ),
+    maxConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "int32" })),
+    ),
+    maxConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 5, t: "int32" })),
+    ),
+    blockUnauthenticatedResources: S.optional(
+      EnvironmentBlockUnauthenticatedResources.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED: 0,
+            ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT: 1,
+            ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK: 2,
+            ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW: 3,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -625,25 +954,70 @@ export interface UpdateEnvironmentResponse {
   spendLimitReached?: boolean;
   environmentType?: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
+  blockUnauthenticatedResources?: boolean;
 }
 export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    webhookSuffix: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    default: S.optional(S.Boolean),
-    isManaged: S.optional(S.Boolean),
-    environmentId: S.optional(S.String),
-    maxConcurrentTasks: S.optional(S.Number),
-    maxConcurrentGpus: S.optional(S.Number),
-    currentConcurrentTasks: S.optional(S.Number),
-    currentConcurrentGpus: S.optional(S.Number),
-    cycleBudgetDollars: S.optional(S.Number),
-    effectiveCycleSpendLimit: S.optional(S.Number),
-    currentCycleUsage: S.optional(S.Number),
-    spendLimitReached: S.optional(S.Boolean),
-    environmentType: S.optional(EnvironmentType),
-    defaultMemberRole: S.optional(EnvironmentRole),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    webhookSuffix: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    default: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    isManaged: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    maxConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 7, t: "int32" })),
+    ),
+    maxConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 8, t: "int32" })),
+    ),
+    currentConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 9, t: "int32" })),
+    ),
+    currentConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 10, t: "int32" })),
+    ),
+    cycleBudgetDollars: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 11, t: "double" })),
+    ),
+    effectiveCycleSpendLimit: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 12, t: "double" })),
+    ),
+    currentCycleUsage: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 13, t: "double" })),
+    ),
+    spendLimitReached: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 14, t: "bool" })),
+    ),
+    environmentType: S.optional(
+      EnvironmentType.pipe(
+        T.ProtoField({
+          n: 15,
+          t: "enum",
+          e: { ENVIRONMENT_TYPE_UNSPECIFIED: 0, ENVIRONMENT_TYPE_PUBLIC: 1 },
+        }),
+      ),
+    ),
+    defaultMemberRole: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 16,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
+    blockUnauthenticatedResources: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 17, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "UpdateEnvironmentResponse",

@@ -17,7 +17,7 @@ export interface DeleteImageRequest {
 }
 export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -41,7 +41,7 @@ export interface GetImageBuildChainRequest {
 }
 export const GetImageBuildChainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -62,11 +62,19 @@ export interface ImageBuildStep {
 }
 export const ImageBuildStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    startedAt: S.optional(S.String),
-    finishedAt: S.optional(S.String),
-    builderAppId: S.optional(S.String),
-    builderTaskId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    startedAt: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Timestamp" })),
+    ),
+    finishedAt: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "wkt", w: "Timestamp" })),
+    ),
+    builderAppId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    builderTaskId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "ImageBuildStep" }) as any as S.Schema<ImageBuildStep>;
 
@@ -80,7 +88,9 @@ export interface GetImageBuildChainResponse {
 }
 export const GetImageBuildChainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    buildSteps: S.optional(ImageBuildStepList),
+    buildSteps: S.optional(
+      ImageBuildStepList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "GetImageBuildChainResponse",
@@ -91,7 +101,7 @@ export interface ImageFromIdRequest {
 }
 export const ImageFromIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -123,11 +133,21 @@ export interface ImageMetadata {
 }
 export const ImageMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pythonVersionInfo: S.optional(S.String),
-    pythonPackages: S.optional(StringMap),
-    workdir: S.optional(S.String),
-    libcVersionInfo: S.optional(S.String),
-    imageBuilderVersion: S.optional(S.String),
+    pythonVersionInfo: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pythonPackages: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    libcVersionInfo: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "ImageMetadata" }) as any as S.Schema<ImageMetadata>;
 
@@ -137,8 +157,10 @@ export interface ImageFromIdResponse {
 }
 export const ImageFromIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    metadata: S.optional(ImageMetadata),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      ImageMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ImageFromIdResponse",
@@ -152,8 +174,10 @@ export interface ImageGetByTagRequest {
 }
 export const ImageGetByTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -170,7 +194,7 @@ export interface ImageGetByTagResponse {
 }
 export const ImageGetByTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "ImageGetByTagResponse",
@@ -182,8 +206,8 @@ export interface BaseImage {
 }
 export const BaseImage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    dockerTag: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    dockerTag: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "BaseImage" }) as any as S.Schema<BaseImage>;
 
@@ -203,8 +227,8 @@ export interface ImageContextFile {
 }
 export const ImageContextFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filename: S.optional(S.String),
-    data: S.optional(S.String),
+    filename: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({
   identifier: "ImageContextFile",
@@ -236,9 +260,28 @@ export interface GPUConfig {
 }
 export const GPUConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(GPUType),
-    count: S.optional(S.Number),
-    gpuType: S.optional(S.String),
+    type: S.optional(
+      GPUType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GPU_TYPE_UNSPECIFIED: 0,
+            GPU_TYPE_T4: 1,
+            GPU_TYPE_A100: 2,
+            GPU_TYPE_A10G: 3,
+            GPU_TYPE_ANY: 4,
+            GPU_TYPE_A100_80GB: 8,
+            GPU_TYPE_L4: 9,
+            GPU_TYPE_H100: 10,
+            GPU_TYPE_L40S: 11,
+            GPU_TYPE_H200: 12,
+          },
+        }),
+      ),
+    ),
+    count: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({ identifier: "GPUConfig" }) as any as S.Schema<GPUConfig>;
 
@@ -256,8 +299,22 @@ export interface ImageRegistryConfig {
 }
 export const ImageRegistryConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    registryAuthType: S.optional(RegistryAuthType),
-    secretId: S.optional(S.String),
+    registryAuthType: S.optional(
+      RegistryAuthType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            REGISTRY_AUTH_TYPE_UNSPECIFIED: 0,
+            REGISTRY_AUTH_TYPE_AWS: 1,
+            REGISTRY_AUTH_TYPE_GCP: 2,
+            REGISTRY_AUTH_TYPE_PUBLIC: 3,
+            REGISTRY_AUTH_TYPE_STATIC_CREDS: 4,
+          },
+        }),
+      ),
+    ),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "ImageRegistryConfig",
@@ -283,11 +340,25 @@ export interface FunctionInput {
 }
 export const FunctionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    args: S.optional(S.String),
-    argsBlobId: S.optional(S.String),
-    finalInput: S.optional(S.Boolean),
-    dataFormat: S.optional(DataFormat),
-    methodName: S.optional(S.String),
+    args: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    argsBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    finalInput: S.optional(S.Boolean.pipe(T.ProtoField({ n: 9, t: "bool" }))),
+    dataFormat: S.optional(
+      DataFormat.pipe(
+        T.ProtoField({
+          n: 10,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+        }),
+      ),
+    ),
+    methodName: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
   }),
 ).annotate({ identifier: "FunctionInput" }) as any as S.Schema<FunctionInput>;
 
@@ -298,9 +369,9 @@ export interface BuildFunction {
 }
 export const BuildFunction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    definition: S.optional(S.String),
-    globals: S.optional(S.String),
-    input: S.optional(FunctionInput),
+    definition: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    globals: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    input: S.optional(FunctionInput.pipe(T.ProtoField({ n: 3, t: "message" }))),
   }),
 ).annotate({ identifier: "BuildFunction" }) as any as S.Schema<BuildFunction>;
 
@@ -313,11 +384,13 @@ export interface VolumeMount {
 }
 export const VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    mountPath: S.optional(S.String),
-    allowBackgroundCommits: S.optional(S.Boolean),
-    readOnly: S.optional(S.Boolean),
-    subPath: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    allowBackgroundCommits: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
+    readOnly: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    subPath: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }),
 ).annotate({ identifier: "VolumeMount" }) as any as S.Schema<VolumeMount>;
 
@@ -357,22 +430,60 @@ export interface Image {
 }
 export const Image = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    baseImages: S.optional(BaseImageList),
-    dockerfileCommands: S.optional(StringList),
-    contextFiles: S.optional(ImageContextFileList),
-    version: S.optional(S.String),
-    secretIds: S.optional(StringList),
-    contextMountId: S.optional(S.String),
-    gpuConfig: S.optional(GPUConfig),
-    imageRegistryConfig: S.optional(ImageRegistryConfig),
-    buildFunctionDef: S.optional(S.String),
-    buildFunctionGlobals: S.optional(S.String),
-    runtime: S.optional(S.String),
-    runtimeDebug: S.optional(S.Boolean),
-    buildFunction: S.optional(BuildFunction),
-    buildArgs: S.optional(StringMap),
-    volumeMounts: S.optional(VolumeMountList),
-    arch: S.optional(Arch),
+    baseImages: S.optional(
+      BaseImageList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
+    dockerfileCommands: S.optional(
+      StringList.pipe(T.ProtoField({ n: 6, t: "string", rep: true })),
+    ),
+    contextFiles: S.optional(
+      ImageContextFileList.pipe(
+        T.ProtoField({ n: 7, t: "message", rep: true }),
+      ),
+    ),
+    version: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    secretIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 12, t: "string", rep: true })),
+    ),
+    contextMountId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 15, t: "string" })),
+    ),
+    gpuConfig: S.optional(
+      GPUConfig.pipe(T.ProtoField({ n: 16, t: "message" })),
+    ),
+    imageRegistryConfig: S.optional(
+      ImageRegistryConfig.pipe(T.ProtoField({ n: 17, t: "message" })),
+    ),
+    buildFunctionDef: S.optional(
+      S.String.pipe(T.ProtoField({ n: 14, t: "string" })),
+    ),
+    buildFunctionGlobals: S.optional(
+      S.String.pipe(T.ProtoField({ n: 18, t: "bytes" })),
+    ),
+    runtime: S.optional(S.String.pipe(T.ProtoField({ n: 19, t: "string" }))),
+    runtimeDebug: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 20, t: "bool" })),
+    ),
+    buildFunction: S.optional(
+      BuildFunction.pipe(T.ProtoField({ n: 21, t: "message" })),
+    ),
+    buildArgs: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 22, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    volumeMounts: S.optional(
+      VolumeMountList.pipe(T.ProtoField({ n: 23, t: "message", rep: true })),
+    ),
+    arch: S.optional(
+      Arch.pipe(
+        T.ProtoField({
+          n: 24,
+          t: "enum",
+          e: { ARCH_UNSPECIFIED: 0, ARCH_X86_64: 1, ARCH_AARCH64: 2 },
+        }),
+      ),
+    ),
   }),
 ).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
 
@@ -398,15 +509,35 @@ export interface ImageGetOrCreateRequest {
 }
 export const ImageGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    image: S.optional(Image),
-    appId: S.optional(S.String),
-    existingImageId: S.optional(S.String),
-    buildFunctionId: S.optional(S.String),
-    forceBuild: S.optional(S.Boolean),
-    namespace: S.optional(DeploymentNamespace),
-    builderVersion: S.optional(S.String),
-    allowGlobalDeployment: S.optional(S.Boolean),
-    ignoreCache: S.optional(S.Boolean),
+    image: S.optional(Image.pipe(T.ProtoField({ n: 2, t: "message" }))),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    existingImageId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
+    buildFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    forceBuild: S.optional(S.Boolean.pipe(T.ProtoField({ n: 7, t: "bool" }))),
+    namespace: S.optional(
+      DeploymentNamespace.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            DEPLOYMENT_NAMESPACE_UNSPECIFIED: 0,
+            DEPLOYMENT_NAMESPACE_WORKSPACE: 1,
+            DEPLOYMENT_NAMESPACE_GLOBAL: 3,
+          },
+        }),
+      ),
+    ),
+    builderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    allowGlobalDeployment: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" })),
+    ),
+    ignoreCache: S.optional(S.Boolean.pipe(T.ProtoField({ n: 11, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -453,15 +584,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -475,9 +628,13 @@ export interface ImageGetOrCreateResponse {
 }
 export const ImageGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    result: S.optional(GenericResult),
-    metadata: S.optional(ImageMetadata),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    metadata: S.optional(
+      ImageMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ImageGetOrCreateResponse",
@@ -493,10 +650,12 @@ export interface ImageListTagsRequest {
 }
 export const ImageListTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    tagPrefix: S.optional(S.String),
-    maxObjects: S.optional(S.Number),
-    pageToken: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    tagPrefix: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    pageToken: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -518,11 +677,11 @@ export interface ImageListTagsItem {
 }
 export const ImageListTagsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
-    imageId: S.optional(S.String),
-    revisionId: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    updatedAt: S.optional(S.Number),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    revisionId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    updatedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
   }),
 ).annotate({
   identifier: "ImageListTagsItem",
@@ -540,9 +699,17 @@ export interface ImageListTagsResponse {
 }
 export const ImageListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(ImageListTagsItemList),
-    nextPageToken: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      ImageListTagsItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    nextPageToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ImageListTagsResponse",
@@ -559,10 +726,12 @@ export interface ImageTagRevisionsRequest {
 }
 export const ImageTagRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    maxObjects: S.optional(S.Number),
-    pageToken: S.optional(S.String),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    pageToken: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -582,10 +751,10 @@ export interface ImageTagRevisionsItem {
 }
 export const ImageTagRevisionsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    revisionId: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    publishedBy: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    revisionId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    publishedBy: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({
   identifier: "ImageTagRevisionsItem",
@@ -604,10 +773,18 @@ export interface ImageTagRevisionsResponse {
 }
 export const ImageTagRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(ImageTagRevisionsItemList),
-    nextPageToken: S.optional(S.String),
-    tag: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      ImageTagRevisionsItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    nextPageToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ImageTagRevisionsResponse",
@@ -624,10 +801,12 @@ export interface PublishImageRequest {
 }
 export const PublishImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    tag: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    allowPublic: S.optional(S.Boolean),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tag: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    allowPublic: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -645,8 +824,8 @@ export interface PublishImageResponse {
 }
 export const PublishImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    revisionId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    revisionId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "PublishImageResponse",

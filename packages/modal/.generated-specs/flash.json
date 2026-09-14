@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "serviceName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -50,7 +56,13 @@
       "type": "structure",
       "members": {
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -61,13 +73,31 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "host": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -81,7 +111,14 @@
       "type": "structure",
       "members": {
         "containers": {
-          "target": "com.modal.flash#ListFlashContainerResponseContainerList"
+          "target": "com.modal.flash#ListFlashContainerResponseContainerList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -108,22 +145,50 @@
       "type": "structure",
       "members": {
         "serviceName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "priority": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "not used?"
+            "smithy.api#documentation": "not used?",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "weight": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "host": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
+          }
         }
       },
       "traits": {
@@ -134,7 +199,13 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -163,11 +234,21 @@
         "functionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "TODO(claudia): add other metrics to use in autoscaling decisions"
+            "smithy.api#documentation": "TODO(claudia): add other metrics to use in autoscaling decisions",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "targetSlots": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         }
       },
       "traits": {
@@ -216,7 +297,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Flash",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Flash`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Flash`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

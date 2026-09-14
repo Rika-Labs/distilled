@@ -32,11 +32,13 @@ export interface VolumeMount {
 }
 export const VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    mountPath: S.optional(S.String),
-    allowBackgroundCommits: S.optional(S.Boolean),
-    readOnly: S.optional(S.Boolean),
-    subPath: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    allowBackgroundCommits: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
+    readOnly: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    subPath: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }),
 ).annotate({ identifier: "VolumeMount" }) as any as S.Schema<VolumeMount>;
 
@@ -59,9 +61,21 @@ export interface NetworkAccess {
 }
 export const NetworkAccess = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    networkAccessType: S.optional(NetworkAccessNetworkAccessType),
-    allowedCidrs: S.optional(StringList),
-    allowedDomains: S.optional(StringList),
+    networkAccessType: S.optional(
+      NetworkAccessNetworkAccessType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: { UNSPECIFIED: 0, OPEN: 1, BLOCKED: 2, ALLOWLIST: 3 },
+        }),
+      ),
+    ),
+    allowedCidrs: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    allowedDomains: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
   }),
 ).annotate({ identifier: "NetworkAccess" }) as any as S.Schema<NetworkAccess>;
 
@@ -85,14 +99,32 @@ export interface PTYInfo {
 }
 export const PTYInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
-    winszRows: S.optional(S.Number),
-    winszCols: S.optional(S.Number),
-    envTerm: S.optional(S.String),
-    envColorterm: S.optional(S.String),
-    envTermProgram: S.optional(S.String),
-    ptyType: S.optional(PTYInfoPTYType),
-    noTerminateOnIdleStdin: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    winszRows: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    winszCols: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    envTerm: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    envColorterm: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
+    envTermProgram: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    ptyType: S.optional(
+      PTYInfoPTYType.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            PTY_TYPE_UNSPECIFIED: 0,
+            PTY_TYPE_FUNCTION: 1,
+            PTY_TYPE_SHELL: 2,
+          },
+        }),
+      ),
+    ),
+    noTerminateOnIdleStdin: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 8, t: "bool" })),
+    ),
   }),
 ).annotate({ identifier: "PTYInfo" }) as any as S.Schema<PTYInfo>;
 
@@ -115,16 +147,30 @@ export interface CreateTaskContainerRequest {
 }
 export const CreateTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerName: S.optional(S.String),
-    imageId: S.optional(S.String),
-    args: S.optional(StringList),
-    env: S.optional(StringMap),
-    workdir: S.optional(S.String),
-    secretIds: S.optional(StringList),
-    volumeMounts: S.optional(VolumeMountList),
-    networkAccess: S.optional(NetworkAccess),
-    ptyInfo: S.optional(PTYInfo),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    args: S.optional(
+      StringList.pipe(T.ProtoField({ n: 5, t: "string", rep: true })),
+    ),
+    env: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 6, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    secretIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 8, t: "string", rep: true })),
+    ),
+    volumeMounts: S.optional(
+      VolumeMountList.pipe(T.ProtoField({ n: 9, t: "message", rep: true })),
+    ),
+    networkAccess: S.optional(
+      NetworkAccess.pipe(T.ProtoField({ n: 10, t: "message" })),
+    ),
+    ptyInfo: S.optional(PTYInfo.pipe(T.ProtoField({ n: 11, t: "message" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -144,8 +190,10 @@ export interface CreateTaskContainerResponse {
 }
 export const CreateTaskContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containerId: S.optional(S.String),
-    containerName: S.optional(S.String),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "CreateTaskContainerResponse",
@@ -159,9 +207,13 @@ export interface GetTaskContainerRequest {
 }
 export const GetTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerName: S.optional(S.String),
-    includeTerminated: S.optional(S.Boolean),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    includeTerminated: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -208,15 +260,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -228,10 +302,14 @@ export interface TaskContainerInfo {
 }
 export const TaskContainerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containerId: S.optional(S.String),
-    containerName: S.optional(S.String),
-    status: S.optional(S.String),
-    result: S.optional(GenericResult),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    status: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "TaskContainerInfo",
@@ -242,7 +320,9 @@ export interface GetTaskContainerResponse {
 }
 export const GetTaskContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    container: S.optional(TaskContainerInfo),
+    container: S.optional(
+      TaskContainerInfo.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "GetTaskContainerResponse",
@@ -255,8 +335,10 @@ export interface ListTaskContainerRequest {
 }
 export const ListTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    includeTerminated: S.optional(S.Boolean),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    includeTerminated: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -278,7 +360,11 @@ export interface ListTaskContainerResponse {
 }
 export const ListTaskContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containers: S.optional(TaskContainerInfoList),
+    containers: S.optional(
+      TaskContainerInfoList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListTaskContainerResponse",
@@ -292,10 +378,10 @@ export interface SandboxStdinWriteV2Request {
 }
 export const SandboxStdinWriteV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    offset: S.optional(S.String),
-    data: S.optional(S.String),
-    eof: S.optional(S.Boolean),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    offset: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "bytes" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -320,8 +406,8 @@ export interface SandboxWaitUntilReadyRequest {
 }
 export const SandboxWaitUntilReadyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -338,7 +424,7 @@ export interface SandboxWaitUntilReadyResponse {
 }
 export const SandboxWaitUntilReadyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readyAt: S.optional(S.Number),
+    readyAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
   }),
 ).annotate({
   identifier: "SandboxWaitUntilReadyResponse",
@@ -352,8 +438,8 @@ export interface TaskExecPollRequest {
 }
 export const TaskExecPollRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    execId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -373,8 +459,8 @@ export interface TaskExecPollResponse {
 }
 export const TaskExecPollResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
-    signal: S.optional(S.Number),
+    code: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    signal: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
   }),
 ).annotate({
   identifier: "TaskExecPollResponse",
@@ -419,18 +505,53 @@ export interface TaskExecStartRequest {
 }
 export const TaskExecStartRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    execId: S.optional(S.String),
-    commandArgs: S.optional(StringList),
-    stdoutConfig: S.optional(TaskExecStdoutConfig),
-    stderrConfig: S.optional(TaskExecStderrConfig),
-    timeoutSecs: S.optional(S.Number),
-    workdir: S.optional(S.String),
-    secretIds: S.optional(StringList),
-    ptyInfo: S.optional(PTYInfo),
-    runtimeDebug: S.optional(S.Boolean),
-    containerId: S.optional(S.String),
-    env: S.optional(StringMap),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    commandArgs: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
+    stdoutConfig: S.optional(
+      TaskExecStdoutConfig.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            TASK_EXEC_STDOUT_CONFIG_DEVNULL: 0,
+            TASK_EXEC_STDOUT_CONFIG_PIPE: 1,
+          },
+        }),
+      ),
+    ),
+    stderrConfig: S.optional(
+      TaskExecStderrConfig.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            TASK_EXEC_STDERR_CONFIG_DEVNULL: 0,
+            TASK_EXEC_STDERR_CONFIG_PIPE: 1,
+            TASK_EXEC_STDERR_CONFIG_STDOUT: 2,
+          },
+        }),
+      ),
+    ),
+    timeoutSecs: S.optional(S.Number.pipe(T.ProtoField({ n: 6, t: "uint32" }))),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    secretIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 8, t: "string", rep: true })),
+    ),
+    ptyInfo: S.optional(PTYInfo.pipe(T.ProtoField({ n: 9, t: "message" }))),
+    runtimeDebug: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" })),
+    ),
+    containerId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "string" })),
+    ),
+    env: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 12, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -457,8 +578,8 @@ export interface TaskExecStdinStatusRequest {
 }
 export const TaskExecStdinStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    execId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -478,8 +599,10 @@ export interface TaskExecStdinStatusResponse {
 }
 export const TaskExecStdinStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    numBytesWritten: S.optional(S.String),
-    closed: S.optional(S.Boolean),
+    numBytesWritten: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "uint64" })),
+    ),
+    closed: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "TaskExecStdinStatusResponse",
@@ -498,11 +621,11 @@ export interface TaskExecStdinWriteRequest {
 }
 export const TaskExecStdinWriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    execId: S.optional(S.String),
-    offset: S.optional(S.String),
-    data: S.optional(S.String),
-    eof: S.optional(S.Boolean),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    offset: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "bytes" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -529,8 +652,8 @@ export interface TaskExecWaitRequest {
 }
 export const TaskExecWaitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    execId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -550,8 +673,8 @@ export interface TaskExecWaitResponse {
 }
 export const TaskExecWaitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
-    signal: S.optional(S.Number),
+    code: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    signal: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
   }),
 ).annotate({
   identifier: "TaskExecWaitResponse",
@@ -568,11 +691,13 @@ export interface TaskMountDirectoryRequest {
 }
 export const TaskMountDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    path: S.optional(S.String),
-    imageId: S.optional(S.String),
-    customerSuppliedEncryptionKey: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    customerSuppliedEncryptionKey: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "bytes" })),
+    ),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -598,8 +723,8 @@ export interface TaskReloadVolumesRequest {
 }
 export const TaskReloadVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -625,8 +750,10 @@ export interface TaskSetNetworkAccessRequest {
 }
 export const TaskSetNetworkAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    networkAccess: S.optional(NetworkAccess),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    networkAccess: S.optional(
+      NetworkAccess.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -645,6 +772,78 @@ export const TaskSetNetworkAccessResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "TaskSetNetworkAccessResponse",
 }) as any as S.Schema<TaskSetNetworkAccessResponse>;
 
+export interface OutboundPolicyHeaderReplacement {
+  /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
+  domain?: string;
+  /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
+  secretId?: string;
+  /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
+  headers?: StringMap;
+}
+export const OutboundPolicyHeaderReplacement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    headers: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "OutboundPolicyHeaderReplacement",
+}) as any as S.Schema<OutboundPolicyHeaderReplacement>;
+
+export type OutboundPolicyHeaderReplacementList =
+  Array<OutboundPolicyHeaderReplacement>;
+export const OutboundPolicyHeaderReplacementList = /*@__PURE__*/ S.Array(
+  OutboundPolicyHeaderReplacement,
+) as any as S.Schema<OutboundPolicyHeaderReplacementList>;
+
+/** Policy for outbound traffic from a sandbox. */
+export interface OutboundPolicy {
+  /** Replace headers in outbound HTTPS requests, potentially with secret values. */
+  headerReplacements?: OutboundPolicyHeaderReplacementList;
+}
+export const OutboundPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headerReplacements: S.optional(
+      OutboundPolicyHeaderReplacementList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+  }),
+).annotate({ identifier: "OutboundPolicy" }) as any as S.Schema<OutboundPolicy>;
+
+export interface TaskSetOutboundPolicyRequest {
+  taskId?: string;
+  /** Replaces the task's outbound policy. */
+  outboundPolicy?: OutboundPolicy;
+}
+export const TaskSetOutboundPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    outboundPolicy: S.optional(
+      OutboundPolicy.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.task_command_router.TaskCommandRouter/TaskSetOutboundPolicy",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "TaskSetOutboundPolicyRequest",
+}) as any as S.Schema<TaskSetOutboundPolicyRequest>;
+
+export interface TaskSetOutboundPolicyResponse {}
+export const TaskSetOutboundPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "TaskSetOutboundPolicyResponse",
+}) as any as S.Schema<TaskSetOutboundPolicyResponse>;
+
 export interface TaskSnapshotDirectoryRequest {
   taskId?: string;
   path?: string;
@@ -659,12 +858,14 @@ export interface TaskSnapshotDirectoryRequest {
 }
 export const TaskSnapshotDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    path: S.optional(S.String),
-    snapshotId: S.optional(S.String),
-    ttlSeconds: S.optional(S.String),
-    customerSuppliedEncryptionKey: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    ttlSeconds: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "int64" }))),
+    customerSuppliedEncryptionKey: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "bytes" })),
+    ),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -681,7 +882,7 @@ export interface TaskSnapshotDirectoryResponse {
 }
 export const TaskSnapshotDirectoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "TaskSnapshotDirectoryResponse",
@@ -700,11 +901,13 @@ export interface TaskSnapshotFilesystemRequest {
 }
 export const TaskSnapshotFilesystemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    snapshotId: S.optional(S.String),
-    ttlSeconds: S.optional(S.String),
-    customerSuppliedEncryptionKey: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    ttlSeconds: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "int64" }))),
+    customerSuppliedEncryptionKey: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "bytes" })),
+    ),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -721,7 +924,7 @@ export interface TaskSnapshotFilesystemResponse {
 }
 export const TaskSnapshotFilesystemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "TaskSnapshotFilesystemResponse",
@@ -733,8 +936,10 @@ export interface TaskSnapshotMemoryRequest {
 }
 export const TaskSnapshotMemoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    idempotencyKey: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    idempotencyKey: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -751,7 +956,7 @@ export interface TaskSnapshotMemoryResponse {
 }
 export const TaskSnapshotMemoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "TaskSnapshotMemoryResponse",
@@ -765,9 +970,9 @@ export interface TaskUnmountDirectoryRequest {
 }
 export const TaskUnmountDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    path: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -792,8 +997,8 @@ export interface TerminateTaskContainerRequest {
 }
 export const TerminateTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -819,9 +1024,9 @@ export interface WaitTaskContainerRequest {
 }
 export const WaitTaskContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    containerId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -838,7 +1043,9 @@ export interface WaitTaskContainerResponse {
 }
 export const WaitTaskContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "WaitTaskContainerResponse",
@@ -1032,6 +1239,21 @@ export const taskSetNetworkAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TaskSetNetworkAccessRequest,
   output: TaskSetNetworkAccessResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TaskSetOutboundPolicyError = ModalOpError;
+/** Replace the task's outbound policy. */
+export const taskSetOutboundPolicy: API.OperationMethod<
+  TaskSetOutboundPolicyRequest,
+  TaskSetOutboundPolicyResponse,
+  TaskSetOutboundPolicyError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TaskSetOutboundPolicyRequest,
+  output: TaskSetOutboundPolicyResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

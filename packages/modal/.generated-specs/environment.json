@@ -24,11 +24,22 @@
         "startTimestamp": {
           "target": "smithy.api#Timestamp",
           "traits": {
-            "smithy.api#documentation": "all query intervals are implicitly one month long (to line up with billing cycles)"
+            "smithy.api#documentation": "all query intervals are implicitly one month long (to line up with billing cycles)",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
           }
         },
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -48,21 +59,47 @@
       "type": "structure",
       "members": {
         "startTimestamp": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "endTimestamp": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "meteredCost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "not showing credits, reservations, etc as those are applied at the workspace level"
+            "smithy.api#documentation": "not showing credits, reservations, etc as those are applied at the workspace level",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "meteredCostBreakdown": {
           "target": "com.modal.environment#StringMap",
           "traits": {
-            "smithy.api#documentation": "keyed by deployed, ephemeral, volume, notebook"
+            "smithy.api#documentation": "keyed by deployed, ephemeral, volume, notebook",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         }
       },
@@ -91,16 +128,50 @@
       "type": "structure",
       "members": {
         "imageBuilderVersion": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "webhookSuffix": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "maxConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
+          }
         },
         "maxConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "int32"
+            }
+          }
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -160,22 +231,68 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "isManaged": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "settings": {
-          "target": "com.modal.environment#EnvironmentSettings"
+          "target": "com.modal.environment#EnvironmentSettings",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "environmentType": {
-          "target": "com.modal.environment#EnvironmentType"
+          "target": "com.modal.environment#EnvironmentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_TYPE_UNSPECIFIED": 0,
+                "ENVIRONMENT_TYPE_PUBLIC": 1
+              }
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         },
         "defaultMemberRoleStr": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -202,7 +319,13 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -229,7 +352,13 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -240,16 +369,40 @@
       "type": "structure",
       "members": {
         "cycleBudgetDollars": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
+          }
         },
         "effectiveCycleSpendLimit": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "currentCycleUsage": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "spendLimitReached": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -276,7 +429,13 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -287,28 +446,88 @@
       "type": "structure",
       "members": {
         "userId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serviceUserId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "avatarUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "serviceUserName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "role": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         },
         "memberRole": {
-          "target": "com.modal.environment#MemberRole"
+          "target": "com.modal.environment#MemberRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "MEMBER_ROLE_UNSPECIFIED": 0,
+                "MEMBER_ROLE_USER": 1,
+                "MEMBER_ROLE_MANAGER": 2,
+                "MEMBER_ROLE_OWNER": 3
+              }
+            }
+          }
         },
         "userName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -351,19 +570,51 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "principalRoles": {
-          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList"
+          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "additionalRoles": {
-          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList"
+          "target": "com.modal.environment#EnvironmentGetManagedResponsePrincipalEnvRoleList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -433,10 +684,30 @@
       "type": "structure",
       "members": {
         "deploymentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "objectCreationType": {
-          "target": "com.modal.environment#ObjectCreationType"
+          "target": "com.modal.environment#ObjectCreationType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "OBJECT_CREATION_TYPE_UNSPECIFIED": 0,
+                "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": 1,
+                "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": 2,
+                "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": 3,
+                "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": 4,
+                "OBJECT_CREATION_TYPE_EPHEMERAL": 5
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -447,13 +718,35 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "settings": {
-          "target": "com.modal.environment#EnvironmentSettings"
+          "target": "com.modal.environment#EnvironmentSettings",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "environmentType": {
-          "target": "com.modal.environment#EnvironmentType"
+          "target": "com.modal.environment#EnvironmentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_TYPE_UNSPECIFIED": 0,
+                "ENVIRONMENT_TYPE_PUBLIC": 1
+              }
+            }
+          }
         }
       }
     },
@@ -461,10 +754,22 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.environment#EnvironmentMetadata"
+          "target": "com.modal.environment#EnvironmentMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -491,7 +796,13 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -502,43 +813,132 @@
       "type": "structure",
       "members": {
         "userId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "serviceUserId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "avatarUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "userName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "serviceUserName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "role": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         },
         "roleStr": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "choosableRoles": {
           "target": "com.modal.environment#EnvironmentRoleList",
           "traits": {
-            "smithy.api#documentation": "String representation for the CLI"
+            "smithy.api#documentation": "String representation for the CLI",
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              },
+              "rep": true
+            }
           }
         },
         "memberRole": {
-          "target": "com.modal.environment#MemberRole"
+          "target": "com.modal.environment#MemberRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "MEMBER_ROLE_UNSPECIFIED": 0,
+                "MEMBER_ROLE_USER": 1,
+                "MEMBER_ROLE_MANAGER": 2,
+                "MEMBER_ROLE_OWNER": 3
+              }
+            }
+          }
         },
         "inheritsDefaultMemberRole": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bool"
+            }
+          }
         },
         "hasRoleAssignment": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -558,16 +958,47 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "principalRoles": {
-          "target": "com.modal.environment#EnvironmentGetRolesResponsePrincipalList"
+          "target": "com.modal.environment#EnvironmentGetRolesResponsePrincipalList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -594,55 +1025,168 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "webhookSuffix": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "default": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "isManaged": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         },
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "maxConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "int32"
+            }
+          }
         },
         "maxConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "int32"
+            }
+          }
         },
         "currentConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "int32"
+            }
+          }
         },
         "currentConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "int32"
+            }
+          }
         },
         "cycleBudgetDollars": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "double"
+            }
+          }
         },
         "effectiveCycleSpendLimit": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "manager-set"
+            "smithy.api#documentation": "manager-set",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "double"
+            }
           }
         },
         "currentCycleUsage": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "double"
+            }
+          }
         },
         "spendLimitReached": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "bool"
+            }
+          }
         },
         "environmentType": {
-          "target": "com.modal.environment#EnvironmentType"
+          "target": "com.modal.environment#EnvironmentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_TYPE_UNSPECIFIED": 0,
+                "ENVIRONMENT_TYPE_PUBLIC": 1
+              }
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -656,7 +1200,14 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.environment#EnvironmentListItemList"
+          "target": "com.modal.environment#EnvironmentListItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -683,19 +1234,55 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "userId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "serviceUserId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "role": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         },
         "roleStr": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -722,13 +1309,31 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "cycleBudgetDollars": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "clearBudget": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -755,10 +1360,28 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -785,13 +1408,37 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "managed": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -814,23 +1461,102 @@
         }
       }
     },
+    "com.modal.environment#EnvironmentBlockUnauthenticatedResources": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies."
+      }
+    },
     "com.modal.environment#UpdateEnvironmentRequest": {
       "type": "structure",
       "members": {
         "currentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "StringValue"
+            }
+          }
         },
         "webSuffix": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "wkt",
+              "w": "StringValue"
+            }
+          }
         },
         "maxConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "int32"
+            }
+          }
         },
         "maxConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "int32"
+            }
+          }
+        },
+        "blockUnauthenticatedResources": {
+          "target": "com.modal.environment#EnvironmentBlockUnauthenticatedResources",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED": 0,
+                "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT": 1,
+                "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK": 2,
+                "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -841,55 +1567,168 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "webhookSuffix": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "default": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "isManaged": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         },
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "maxConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "int32"
+            }
+          }
         },
         "maxConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "int32"
+            }
+          }
         },
         "currentConcurrentTasks": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "int32"
+            }
+          }
         },
         "currentConcurrentGpus": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "int32"
+            }
+          }
         },
         "cycleBudgetDollars": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "double"
+            }
+          }
         },
         "effectiveCycleSpendLimit": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "manager-set"
+            "smithy.api#documentation": "manager-set",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "double"
+            }
           }
         },
         "currentCycleUsage": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "double"
+            }
+          }
         },
         "spendLimitReached": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "bool"
+            }
+          }
         },
         "environmentType": {
-          "target": "com.modal.environment#EnvironmentType"
+          "target": "com.modal.environment#EnvironmentType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_TYPE_UNSPECIFIED": 0,
+                "ENVIRONMENT_TYPE_PUBLIC": 1
+              }
+            }
+          }
         },
         "defaultMemberRole": {
-          "target": "com.modal.environment#EnvironmentRole"
+          "target": "com.modal.environment#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -958,7 +1797,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Environment",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Environment`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Environment`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

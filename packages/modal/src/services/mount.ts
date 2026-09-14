@@ -22,7 +22,9 @@ export interface MountBatchedCheckExistenceRequest {
 }
 export const MountBatchedCheckExistenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sha256HexHashes: S.optional(StringList),
+    sha256HexHashes: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -39,7 +41,9 @@ export interface MountBatchedCheckExistenceResponse {
 }
 export const MountBatchedCheckExistenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    missingSha256HexHashes: S.optional(StringList),
+    missingSha256HexHashes: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "MountBatchedCheckExistenceResponse",
@@ -70,10 +74,10 @@ export interface MountFile {
 }
 export const MountFile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filename: S.optional(S.String),
-    sha256Hex: S.optional(S.String),
-    size: S.optional(S.String),
-    mode: S.optional(S.Number),
+    filename: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sha256Hex: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+    mode: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" }))),
   }),
 ).annotate({ identifier: "MountFile" }) as any as S.Schema<MountFile>;
 
@@ -92,12 +96,45 @@ export interface MountGetOrCreateRequest {
 }
 export const MountGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    namespace: S.optional(DeploymentNamespace),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
-    files: S.optional(MountFileList),
-    appId: S.optional(S.String),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    namespace: S.optional(
+      DeploymentNamespace.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            DEPLOYMENT_NAMESPACE_UNSPECIFIED: 0,
+            DEPLOYMENT_NAMESPACE_WORKSPACE: 1,
+            DEPLOYMENT_NAMESPACE_GLOBAL: 3,
+          },
+        }),
+      ),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
+    files: S.optional(
+      MountFileList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -114,7 +151,9 @@ export interface MountHandleMetadata {
 }
 export const MountHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentChecksumSha256Hex: S.optional(S.String),
+    contentChecksumSha256Hex: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "MountHandleMetadata",
@@ -126,8 +165,10 @@ export interface MountGetOrCreateResponse {
 }
 export const MountGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mountId: S.optional(S.String),
-    handleMetadata: S.optional(MountHandleMetadata),
+    mountId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    handleMetadata: S.optional(
+      MountHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "MountGetOrCreateResponse",
@@ -140,9 +181,9 @@ export interface MountPutFileRequest {
 }
 export const MountPutFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sha256Hex: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
+    sha256Hex: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -159,7 +200,7 @@ export interface MountPutFileResponse {
 }
 export const MountPutFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exists: S.optional(S.Boolean),
+    exists: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "MountPutFileResponse",

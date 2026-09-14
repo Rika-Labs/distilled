@@ -22,16 +22,40 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "offset": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bytes"
+            }
+          }
         },
         "eof": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -65,10 +89,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -79,7 +115,13 @@
       "type": "structure",
       "members": {
         "readyAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -121,19 +163,49 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "allowBackgroundCommits": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         },
         "readOnly": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "subPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -147,13 +219,39 @@
       "type": "structure",
       "members": {
         "networkAccessType": {
-          "target": "com.modal.task.command.router#NetworkAccessNetworkAccessType"
+          "target": "com.modal.task.command.router#NetworkAccessNetworkAccessType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "UNSPECIFIED": 0,
+                "OPEN": 1,
+                "BLOCKED": 2,
+                "ALLOWLIST": 3
+              }
+            }
+          }
         },
         "allowedCidrs": {
-          "target": "com.modal.task.command.router#StringList"
+          "target": "com.modal.task.command.router#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "allowedDomains": {
-          "target": "com.modal.task.command.router#StringList"
+          "target": "com.modal.task.command.router#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -190,34 +288,83 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         },
         "winszRows": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Soon deprecated"
+            "smithy.api#documentation": "Soon deprecated",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "winszCols": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "envTerm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "envColorterm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "envTermProgram": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "ptyType": {
           "target": "com.modal.task.command.router#PTYInfoPTYType",
           "traits": {
-            "smithy.api#documentation": "Replace function with shell"
+            "smithy.api#documentation": "Replace function with shell",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "PTY_TYPE_UNSPECIFIED": 0,
+                "PTY_TYPE_FUNCTION": 1,
+                "PTY_TYPE_SHELL": 2
+              }
+            }
           }
         },
         "noTerminateOnIdleStdin": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -250,48 +397,105 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Logical container name."
+            "smithy.api#documentation": "Logical container name.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "args": {
-          "target": "com.modal.task.command.router#StringList"
+          "target": "com.modal.task.command.router#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "env": {
-          "target": "com.modal.task.command.router#StringMap"
+          "target": "com.modal.task.command.router#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         },
         "workdir": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "secretIds": {
           "target": "com.modal.task.command.router#StringList",
           "traits": {
-            "smithy.api#documentation": "Secret IDs to inject into the container as environment variables."
+            "smithy.api#documentation": "Secret IDs to inject into the container as environment variables.",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "volumeMounts": {
           "target": "com.modal.task.command.router#VolumeMountList",
           "traits": {
-            "smithy.api#documentation": "Volumes to mount into the container."
+            "smithy.api#documentation": "Volumes to mount into the container.",
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "networkAccess": {
           "target": "com.modal.task.command.router#NetworkAccess",
           "traits": {
-            "smithy.api#documentation": "Outbound network policy for the sidecar, independent of the main container. When unset, defaults to open network access. BLOCKED is not accepted: a blocked sidecar has no IP and cannot reach the main container."
+            "smithy.api#documentation": "Outbound network policy for the sidecar, independent of the main container. When unset, defaults to open network access. BLOCKED is not accepted: a blocked sidecar has no IP and cannot reach the main container.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "message"
+            }
           }
         },
         "ptyInfo": {
           "target": "com.modal.task.command.router#PTYInfo",
           "traits": {
-            "smithy.api#documentation": "Optional PTY info for sidecar."
+            "smithy.api#documentation": "Optional PTY info for sidecar.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "message"
+            }
           }
         }
       },
@@ -305,13 +509,21 @@
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified container ID (for example, ctr-<ulid>)."
+            "smithy.api#documentation": "Fully qualified container ID (for example, ctr-<ulid>).",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "containerName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Logical container name associated with this container."
+            "smithy.api#documentation": "Logical container name associated with this container.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -340,15 +552,31 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "includeTerminated": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Include the latest terminated container if the name is no longer active."
+            "smithy.api#documentation": "Include the latest terminated container if the name is no longer active.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         }
       },
@@ -360,16 +588,40 @@
       "type": "structure",
       "members": {
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "status": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "result": {
-          "target": "com.modal.task.command.router#GenericResult"
+          "target": "com.modal.task.command.router#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -377,54 +629,103 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.task.command.router#GenericResultGenericStatus"
+          "target": "com.modal.task.command.router#GenericResultGenericStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GENERIC_STATUS_UNSPECIFIED": 0,
+                "GENERIC_STATUS_SUCCESS": 1,
+                "GENERIC_STATUS_FAILURE": 2,
+                "GENERIC_STATUS_TERMINATED": 3,
+                "GENERIC_STATUS_TIMEOUT": 4,
+                "GENERIC_STATUS_INIT_FAILURE": 5,
+                "GENERIC_STATUS_INTERNAL_FAILURE": 6,
+                "GENERIC_STATUS_IDLE_TIMEOUT": 7,
+                "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": 8
+              }
+            }
+          }
         },
         "exception": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the task or function output."
+            "smithy.api#documentation": "Status of the task or function output.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "exitcode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exception message for failures, if available."
+            "smithy.api#documentation": "Exception message for failures, if available.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
           }
         },
         "traceback": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "serializedTb": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "String value of the Python traceback."
+            "smithy.api#documentation": "String value of the Python traceback.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bytes"
+            }
           }
         },
         "tbLineCache": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled traceback object."
+            "smithy.api#documentation": "Pickled traceback object.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bytes"
+            }
           }
         },
         "data": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled line cache for traceback object."
+            "smithy.api#documentation": "Pickled line cache for traceback object.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "dataBlobId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Inline data of the result."
+            "smithy.api#documentation": "Inline data of the result.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
           }
         },
         "propagationReason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Blob ID for large data."
+            "smithy.api#documentation": "Blob ID for large data.",
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
           }
         }
       },
@@ -502,7 +803,13 @@
       "type": "structure",
       "members": {
         "container": {
-          "target": "com.modal.task.command.router#TaskContainerInfo"
+          "target": "com.modal.task.command.router#TaskContainerInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -530,12 +837,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "includeTerminated": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Include all tracked terminated containers in addition to active ones."
+            "smithy.api#documentation": "Include all tracked terminated containers in addition to active ones.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
           }
         }
       },
@@ -553,7 +870,14 @@
       "type": "structure",
       "members": {
         "containers": {
-          "target": "com.modal.task.command.router#TaskContainerInfoList"
+          "target": "com.modal.task.command.router#TaskContainerInfoList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -581,10 +905,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -619,13 +955,31 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -636,7 +990,13 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.task.command.router#GenericResult"
+          "target": "com.modal.task.command.router#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -666,13 +1026,21 @@
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the task running the exec'd command."
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "execId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The execution ID of the command to wait on."
+            "smithy.api#documentation": "The execution ID of the command to wait on.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -686,13 +1054,21 @@
         "code": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The exit code of the command."
+            "smithy.api#documentation": "The exit code of the command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
           }
         },
         "signal": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The signal that terminated the command."
+            "smithy.api#documentation": "The signal that terminated the command.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
           }
         }
       },
@@ -768,73 +1144,136 @@
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the task to execute the command in."
+            "smithy.api#documentation": "The ID of the task to execute the command in.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "execId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Execution ID. This ID will be used to identify the execution for other requests and ensure exec commands are idempotent."
+            "smithy.api#documentation": "Execution ID. This ID will be used to identify the execution for other requests and ensure exec commands are idempotent.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "commandArgs": {
           "target": "com.modal.task.command.router#StringList",
           "traits": {
-            "smithy.api#documentation": "Command arguments to execute."
+            "smithy.api#documentation": "Command arguments to execute.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "stdoutConfig": {
           "target": "com.modal.task.command.router#TaskExecStdoutConfig",
           "traits": {
-            "smithy.api#documentation": "Configures how the stdout of the command will be handled."
+            "smithy.api#documentation": "Configures how the stdout of the command will be handled.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "TASK_EXEC_STDOUT_CONFIG_DEVNULL": 0,
+                "TASK_EXEC_STDOUT_CONFIG_PIPE": 1
+              }
+            }
           }
         },
         "stderrConfig": {
           "target": "com.modal.task.command.router#TaskExecStderrConfig",
           "traits": {
-            "smithy.api#documentation": "Configures how the stderr of the command will be handled."
+            "smithy.api#documentation": "Configures how the stderr of the command will be handled.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "TASK_EXEC_STDERR_CONFIG_DEVNULL": 0,
+                "TASK_EXEC_STDERR_CONFIG_PIPE": 1,
+                "TASK_EXEC_STDERR_CONFIG_STDOUT": 2
+              }
+            }
           }
         },
         "timeoutSecs": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Timeout in seconds for the exec'd command to exit. If the command does not exit within this duration, the command will be killed. This is NOT the timeout for the ExecStartRequest RPC to complete."
+            "smithy.api#documentation": "Timeout in seconds for the exec'd command to exit. If the command does not exit within this duration, the command will be killed. This is NOT the timeout for the ExecStartRequest RPC to complete.",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "uint32"
+            }
           }
         },
         "workdir": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Working directory for the command."
+            "smithy.api#documentation": "Working directory for the command.",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
           }
         },
         "secretIds": {
           "target": "com.modal.task.command.router#StringList",
           "traits": {
-            "smithy.api#documentation": "Secret IDs to mount into the task."
+            "smithy.api#documentation": "Secret IDs to mount into the task.",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "ptyInfo": {
           "target": "com.modal.task.command.router#PTYInfo",
           "traits": {
-            "smithy.api#documentation": "PTY info for the command."
+            "smithy.api#documentation": "PTY info for the command.",
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
           }
         },
         "runtimeDebug": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enable debugging capabilities on the container runtime. Used only for internal debugging."
+            "smithy.api#documentation": "Enable debugging capabilities on the container runtime. Used only for internal debugging.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
           }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
           }
         },
         "env": {
           "target": "com.modal.task.command.router#StringMap",
           "traits": {
-            "smithy.api#documentation": "Environment variables to set directly for the exec'd command."
+            "smithy.api#documentation": "Environment variables to set directly for the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         }
       },
@@ -872,13 +1311,21 @@
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the task running the exec'd command."
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "execId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The execution ID of the command to query."
+            "smithy.api#documentation": "The execution ID of the command to query.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -892,13 +1339,21 @@
         "numBytesWritten": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Number of bytes the server has accepted for this exec so far. A streaming client that lost its connection should resume sending at this offset."
+            "smithy.api#documentation": "Number of bytes the server has accepted for this exec so far. A streaming client that lost its connection should resume sending at this offset.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint64"
+            }
           }
         },
         "closed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True if stdin has already been closed (EOF sent) for this exec."
+            "smithy.api#documentation": "True if stdin has already been closed (EOF sent) for this exec.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
           }
         }
       },
@@ -929,28 +1384,50 @@
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the task running the exec'd command."
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "execId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The execution ID of the command to write to."
+            "smithy.api#documentation": "The execution ID of the command to write to.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "offset": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The offset to start writing to. This is used to resume writing from the last write position if the connection is closed and reopened."
+            "smithy.api#documentation": "The offset to start writing to. This is used to resume writing from the last write position if the connection is closed and reopened.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
           }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bytes"
+            }
+          }
         },
         "eof": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If true, close the stdin stream after writing any provided data. This signals EOF to the exec'd process."
+            "smithy.api#documentation": "If true, close the stdin stream after writing any provided data. This signals EOF to the exec'd process.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
           }
         }
       },
@@ -988,13 +1465,21 @@
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the task running the exec'd command."
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "execId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The execution ID of the command to wait on."
+            "smithy.api#documentation": "The execution ID of the command to wait on.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -1008,13 +1493,21 @@
         "code": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The exit code of the command."
+            "smithy.api#documentation": "The exit code of the command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
           }
         },
         "signal": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The signal that terminated the command."
+            "smithy.api#documentation": "The signal that terminated the command.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
           }
         }
       },
@@ -1043,24 +1536,50 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "customerSuppliedEncryptionKey": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Customer-supplied encryption key used to decrypt CSEK-encrypted image metadata keys. This key is not persisted by Modal."
+            "smithy.api#documentation": "Customer-supplied encryption key used to decrypt CSEK-encrypted image metadata keys. This key is not persisted by Modal.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bytes"
+            }
           }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         }
       },
@@ -1089,12 +1608,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -1130,12 +1659,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "networkAccess": {
           "target": "com.modal.task.command.router#NetworkAccess",
           "traits": {
-            "smithy.api#documentation": "Replaces the task's network access policy. Only ALLOWLIST is currently supported; open access is expressed as an allow-all allowlist."
+            "smithy.api#documentation": "Replaces the task's network access policy. Only ALLOWLIST is currently supported; open access is expressed as an allow-all allowlist.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         }
       },
@@ -1167,37 +1706,180 @@
         "smithy.api#documentation": "Replace the task's outbound network allowlist (domains + CIDRs)."
       }
     },
+    "com.modal.task.command.router#OutboundPolicy": {
+      "type": "structure",
+      "members": {
+        "headerReplacements": {
+          "target": "com.modal.task.command.router#OutboundPolicyHeaderReplacementList",
+          "traits": {
+            "smithy.api#documentation": "Replace headers in outbound HTTPS requests, potentially with secret values.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Policy for outbound traffic from a sandbox."
+      }
+    },
+    "com.modal.task.command.router#OutboundPolicyHeaderReplacement": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain that the header replacements are scoped to. Supports wildcards in subdomain positions.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to a secret usable in the header value templates. Can be empty if no secret value is used.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        },
+        "headers": {
+          "target": "com.modal.task.command.router#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "com.modal.task.command.router#OutboundPolicyHeaderReplacementList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.task.command.router#OutboundPolicyHeaderReplacement"
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "outboundPolicy": {
+          "target": "com.modal.task.command.router#OutboundPolicy",
+          "traits": {
+            "smithy.api#documentation": "Replaces the task's outbound policy.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicyResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task.command.router#TaskSetOutboundPolicyRequest"
+      },
+      "output": {
+        "target": "com.modal.task.command.router#TaskSetOutboundPolicyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.task_command_router.TaskCommandRouter/TaskSetOutboundPolicy",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace the task's outbound policy."
+      }
+    },
     "com.modal.task.command.router#TaskSnapshotDirectoryRequest": {
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "snapshotId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A unique ID to ensure idempotency of directory snapshot requests."
+            "smithy.api#documentation": "A unique ID to ensure idempotency of directory snapshot requests.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "ttlSeconds": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Lifetime for the resulting image, in seconds. When set, the image's expires_at is a hard cutoff: it is fixed at creation time and is not extended on use. When unset, the resulting image gets the legacy retention policy: a 30-day TTL that is bumped forward by 30 days on every use, so active images effectively never expire. Sentinel: -1 means \"no expiry\" (the image never expires). 0 and other negative values are invalid and rejected by the server."
+            "smithy.api#documentation": "Lifetime for the resulting image, in seconds. When set, the image's expires_at is a hard cutoff: it is fixed at creation time and is not extended on use. When unset, the resulting image gets the legacy retention policy: a 30-day TTL that is bumped forward by 30 days on every use, so active images effectively never expire. Sentinel: -1 means \"no expiry\" (the image never expires). 0 and other negative values are invalid and rejected by the server.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "int64"
+            }
           }
         },
         "customerSuppliedEncryptionKey": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal."
+            "smithy.api#documentation": "Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
           }
         }
       },
@@ -1209,7 +1891,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1237,30 +1925,52 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "snapshotId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A unique ID to ensure idempotency of filesystem snapshot requests."
+            "smithy.api#documentation": "A unique ID to ensure idempotency of filesystem snapshot requests.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "ttlSeconds": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Lifetime for the resulting image, in seconds. Must be set. When positive, the image expiry is a hard cutoff: it is fixed at creation time and is not extended on use. Sentinel: -1 means \"no expiry\" (the image never expires). 0 and other negative values are invalid and rejected by the server."
+            "smithy.api#documentation": "Lifetime for the resulting image, in seconds. Must be set. When positive, the image expiry is a hard cutoff: it is fixed at creation time and is not extended on use. Sentinel: -1 means \"no expiry\" (the image never expires). 0 and other negative values are invalid and rejected by the server.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int64"
+            }
           }
         },
         "customerSuppliedEncryptionKey": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal."
+            "smithy.api#documentation": "Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bytes"
+            }
           }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         }
       },
@@ -1272,7 +1982,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1300,10 +2016,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "idempotencyKey": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1314,7 +2042,13 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1342,15 +2076,31 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container."
+            "smithy.api#documentation": "Fully qualified target container ID. Empty targets the main container.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         }
       },
@@ -1425,6 +2175,9 @@
           "target": "com.modal.task.command.router#TaskSetNetworkAccess"
         },
         {
+          "target": "com.modal.task.command.router#TaskSetOutboundPolicy"
+        },
+        {
           "target": "com.modal.task.command.router#TaskSnapshotDirectory"
         },
         {
@@ -1439,7 +2192,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal TaskCommandRouter",
-        "smithy.api#documentation": "modal.task_command_router.TaskCommandRouter. Each operation is POST /modal.task_command_router.TaskCommandRouter/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.task_command_router.TaskCommandRouter. Each operation is a unary binary gRPC call to POST /modal.task_command_router.TaskCommandRouter/<Method>."
       }
     }
   }

@@ -28,7 +28,14 @@
       "type": "structure",
       "members": {
         "sha256HexHashes": {
-          "target": "com.modal.mount#StringList"
+          "target": "com.modal.mount#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -39,7 +46,14 @@
       "type": "structure",
       "members": {
         "missingSha256HexHashes": {
-          "target": "com.modal.mount#StringList"
+          "target": "com.modal.mount#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -133,21 +147,41 @@
       "type": "structure",
       "members": {
         "filename": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sha256Hex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "size": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "SHA-256 checksum of the file."
+            "smithy.api#documentation": "SHA-256 checksum of the file.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
           }
         },
         "mode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild()."
+            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild().",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
           }
         }
       }
@@ -162,22 +196,72 @@
       "type": "structure",
       "members": {
         "deploymentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "namespace": {
-          "target": "com.modal.mount#DeploymentNamespace"
+          "target": "com.modal.mount#DeploymentNamespace",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "DEPLOYMENT_NAMESPACE_UNSPECIFIED": 0,
+                "DEPLOYMENT_NAMESPACE_WORKSPACE": 1,
+                "DEPLOYMENT_NAMESPACE_GLOBAL": 3
+              }
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "objectCreationType": {
-          "target": "com.modal.mount#ObjectCreationType"
+          "target": "com.modal.mount#ObjectCreationType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "OBJECT_CREATION_TYPE_UNSPECIFIED": 0,
+                "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": 1,
+                "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": 2,
+                "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": 3,
+                "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": 4,
+                "OBJECT_CREATION_TYPE_EPHEMERAL": 5
+              }
+            }
+          }
         },
         "files": {
-          "target": "com.modal.mount#MountFileList"
+          "target": "com.modal.mount#MountFileList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -188,7 +272,13 @@
       "type": "structure",
       "members": {
         "contentChecksumSha256Hex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -196,10 +286,22 @@
       "type": "structure",
       "members": {
         "mountId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "handleMetadata": {
-          "target": "com.modal.mount#MountHandleMetadata"
+          "target": "com.modal.mount#MountHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -226,13 +328,31 @@
       "type": "structure",
       "members": {
         "sha256Hex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bytes"
+            }
+          }
         },
         "dataBlobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -243,7 +363,13 @@
       "type": "structure",
       "members": {
         "exists": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -282,7 +408,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Mount",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Mount`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Mount`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

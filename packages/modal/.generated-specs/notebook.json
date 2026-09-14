@@ -22,24 +22,42 @@
       "type": "structure",
       "members": {
         "cellId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "output": {
           "target": "com.modal.notebook#NotebookOutput",
           "traits": {
-            "smithy.api#documentation": "Persistent output that is saved in the notebook."
+            "smithy.api#documentation": "Persistent output that is saved in the notebook.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         },
         "clearOutput": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Clear all previous outputs of the cell."
+            "smithy.api#documentation": "Clear all previous outputs of the cell.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         },
         "executeReply": {
           "target": "com.modal.notebook#NotebookKernelPublishResultsRequestExecuteReply",
           "traits": {
-            "smithy.api#documentation": "Cell has finished executing, return the kernel's execute_reply."
+            "smithy.api#documentation": "Cell has finished executing, return the kernel's execute_reply.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
           }
         }
       },
@@ -51,16 +69,40 @@
       "type": "structure",
       "members": {
         "executeResult": {
-          "target": "com.modal.notebook#NotebookOutputExecuteResult"
+          "target": "com.modal.notebook#NotebookOutputExecuteResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "displayData": {
-          "target": "com.modal.notebook#NotebookOutputDisplayData"
+          "target": "com.modal.notebook#NotebookOutputDisplayData",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "stream": {
-          "target": "com.modal.notebook#NotebookOutputStream"
+          "target": "com.modal.notebook#NotebookOutputStream",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "error": {
-          "target": "com.modal.notebook#NotebookOutputError"
+          "target": "com.modal.notebook#NotebookOutputError",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -71,15 +113,33 @@
       "type": "structure",
       "members": {
         "executionCount": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Struct"
+            }
+          }
         },
         "metadata": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "mimebundle"
+            "smithy.api#documentation": "mimebundle",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "wkt",
+              "w": "Struct"
+            }
           }
         }
       },
@@ -91,18 +151,34 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Struct"
+            }
+          }
         },
         "metadata": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "mimebundle"
+            "smithy.api#documentation": "mimebundle",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Struct"
+            }
           }
         },
         "transientDisplayId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "This should not be included in saved notebook."
+            "smithy.api#documentation": "This should not be included in saved notebook.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         }
       },
@@ -114,12 +190,22 @@
       "type": "structure",
       "members": {
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "text": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "stdout | stderr"
+            "smithy.api#documentation": "stdout | stderr",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -131,13 +217,32 @@
       "type": "structure",
       "members": {
         "ename": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "evalue": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "traceback": {
-          "target": "com.modal.notebook#StringList"
+          "target": "com.modal.notebook#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -154,13 +259,31 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "executionCount": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "duration": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -177,10 +300,23 @@
       "type": "structure",
       "members": {
         "notebookId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "results": {
-          "target": "com.modal.notebook#NotebookKernelPublishResultsRequestCellResultList"
+          "target": "com.modal.notebook#NotebookKernelPublishResultsRequestCellResultList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -214,7 +350,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Notebook",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Notebook`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Notebook`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

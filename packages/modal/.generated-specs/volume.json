@@ -24,13 +24,21 @@
         "volumeId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount."
+            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "containerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set by the runtime when committing a volume mounted in a sandbox sidecar container (used for runtime-driven commit-on-exit). Unset targets the task's main container."
+            "smithy.api#documentation": "Set by the runtime when committing a volume mounted in a sandbox sidecar container (used for runtime-driven commit-on-exit). Unset targets the task's main container.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -42,7 +50,13 @@
       "type": "structure",
       "members": {
         "skipReload": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -76,16 +90,41 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "srcPaths": {
-          "target": "com.modal.volume#StringList"
+          "target": "com.modal.volume#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "dstPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -112,16 +151,41 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "srcPaths": {
-          "target": "com.modal.volume#StringList"
+          "target": "com.modal.volume#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "dstPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -148,12 +212,22 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -181,7 +255,13 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -192,13 +272,36 @@
       "type": "structure",
       "members": {
         "version": {
-          "target": "com.modal.volume#VolumeFsVersion"
+          "target": "com.modal.volume#VolumeFsVersion",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "VOLUME_FS_VERSION_UNSPECIFIED": 0,
+                "VOLUME_FS_VERSION_V1": 1,
+                "VOLUME_FS_VERSION_V2": 2
+              }
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "creationInfo": {
-          "target": "com.modal.volume#CreationInfo"
+          "target": "com.modal.volume#CreationInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -234,13 +337,21 @@
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc."
+            "smithy.api#documentation": "This message is used in metadata for resource objects like Dict, Queue, Volume, etc.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
           }
         },
         "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Timestamp of resource creation"
+            "smithy.api#documentation": "Timestamp of resource creation",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       }
@@ -249,10 +360,22 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.volume#VolumeMetadata"
+          "target": "com.modal.volume#VolumeMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -279,16 +402,40 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "start": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         },
         "len": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
         }
       },
       "traits": {
@@ -299,24 +446,50 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
         },
         "dataBlobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "size": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         },
         "start": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "total file size"
+            "smithy.api#documentation": "total file size",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
           }
         },
         "len": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "file position of first byte returned"
+            "smithy.api#documentation": "file position of first byte returned",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint64"
+            }
           }
         }
       },
@@ -344,16 +517,50 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "start": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         },
         "len": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
+        },
+        "clientPadsBlocks": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -364,21 +571,42 @@
       "type": "structure",
       "members": {
         "getUrls": {
-          "target": "com.modal.volume#StringList"
+          "target": "com.modal.volume#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "size": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "start": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "total file size"
+            "smithy.api#documentation": "total file size",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
           }
         },
         "len": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "file position of first byte returned"
+            "smithy.api#documentation": "file position of first byte returned",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
           }
         }
       },
@@ -449,7 +677,17 @@
       "type": "structure",
       "members": {
         "experimentalOptions": {
-          "target": "com.modal.volume#StringMap"
+          "target": "com.modal.volume#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         }
       }
     },
@@ -466,28 +704,73 @@
       "type": "structure",
       "members": {
         "deploymentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "removed namespace"
+            "smithy.api#documentation": "removed namespace",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "objectCreationType": {
-          "target": "com.modal.volume#ObjectCreationType"
+          "target": "com.modal.volume#ObjectCreationType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "OBJECT_CREATION_TYPE_UNSPECIFIED": 0,
+                "OBJECT_CREATION_TYPE_CREATE_IF_MISSING": 1,
+                "OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS": 2,
+                "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS": 3,
+                "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP": 4,
+                "OBJECT_CREATION_TYPE_EPHEMERAL": 5
+              }
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "version": {
           "target": "com.modal.volume#VolumeFsVersion",
           "traits": {
-            "smithy.api#documentation": "only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
+            "smithy.api#documentation": "only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "VOLUME_FS_VERSION_UNSPECIFIED": 0,
+                "VOLUME_FS_VERSION_V1": 1,
+                "VOLUME_FS_VERSION_V2": 2
+              }
+            }
           }
         },
         "createOptions": {
-          "target": "com.modal.volume#VolumeCreateOptions"
+          "target": "com.modal.volume#VolumeCreateOptions",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -498,15 +781,36 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "version": {
-          "target": "com.modal.volume#VolumeFsVersion"
+          "target": "com.modal.volume#VolumeFsVersion",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "VOLUME_FS_VERSION_UNSPECIFIED": 0,
+                "VOLUME_FS_VERSION_V1": 1,
+                "VOLUME_FS_VERSION_V2": 2
+              }
+            }
+          }
         },
         "metadata": {
           "target": "com.modal.volume#VolumeMetadata",
           "traits": {
-            "smithy.api#documentation": "Not used directly; version is part of the metadata"
+            "smithy.api#documentation": "Not used directly; version is part of the metadata",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         }
       },
@@ -534,7 +838,13 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -561,10 +871,22 @@
       "type": "structure",
       "members": {
         "maxObjects": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
+          }
         },
         "createdBefore": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         }
       }
     },
@@ -572,10 +894,22 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "pagination": {
-          "target": "com.modal.volume#ListPagination"
+          "target": "com.modal.volume#ListPagination",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -586,21 +920,41 @@
       "type": "structure",
       "members": {
         "label": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "volumeId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "app name of object entity app"
+            "smithy.api#documentation": "app name of object entity app",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "metadata": {
           "target": "com.modal.volume#VolumeMetadata",
           "traits": {
-            "smithy.api#documentation": "Superseded by metadata, used by clients up to 1.1.2"
+            "smithy.api#documentation": "Superseded by metadata, used by clients up to 1.1.2",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
           }
         }
       }
@@ -615,10 +969,23 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.volume#VolumeListItemList"
+          "target": "com.modal.volume#VolumeListItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -645,21 +1012,41 @@
       "type": "structure",
       "members": {
         "filename": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sha256Hex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "size": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "SHA-256 checksum of the file."
+            "smithy.api#documentation": "SHA-256 checksum of the file.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
           }
         },
         "mode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild()."
+            "smithy.api#documentation": "Size of the file in bytes — ignored in MountBuild().",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
           }
         }
       }
@@ -674,18 +1061,33 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "files": {
           "target": "com.modal.volume#MountFileList",
           "traits": {
-            "smithy.api#documentation": "TODO(staffan): This is obviously unfortunately named, but provides what we need - consider renaming."
+            "smithy.api#documentation": "TODO(staffan): This is obviously unfortunately named, but provides what we need - consider renaming.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "disallowOverwriteExistingFiles": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)"
+            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         }
       },
@@ -715,25 +1117,42 @@
         "path": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Destination path of the file to be uploaded, including any parent dirs etc.; for example \"foo/bar/baz.txt\""
+            "smithy.api#documentation": "Destination path of the file to be uploaded, including any parent dirs etc.; for example \"foo/bar/baz.txt\"",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "size": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The total size of the file, in bytes."
+            "smithy.api#documentation": "The total size of the file, in bytes.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
           }
         },
         "blocks": {
           "target": "com.modal.volume#VolumePutFiles2RequestBlockList",
           "traits": {
-            "smithy.api#documentation": "The blocks, in units of 8MiB, that this file consists of."
+            "smithy.api#documentation": "The blocks, in units of 8MiB, that this file consists of.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "mode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Unix file permission bits `st_mode`."
+            "smithy.api#documentation": "Unix file permission bits `st_mode`.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
           }
         }
       }
@@ -744,13 +1163,21 @@
         "contentsSha256": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "The SHA256 digest of the contents of this block, in raw (ie. 32 bytes) form for compactness."
+            "smithy.api#documentation": "The SHA256 digest of the contents of this block, in raw (ie. 32 bytes) form for compactness.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
           }
         },
         "putResponse": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "From a previous call to `VolumePutFiles2`, we might have gotten a response indicating that this block was missing. For such a block, this field contains the raw bytes of the body that was returned from the HTTP PUT request when the client made a request for the `put_url` returned in the previous `VolumePutFiles2Response`."
+            "smithy.api#documentation": "From a previous call to `VolumePutFiles2`, we might have gotten a response indicating that this block was missing. For such a block, this field contains the raw bytes of the body that was returned from the HTTP PUT request when the client made a request for the `put_url` returned in the previous `VolumePutFiles2Response`.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
           }
         }
       }
@@ -773,19 +1200,32 @@
         "volumeId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the volume to put/upload files into."
+            "smithy.api#documentation": "The ID of the volume to put/upload files into.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "files": {
           "target": "com.modal.volume#VolumePutFiles2RequestFileList",
           "traits": {
-            "smithy.api#documentation": "List of files to put/upload."
+            "smithy.api#documentation": "List of files to put/upload.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "disallowOverwriteExistingFiles": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)"
+            "smithy.api#documentation": "If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.)",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         }
       },
@@ -799,19 +1239,31 @@
         "fileIndex": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Index of the file in the original `files` field of the request."
+            "smithy.api#documentation": "Index of the file in the original `files` field of the request.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint64"
+            }
           }
         },
         "blockIndex": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The index of the block in the original `files[file_index].blocks` of the request."
+            "smithy.api#documentation": "The index of the block in the original `files[file_index].blocks` of the request.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
           }
         },
         "putUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Make a HTTP PUT request to this endpoint with the blocks' contents as the body."
+            "smithy.api#documentation": "Make a HTTP PUT request to this endpoint with the blocks' contents as the body.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         }
       }
@@ -828,7 +1280,12 @@
         "missingBlocks": {
           "target": "com.modal.volume#VolumePutFiles2ResponseMissingBlockList",
           "traits": {
-            "smithy.api#documentation": "Blocks that are currently missing in the volume, because the file did not exist, or because the block checksum from `blocks_sha256` in the request did not match the current contents of the file. Values will be returned sorted by `(file_index, block_index)`. If this field is empty, it means that the files were uploaded successfully and/or that the request was an idempotent no-op."
+            "smithy.api#documentation": "Blocks that are currently missing in the volume, because the file did not exist, or because the block checksum from `blocks_sha256` in the request did not match the current contents of the file. Values will be returned sorted by `(file_index, block_index)`. If this field is empty, it means that the files were uploaded successfully and/or that the request was an idempotent no-op.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
           }
         }
       },
@@ -858,7 +1315,11 @@
         "volumeId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount."
+            "smithy.api#documentation": "NOTE(staffan): Mounting a volume in multiple locations is not supported, so volume_id alone uniquely identifies a volume mount.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         }
       },
@@ -886,13 +1347,31 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -919,13 +1398,31 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -952,10 +1449,22 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1033,7 +1542,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Volume",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Volume`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Volume`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

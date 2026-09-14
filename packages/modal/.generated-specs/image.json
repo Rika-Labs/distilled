@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -33,19 +39,51 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "startedAt": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "finishedAt": {
-          "target": "smithy.api#Timestamp"
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
         },
         "builderAppId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "builderTaskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -59,7 +97,14 @@
       "type": "structure",
       "members": {
         "buildSteps": {
-          "target": "com.modal.image#ImageBuildStepList"
+          "target": "com.modal.image#ImageBuildStepList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -87,7 +132,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -114,7 +165,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -127,31 +184,55 @@
         "pythonVersionInfo": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The output of `python -VV. Not set if missing"
+            "smithy.api#documentation": "The output of `python -VV. Not set if missing",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "pythonPackages": {
           "target": "com.modal.image#StringMap",
           "traits": {
-            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing"
+            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "workdir": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`."
+            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "libcVersionInfo": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The version of glibc in this image, if any."
+            "smithy.api#documentation": "The version of glibc in this image, if any.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "imageBuilderVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The builder version for/with which the image was created."
+            "smithy.api#documentation": "The builder version for/with which the image was created.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         }
       }
@@ -169,10 +250,22 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.image#ImageMetadata"
+          "target": "com.modal.image#ImageMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -201,13 +294,21 @@
         "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -219,7 +320,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -246,72 +353,168 @@
       "type": "structure",
       "members": {
         "baseImages": {
-          "target": "com.modal.image#BaseImageList"
+          "target": "com.modal.image#BaseImageList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "dockerfileCommands": {
-          "target": "com.modal.image#StringList"
+          "target": "com.modal.image#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "contextFiles": {
-          "target": "com.modal.image#ImageContextFileList"
+          "target": "com.modal.image#ImageContextFileList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "version": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         },
         "secretIds": {
-          "target": "com.modal.image#StringList"
+          "target": "com.modal.image#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "contextMountId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Part of Image definition, because presence of GPU drivers affects the image that's built."
+            "smithy.api#documentation": "Part of Image definition, because presence of GPU drivers affects the image that's built.",
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "string"
+            }
           }
         },
         "gpuConfig": {
-          "target": "com.modal.image#GPUConfig"
+          "target": "com.modal.image#GPUConfig",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "message"
+            }
+          }
         },
         "imageRegistryConfig": {
-          "target": "com.modal.image#ImageRegistryConfig"
+          "target": "com.modal.image#ImageRegistryConfig",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "message"
+            }
+          }
         },
         "buildFunctionDef": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "string"
+            }
+          }
         },
         "buildFunctionGlobals": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "deprecated after 0.58.96"
+            "smithy.api#documentation": "deprecated after 0.58.96",
+            "com.distilled.proto#field": {
+              "n": 18,
+              "t": "bytes"
+            }
           }
         },
         "runtime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "deprecated after 0.58.96 If set, overrides the runtime used by the function. Specify either \"runc\" or \"gvisor\"."
+            "smithy.api#documentation": "deprecated after 0.58.96 If set, overrides the runtime used by the function. Specify either \"runc\" or \"gvisor\".",
+            "com.distilled.proto#field": {
+              "n": 19,
+              "t": "string"
+            }
           }
         },
         "runtimeDebug": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Not included in image definition checksum as debug features do not affect built image."
+            "smithy.api#documentation": "Not included in image definition checksum as debug features do not affect built image.",
+            "com.distilled.proto#field": {
+              "n": 20,
+              "t": "bool"
+            }
           }
         },
         "buildFunction": {
-          "target": "com.modal.image#BuildFunction"
+          "target": "com.modal.image#BuildFunction",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 21,
+              "t": "message"
+            }
+          }
         },
         "buildArgs": {
           "target": "com.modal.image#StringMap",
           "traits": {
-            "smithy.api#documentation": "Build arguments for the image (--build-arg) for ARG substitution in Dockerfile."
+            "smithy.api#documentation": "Build arguments for the image (--build-arg) for ARG substitution in Dockerfile.",
+            "com.distilled.proto#field": {
+              "n": 22,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "volumeMounts": {
           "target": "com.modal.image#VolumeMountList",
           "traits": {
-            "smithy.api#documentation": "Volume mount for RUN commands"
+            "smithy.api#documentation": "Volume mount for RUN commands",
+            "com.distilled.proto#field": {
+              "n": 23,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "arch": {
           "target": "com.modal.image#Arch",
           "traits": {
-            "smithy.api#documentation": "CPU architecture the image is built for. Images with an unspecified arch predate this field and are treated as x86_64."
+            "smithy.api#documentation": "CPU architecture the image is built for. Images with an unspecified arch predate this field and are treated as x86_64.",
+            "com.distilled.proto#field": {
+              "n": 24,
+              "t": "enum",
+              "e": {
+                "ARCH_UNSPECIFIED": 0,
+                "ARCH_X86_64": 1,
+                "ARCH_AARCH64": 2
+              }
+            }
           }
         }
       }
@@ -320,10 +523,22 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "dockerTag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -343,10 +558,22 @@
       "type": "structure",
       "members": {
         "filename": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         }
       }
     },
@@ -360,16 +587,44 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.modal.image#GPUType"
+          "target": "com.modal.image#GPUType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GPU_TYPE_UNSPECIFIED": 0,
+                "GPU_TYPE_T4": 1,
+                "GPU_TYPE_A100": 2,
+                "GPU_TYPE_A10G": 3,
+                "GPU_TYPE_ANY": 4,
+                "GPU_TYPE_A100_80GB": 8,
+                "GPU_TYPE_L4": 9,
+                "GPU_TYPE_H100": 10,
+                "GPU_TYPE_L40S": 11,
+                "GPU_TYPE_H200": 12
+              }
+            }
+          }
         },
         "count": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Deprecated, at some point"
+            "smithy.api#documentation": "Deprecated, at some point",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "gpuType": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -443,10 +698,29 @@
       "type": "structure",
       "members": {
         "registryAuthType": {
-          "target": "com.modal.image#RegistryAuthType"
+          "target": "com.modal.image#RegistryAuthType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "REGISTRY_AUTH_TYPE_UNSPECIFIED": 0,
+                "REGISTRY_AUTH_TYPE_AWS": 1,
+                "REGISTRY_AUTH_TYPE_GCP": 2,
+                "REGISTRY_AUTH_TYPE_PUBLIC": 3,
+                "REGISTRY_AUTH_TYPE_STATIC_CREDS": 4
+              }
+            }
+          }
         },
         "secretId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -490,13 +764,31 @@
       "type": "structure",
       "members": {
         "definition": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "globals": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "input": {
-          "target": "com.modal.image#FunctionInput"
+          "target": "com.modal.image#FunctionInput",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -506,22 +798,55 @@
         "args": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "serialized (args, kwargs)."
+            "smithy.api#documentation": "serialized (args, kwargs).",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
           }
         },
         "argsBlobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "finalInput": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "bool"
+            }
+          }
         },
         "dataFormat": {
-          "target": "com.modal.image#DataFormat"
+          "target": "com.modal.image#DataFormat",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              }
+            }
+          }
         },
         "methodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "For args_oneof."
+            "smithy.api#documentation": "For args_oneof.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
           }
         }
       }
@@ -571,19 +896,49 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "allowBackgroundCommits": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         },
         "readOnly": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "subPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -646,39 +1001,92 @@
       "type": "structure",
       "members": {
         "image": {
-          "target": "com.modal.image#Image"
+          "target": "com.modal.image#Image",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "existingImageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "buildFunctionId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ignored"
+            "smithy.api#documentation": "ignored",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
           }
         },
         "forceBuild": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "bool"
+            }
+          }
         },
         "namespace": {
-          "target": "com.modal.image#DeploymentNamespace"
+          "target": "com.modal.image#DeploymentNamespace",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "DEPLOYMENT_NAMESPACE_UNSPECIFIED": 0,
+                "DEPLOYMENT_NAMESPACE_WORKSPACE": 1,
+                "DEPLOYMENT_NAMESPACE_GLOBAL": 3
+              }
+            }
+          }
         },
         "builderVersion": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "allowGlobalDeployment": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Only admins can publish global images, but this provides an extra failsafe"
+            "smithy.api#documentation": "Only admins can publish global images, but this provides an extra failsafe",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
           }
         },
         "ignoreCache": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Force the Image to build but don't clobber any Images with the same recipe in the cache"
+            "smithy.api#documentation": "Force the Image to build but don't clobber any Images with the same recipe in the cache",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bool"
+            }
           }
         }
       },
@@ -690,54 +1098,103 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.image#GenericResultGenericStatus"
+          "target": "com.modal.image#GenericResultGenericStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GENERIC_STATUS_UNSPECIFIED": 0,
+                "GENERIC_STATUS_SUCCESS": 1,
+                "GENERIC_STATUS_FAILURE": 2,
+                "GENERIC_STATUS_TERMINATED": 3,
+                "GENERIC_STATUS_TIMEOUT": 4,
+                "GENERIC_STATUS_INIT_FAILURE": 5,
+                "GENERIC_STATUS_INTERNAL_FAILURE": 6,
+                "GENERIC_STATUS_IDLE_TIMEOUT": 7,
+                "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": 8
+              }
+            }
+          }
         },
         "exception": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the task or function output."
+            "smithy.api#documentation": "Status of the task or function output.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "exitcode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exception message for failures, if available."
+            "smithy.api#documentation": "Exception message for failures, if available.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
           }
         },
         "traceback": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "serializedTb": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "String value of the Python traceback."
+            "smithy.api#documentation": "String value of the Python traceback.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bytes"
+            }
           }
         },
         "tbLineCache": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled traceback object."
+            "smithy.api#documentation": "Pickled traceback object.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bytes"
+            }
           }
         },
         "data": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled line cache for traceback object."
+            "smithy.api#documentation": "Pickled line cache for traceback object.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "dataBlobId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Inline data of the result."
+            "smithy.api#documentation": "Inline data of the result.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
           }
         },
         "propagationReason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Blob ID for large data."
+            "smithy.api#documentation": "Blob ID for large data.",
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
           }
         }
       },
@@ -817,19 +1274,31 @@
         "imageId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "image_id is set regardless if the image is built (use ImageJoinStreaming to wait for build)"
+            "smithy.api#documentation": "image_id is set regardless if the image is built (use ImageJoinStreaming to wait for build)",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "result": {
           "target": "com.modal.image#GenericResult",
           "traits": {
-            "smithy.api#documentation": "result of build - only set if the image has finished building (regardless if success or not)"
+            "smithy.api#documentation": "result of build - only set if the image has finished building (regardless if success or not)",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         },
         "metadata": {
           "target": "com.modal.image#ImageMetadata",
           "traits": {
-            "smithy.api#documentation": "image metadata - only set if the image has built successfully"
+            "smithy.api#documentation": "image metadata - only set if the image has built successfully",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         }
       },
@@ -857,22 +1326,42 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tagPrefix": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Prefix search over full \"name:tag\" strings."
+            "smithy.api#documentation": "Prefix search over full \"name:tag\" strings.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "maxObjects": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server."
+            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
           }
         },
         "pageToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -883,19 +1372,49 @@
       "type": "structure",
       "members": {
         "tag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "revisionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "double"
+            }
+          }
         },
         "updatedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -912,13 +1431,32 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.image#ImageListTagsItemList"
+          "target": "com.modal.image#ImageListTagsItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "nextPageToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -945,24 +1483,42 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "allowPublic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Explicit opt-in required when publishing to a public environment."
+            "smithy.api#documentation": "Explicit opt-in required when publishing to a public environment.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
           }
         }
       },
@@ -974,10 +1530,22 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "revisionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1006,23 +1574,41 @@
         "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted."
+            "smithy.api#documentation": "Named image reference: \"[[workspace/]environment/]name[:tag]\". The tag suffix defaults to \"latest\" when omitted.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "environmentName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix."
+            "smithy.api#documentation": "New clients should send environment name as a /-separated prefix of the `tag` field. environment_name only accepted when tag has no environment or workspace prefix.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "maxObjects": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server."
+            "smithy.api#documentation": "Defaults to 100. Values above 100 are rejected by the server.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
           }
         },
         "pageToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1033,16 +1619,40 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "revisionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
+          }
         },
         "publishedBy": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1056,16 +1666,41 @@
       "type": "structure",
       "members": {
         "items": {
-          "target": "com.modal.image#ImageTagRevisionsItemList"
+          "target": "com.modal.image#ImageTagRevisionsItemList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "nextPageToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "tag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1119,7 +1754,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Image",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Image`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Image`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

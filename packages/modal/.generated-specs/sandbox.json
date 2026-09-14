@@ -22,192 +22,413 @@
       "type": "structure",
       "members": {
         "entrypointArgs": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "mountIds": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "secretIds": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "resources": {
-          "target": "com.modal.sandbox#Resources"
+          "target": "com.modal.sandbox#Resources",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         },
         "cloudProvider": {
-          "target": "com.modal.sandbox#CloudProvider"
+          "target": "com.modal.sandbox#CloudProvider",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "CLOUD_PROVIDER_UNSPECIFIED": 0,
+                "CLOUD_PROVIDER_AWS": 1,
+                "CLOUD_PROVIDER_GCP": 2,
+                "CLOUD_PROVIDER_AUTO": 3,
+                "CLOUD_PROVIDER_OCI": 4
+              }
+            }
+          }
         },
         "timeoutSecs": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Deprecated at some point"
+            "smithy.api#documentation": "Deprecated at some point",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "uint32"
+            }
           }
         },
         "workdir": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The max lifetime of a sandbox in seconds."
+            "smithy.api#documentation": "The max lifetime of a sandbox in seconds.",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
           }
         },
         "nfsMounts": {
-          "target": "com.modal.sandbox#SharedVolumeMountList"
+          "target": "com.modal.sandbox#SharedVolumeMountList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "runtimeDebug": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
+          }
         },
         "blockNetwork": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "For internal debugging use only."
+            "smithy.api#documentation": "For internal debugging use only.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bool"
+            }
           }
         },
         "s3Mounts": {
           "target": "com.modal.sandbox#S3MountList",
           "traits": {
-            "smithy.api#documentation": "deprecated, use network_access instead"
+            "smithy.api#documentation": "deprecated, use network_access instead",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "message",
+              "rep": true
+            }
           }
         },
         "cloudBucketMounts": {
-          "target": "com.modal.sandbox#CloudBucketMountList"
+          "target": "com.modal.sandbox#CloudBucketMountList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "volumeMounts": {
-          "target": "com.modal.sandbox#VolumeMountList"
+          "target": "com.modal.sandbox#VolumeMountList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "ptyInfo": {
-          "target": "com.modal.sandbox#PTYInfo"
+          "target": "com.modal.sandbox#PTYInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "message"
+            }
+          }
         },
         "schedulerPlacement": {
           "target": "com.modal.sandbox#SchedulerPlacement",
           "traits": {
-            "smithy.api#documentation": "_experimental_scheduler"
+            "smithy.api#documentation": "_experimental_scheduler",
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "message"
+            }
           }
         },
         "workerId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "_experimental_resources"
+            "smithy.api#documentation": "_experimental_resources",
+            "com.distilled.proto#field": {
+              "n": 19,
+              "t": "string"
+            }
           }
         },
         "openPorts": {
           "target": "com.modal.sandbox#PortSpecs",
           "traits": {
-            "smithy.api#documentation": "for internal debugging use only"
+            "smithy.api#documentation": "for internal debugging use only",
+            "com.distilled.proto#field": {
+              "n": 20,
+              "t": "message"
+            }
           }
         },
         "i6pnEnabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 21,
+              "t": "bool"
+            }
+          }
         },
         "networkAccess": {
           "target": "com.modal.sandbox#NetworkAccess",
           "traits": {
-            "smithy.api#documentation": "Network access configuration beyond simple allow/block."
+            "smithy.api#documentation": "Network access configuration beyond simple allow/block.",
+            "com.distilled.proto#field": {
+              "n": 22,
+              "t": "message"
+            }
           }
         },
         "proxyId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 23,
+              "t": "string"
+            }
+          }
         },
         "enableSnapshot": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enable snapshotting the sandbox (both memory and filesystem). This doesn't need to be enabled to save the filesystem as an image (i.e. a filesystem-only snapshot)."
+            "smithy.api#documentation": "Enable snapshotting the sandbox (both memory and filesystem). This doesn't need to be enabled to save the filesystem as an image (i.e. a filesystem-only snapshot).",
+            "com.distilled.proto#field": {
+              "n": 24,
+              "t": "bool"
+            }
           }
         },
         "snapshotVersion": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client."
+            "smithy.api#documentation": "Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client.",
+            "com.distilled.proto#field": {
+              "n": 25,
+              "t": "uint32"
+            }
           }
         },
         "cloudProviderStr": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 26,
+              "t": "string"
+            }
+          }
         },
         "runscRuntimeVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time."
+            "smithy.api#documentation": "Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time.",
+            "com.distilled.proto#field": {
+              "n": 27,
+              "t": "string"
+            }
           }
         },
         "runtime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If set, overrides the runtime used by the function, either \"runc\" or \"gvisor\"."
+            "smithy.api#documentation": "If set, overrides the runtime used by the function, either \"runc\" or \"gvisor\".",
+            "com.distilled.proto#field": {
+              "n": 28,
+              "t": "string"
+            }
           }
         },
         "verbose": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set, the sandbox will be created with verbose logging enabled."
+            "smithy.api#documentation": "If set, the sandbox will be created with verbose logging enabled.",
+            "com.distilled.proto#field": {
+              "n": 29,
+              "t": "bool"
+            }
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If set, the sandbox will be created with a name."
+            "smithy.api#documentation": "If set, the sandbox will be created with a name.",
+            "com.distilled.proto#field": {
+              "n": 30,
+              "t": "string"
+            }
           }
         },
         "experimentalOptions": {
           "target": "com.modal.sandbox#BooleanMap",
           "traits": {
             "smithy.api#documentation": "Deprecated: use experimental_options_v2 instead.",
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 31,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "bool"
+              }
+            }
           }
         },
         "experimentalOptionsV2": {
           "target": "com.modal.sandbox#StringMap",
           "traits": {
-            "smithy.api#documentation": "Experimental options"
+            "smithy.api#documentation": "Experimental options",
+            "com.distilled.proto#field": {
+              "n": 41,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "preloadPathPrefixes": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 32,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "idleTimeoutSecs": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration."
+            "smithy.api#documentation": "Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration.",
+            "com.distilled.proto#field": {
+              "n": 33,
+              "t": "uint32"
+            }
           }
         },
         "directSandboxCommandsEnabled": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Deprecated: direct sandbox commands are always enabled.",
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 34,
+              "t": "bool"
+            }
           }
         },
         "RestoreInstanceType": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Internal: restricts sandbox to run on this specific instance type. Set by server during SandboxRestore to ensure the restored sandbox runs on the same instance type as the original snapshot."
+            "smithy.api#documentation": "Internal: restricts sandbox to run on this specific instance type. Set by server during SandboxRestore to ensure the restored sandbox runs on the same instance type as the original snapshot.",
+            "com.distilled.proto#field": {
+              "n": 35,
+              "t": "string"
+            }
           }
         },
         "customDomain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If set, connections to this sandbox will be subdomains of this domain rather than the default."
+            "smithy.api#documentation": "If set, connections to this sandbox will be subdomains of this domain rather than the default.",
+            "com.distilled.proto#field": {
+              "n": 36,
+              "t": "string"
+            }
           }
         },
         "includeOidcIdentityToken": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If set, the sandbox will receive a MODAL_IDENTITY_TOKEN env var, similar to how modal Function containers do. This can be used for OIDC-based authentication (e.g. to AWS, GCP)."
+            "smithy.api#documentation": "If set, the sandbox will receive a MODAL_IDENTITY_TOKEN env var, similar to how modal Function containers do. This can be used for OIDC-based authentication (e.g. to AWS, GCP).",
+            "com.distilled.proto#field": {
+              "n": 37,
+              "t": "bool"
+            }
           }
         },
         "readinessProbe": {
           "target": "com.modal.sandbox#Probe",
           "traits": {
-            "smithy.api#documentation": "Probe used to determine when the sandbox has become ready."
+            "smithy.api#documentation": "Probe used to determine when the sandbox has become ready.",
+            "com.distilled.proto#field": {
+              "n": 38,
+              "t": "message"
+            }
           }
         },
         "inboundCidrAllowlist": {
           "target": "com.modal.sandbox#StringList",
           "traits": {
-            "smithy.api#documentation": "If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy)."
+            "smithy.api#documentation": "If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy).",
+            "com.distilled.proto#field": {
+              "n": 39,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "environmentVariables": {
-          "target": "com.modal.sandbox#StringMap2"
+          "target": "com.modal.sandbox#StringMap2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 40,
+              "t": "message"
+            }
+          }
+        },
+        "outboundPolicy": {
+          "target": "com.modal.sandbox#OutboundPolicy",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 42,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -221,39 +442,71 @@
       "type": "structure",
       "members": {
         "memoryMb": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "milliCpu": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
           }
         },
         "gpuConfig": {
           "target": "com.modal.sandbox#GPUConfig",
           "traits": {
-            "smithy.api#documentation": "milli CPU cores"
+            "smithy.api#documentation": "milli CPU cores",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
           }
         },
         "memoryMbMax": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
+          }
         },
         "ephemeralDiskMb": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "uint32"
+            }
           }
         },
         "milliCpuMax": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "uint32"
+            }
           }
         },
         "rdma": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "milli CPU cores"
+            "smithy.api#documentation": "milli CPU cores",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "bool"
+            }
           }
         }
       },
@@ -265,16 +518,44 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.modal.sandbox#GPUType"
+          "target": "com.modal.sandbox#GPUType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GPU_TYPE_UNSPECIFIED": 0,
+                "GPU_TYPE_T4": 1,
+                "GPU_TYPE_A100": 2,
+                "GPU_TYPE_A10G": 3,
+                "GPU_TYPE_ANY": 4,
+                "GPU_TYPE_A100_80GB": 8,
+                "GPU_TYPE_L4": 9,
+                "GPU_TYPE_H100": 10,
+                "GPU_TYPE_L40S": 11,
+                "GPU_TYPE_H200": 12
+              }
+            }
+          }
         },
         "count": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Deprecated, at some point"
+            "smithy.api#documentation": "Deprecated, at some point",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "gpuType": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -386,13 +667,38 @@
       "type": "structure",
       "members": {
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sharedVolumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "cloudProvider": {
-          "target": "com.modal.sandbox#CloudProvider"
+          "target": "com.modal.sandbox#CloudProvider",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "CLOUD_PROVIDER_UNSPECIFIED": 0,
+                "CLOUD_PROVIDER_AWS": 1,
+                "CLOUD_PROVIDER_GCP": 2,
+                "CLOUD_PROVIDER_AUTO": 3,
+                "CLOUD_PROVIDER_OCI": 4
+              }
+            }
+          }
         }
       }
     },
@@ -406,16 +712,40 @@
       "type": "structure",
       "members": {
         "bucketName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "credentialsSecretId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "readOnly": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -429,40 +759,123 @@
       "type": "structure",
       "members": {
         "bucketName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "credentialsSecretId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "readOnly": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "bucketType": {
-          "target": "com.modal.sandbox#CloudBucketMountBucketType"
+          "target": "com.modal.sandbox#CloudBucketMountBucketType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "UNSPECIFIED": 0,
+                "S3": 1,
+                "R2": 2,
+                "GCP": 3
+              }
+            }
+          }
         },
         "requesterPays": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "bool"
+            }
+          }
         },
         "bucketEndpointUrl": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "keyPrefix": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "oidcAuthRoleArn": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "forcePathStyle": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
+          }
         },
         "metadataTtlType": {
-          "target": "com.modal.sandbox#CloudBucketMountMetadataTTLType"
+          "target": "com.modal.sandbox#CloudBucketMountMetadataTTLType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "enum",
+              "e": {
+                "METADATA_TTL_TYPE_UNSPECIFIED": 0,
+                "METADATA_TTL_TYPE_MINIMAL": 1,
+                "METADATA_TTL_TYPE_INDEFINITE": 2
+              }
+            }
+          }
         },
         "metadataTtlSeconds": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "uint64"
+            }
+          }
         }
       }
     },
@@ -528,19 +941,49 @@
       "type": "structure",
       "members": {
         "volumeId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "mountPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "allowBackgroundCommits": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         },
         "readOnly": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "subPath": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -554,34 +997,83 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         },
         "winszRows": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Soon deprecated"
+            "smithy.api#documentation": "Soon deprecated",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "winszCols": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "envTerm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "envColorterm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "envTermProgram": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "ptyType": {
           "target": "com.modal.sandbox#PTYInfoPTYType",
           "traits": {
-            "smithy.api#documentation": "Replace function with shell"
+            "smithy.api#documentation": "Replace function with shell",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "PTY_TYPE_UNSPECIFIED": 0,
+                "PTY_TYPE_FUNCTION": 1,
+                "PTY_TYPE_SHELL": 2
+              }
+            }
           }
         },
         "noTerminateOnIdleStdin": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -614,28 +1106,54 @@
       "type": "structure",
       "members": {
         "regions": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "Zone": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "Lifecycle": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "InstanceTypes": {
           "target": "com.modal.sandbox#StringList",
           "traits": {
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string",
+              "rep": true
+            }
           }
         },
         "nonpreemptible": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -646,7 +1164,14 @@
       "type": "structure",
       "members": {
         "ports": {
-          "target": "com.modal.sandbox#PortSpecList"
+          "target": "com.modal.sandbox#PortSpecList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -654,13 +1179,35 @@
       "type": "structure",
       "members": {
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         },
         "unencrypted": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "tunnelType": {
-          "target": "com.modal.sandbox#TunnelType"
+          "target": "com.modal.sandbox#TunnelType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "TUNNEL_TYPE_UNSPECIFIED": 0,
+                "TUNNEL_TYPE_H2": 1
+              }
+            }
+          }
         }
       }
     },
@@ -691,13 +1238,39 @@
       "type": "structure",
       "members": {
         "networkAccessType": {
-          "target": "com.modal.sandbox#NetworkAccessNetworkAccessType"
+          "target": "com.modal.sandbox#NetworkAccessNetworkAccessType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "UNSPECIFIED": 0,
+                "OPEN": 1,
+                "BLOCKED": 2,
+                "ALLOWLIST": 3
+              }
+            }
+          }
         },
         "allowedCidrs": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "allowedDomains": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       }
     },
@@ -752,13 +1325,31 @@
       "type": "structure",
       "members": {
         "tcpPort": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         },
         "execCommand": {
-          "target": "com.modal.sandbox#ProbeExecCommand"
+          "target": "com.modal.sandbox#ProbeExecCommand",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "intervalMs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -768,7 +1359,12 @@
         "argv": {
           "target": "com.modal.sandbox#StringList",
           "traits": {
-            "smithy.api#documentation": "Command and args to execute directly (argv form, not shell-parsed)."
+            "smithy.api#documentation": "Command and args to execute directly (argv form, not shell-parsed).",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
           }
         }
       }
@@ -777,8 +1373,82 @@
       "type": "structure",
       "members": {
         "contents": {
-          "target": "com.modal.sandbox#StringMap"
+          "target": "com.modal.sandbox#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
         }
+      }
+    },
+    "com.modal.sandbox#OutboundPolicy": {
+      "type": "structure",
+      "members": {
+        "headerReplacements": {
+          "target": "com.modal.sandbox#OutboundPolicyHeaderReplacementList",
+          "traits": {
+            "smithy.api#documentation": "Replace headers in outbound HTTPS requests, potentially with secret values.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Policy for outbound traffic from a sandbox."
+      }
+    },
+    "com.modal.sandbox#OutboundPolicyHeaderReplacement": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain that the header replacements are scoped to. Supports wildcards in subdomain positions.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to a secret usable in the header value templates. Can be empty if no secret value is used.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        },
+        "headers": {
+          "target": "com.modal.sandbox#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#OutboundPolicyHeaderReplacementList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#OutboundPolicyHeaderReplacement"
       }
     },
     "com.modal.sandbox#StringMap2Map": {
@@ -796,26 +1466,54 @@
         "sandboxId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Sandbox the container joins; it runs inside that sandbox's task."
+            "smithy.api#documentation": "Sandbox the container joins; it runs inside that sandbox's task.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "containerName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Logical container name, unique within the sandbox."
+            "smithy.api#documentation": "Logical container name, unique within the sandbox.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "definition": {
           "target": "com.modal.sandbox#Sandbox",
           "traits": {
-            "smithy.api#documentation": "Same definition type as SandboxCreateV2. Fields a container cannot honor (resources, timeouts, scheduling constraints, ...) are rejected."
+            "smithy.api#documentation": "Same definition type as SandboxCreateV2. Fields a container cannot honor (resources, timeouts, scheduling constraints, ...) are rejected.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         },
         "ephemeralSecrets": {
-          "target": "com.modal.sandbox#StringMap2"
+          "target": "com.modal.sandbox#StringMap2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "cloudBucketMountCredentials": {
-          "target": "com.modal.sandbox#StringMap2Map"
+          "target": "com.modal.sandbox#StringMap2Map",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -826,10 +1524,22 @@
       "type": "structure",
       "members": {
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -857,10 +1567,22 @@
       "type": "structure",
       "members": {
         "tagName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tagValue": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -874,18 +1596,41 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "definition": {
-          "target": "com.modal.sandbox#Sandbox"
+          "target": "com.modal.sandbox#Sandbox",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "tags": {
           "target": "com.modal.sandbox#SandboxTagList",
           "traits": {
-            "smithy.api#documentation": "*DEPRECATED* 7/16/2025"
+            "smithy.api#documentation": "*DEPRECATED* 7/16/2025",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
           }
         }
       },
@@ -897,10 +1642,22 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -908,54 +1665,103 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.sandbox#GenericResultGenericStatus"
+          "target": "com.modal.sandbox#GenericResultGenericStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GENERIC_STATUS_UNSPECIFIED": 0,
+                "GENERIC_STATUS_SUCCESS": 1,
+                "GENERIC_STATUS_FAILURE": 2,
+                "GENERIC_STATUS_TERMINATED": 3,
+                "GENERIC_STATUS_TIMEOUT": 4,
+                "GENERIC_STATUS_INIT_FAILURE": 5,
+                "GENERIC_STATUS_INTERNAL_FAILURE": 6,
+                "GENERIC_STATUS_IDLE_TIMEOUT": 7,
+                "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": 8
+              }
+            }
+          }
         },
         "exception": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the task or function output."
+            "smithy.api#documentation": "Status of the task or function output.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "exitcode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exception message for failures, if available."
+            "smithy.api#documentation": "Exception message for failures, if available.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
           }
         },
         "traceback": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "serializedTb": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "String value of the Python traceback."
+            "smithy.api#documentation": "String value of the Python traceback.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bytes"
+            }
           }
         },
         "tbLineCache": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled traceback object."
+            "smithy.api#documentation": "Pickled traceback object.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bytes"
+            }
           }
         },
         "data": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled line cache for traceback object."
+            "smithy.api#documentation": "Pickled line cache for traceback object.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "dataBlobId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Inline data of the result."
+            "smithy.api#documentation": "Inline data of the result.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
           }
         },
         "propagationReason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Blob ID for large data."
+            "smithy.api#documentation": "Blob ID for large data.",
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
           }
         }
       },
@@ -1033,10 +1839,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1063,15 +1881,31 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "userMetadata": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Uses port 8080 if unspecified."
+            "smithy.api#documentation": "Uses port 8080 if unspecified.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
           }
         }
       },
@@ -1083,10 +1917,22 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1113,15 +1959,31 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "userMetadata": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Uses port 8080 if unspecified."
+            "smithy.api#documentation": "Uses port 8080 if unspecified.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
           }
         }
       },
@@ -1133,10 +1995,22 @@
       "type": "structure",
       "members": {
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1163,19 +2037,54 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "definition": {
-          "target": "com.modal.sandbox#Sandbox"
+          "target": "com.modal.sandbox#Sandbox",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "ephemeralSecrets": {
-          "target": "com.modal.sandbox#StringMap2"
+          "target": "com.modal.sandbox#StringMap2",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "cloudBucketMountCredentials": {
-          "target": "com.modal.sandbox#StringMap2Map"
+          "target": "com.modal.sandbox#StringMap2Map",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -1186,19 +2095,49 @@
       "type": "structure",
       "members": {
         "host": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "unencryptedHost": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "unencryptedPort": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
+          }
         },
         "containerPort": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -1212,10 +2151,22 @@
       "type": "structure",
       "members": {
         "jwt": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1226,19 +2177,50 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tunnels": {
-          "target": "com.modal.sandbox#TunnelDataList"
+          "target": "com.modal.sandbox#TunnelDataList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "commandRouterAccess": {
-          "target": "com.modal.sandbox#CommandRouterAccess"
+          "target": "com.modal.sandbox#CommandRouterAccess",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1265,10 +2247,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1279,15 +2273,31 @@
       "type": "structure",
       "members": {
         "jwt": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "workerIpv4Address": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Worker's public IPv4 address. When set, clients should connect directly to this IP while still using the URL's hostname for TLS SNI and the HTTP/2 :authority header."
+            "smithy.api#documentation": "Worker's public IPv4 address. When set, clients should connect directly to this IP while still using the URL's hostname for TLS SNI and the HTTP/2 :authority header.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         }
       },
@@ -1315,10 +2325,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -1329,7 +2351,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1341,10 +2369,27 @@
       "type": "structure",
       "members": {
         "errorCode": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseErrorCode"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseErrorCode",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "ERROR_CODE_UNSPECIFIED": 0,
+                "ERROR_CODE_TIMEOUT": 1,
+                "ERROR_CODE_INTERNAL": 2
+              }
+            }
+          }
         },
         "message": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -1375,13 +2420,31 @@
       "type": "structure",
       "members": {
         "success": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "pending": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "error": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1408,10 +2471,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -1422,13 +2497,31 @@
       "type": "structure",
       "members": {
         "success": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseSuccess",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "pending": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponsePending",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "error": {
-          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError"
+          "target": "com.modal.sandbox#SandboxGetExitSnapshotResponseError",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1455,13 +2548,31 @@
       "type": "structure",
       "members": {
         "sandboxName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "appName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1472,10 +2583,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1502,13 +2625,31 @@
       "type": "structure",
       "members": {
         "sandboxName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "appName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1519,10 +2660,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -1549,7 +2702,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1560,16 +2719,40 @@
       "type": "structure",
       "members": {
         "cpuCoreNanosecs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint64"
+            }
+          }
         },
         "memGibNanosecs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "gpuNanosecs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         },
         "gpuType": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -1596,15 +2779,31 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         },
         "waitUntilReady": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout."
+            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         }
       },
@@ -1616,12 +2815,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskResult": {
           "target": "com.modal.sandbox#GenericResult",
           "traits": {
-            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled."
+            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         }
       },
@@ -1649,15 +2858,31 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         },
         "waitUntilReady": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout."
+            "smithy.api#documentation": "Legacy clients do not provide a timeout. New clients must always provide a timeout.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
           }
         }
       },
@@ -1669,12 +2894,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskResult": {
           "target": "com.modal.sandbox#GenericResult",
           "traits": {
-            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled."
+            "smithy.api#documentation": "This is None if the sandbox was terminated before a task could be scheduled.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         }
       },
@@ -1703,10 +2938,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -1717,10 +2964,23 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "tunnels": {
-          "target": "com.modal.sandbox#TunnelDataList"
+          "target": "com.modal.sandbox#TunnelDataList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -1747,10 +3007,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -1761,10 +3033,23 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "tunnels": {
-          "target": "com.modal.sandbox#TunnelDataList"
+          "target": "com.modal.sandbox#TunnelDataList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -1791,19 +3076,50 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "beforeTimestamp": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "includeFinished": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -1814,55 +3130,144 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "modal.client.Sandbox definition"
+            "smithy.api#documentation": "modal.client.Sandbox definition",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
           }
         },
         "taskInfo": {
-          "target": "com.modal.sandbox#TaskInfo"
+          "target": "com.modal.sandbox#TaskInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "TODO: Not yet exposed in client library."
+            "smithy.api#documentation": "TODO: Not yet exposed in client library.",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
           }
         },
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "string"
+            }
+          }
         },
         "resourceInfo": {
-          "target": "com.modal.sandbox#ResourceInfo"
+          "target": "com.modal.sandbox#ResourceInfo",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
+          }
         },
         "regions": {
-          "target": "com.modal.sandbox#StringList"
+          "target": "com.modal.sandbox#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "timeoutSecs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "uint32"
+            }
+          }
         },
         "idleTimeoutSecs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "uint32"
+            }
+          }
         },
         "readyAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "double"
+            }
+          }
         },
         "readinessProbe": {
-          "target": "com.modal.sandbox#Probe"
+          "target": "com.modal.sandbox#Probe",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "message"
+            }
+          }
         },
         "tunnels": {
-          "target": "com.modal.sandbox#TunnelDataList"
+          "target": "com.modal.sandbox#TunnelDataList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1870,34 +3275,92 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "startedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "finishedAt": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "For Function containers, this corresponds to the \"ready\" time, after startup phase"
+            "smithy.api#documentation": "For Function containers, this corresponds to the \"ready\" time, after startup phase",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "double"
+            }
           }
         },
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "enqueuedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "double"
+            }
+          }
         },
         "gpuType": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "snapshotBehavior": {
-          "target": "com.modal.sandbox#TaskSnapshotBehavior"
+          "target": "com.modal.sandbox#TaskSnapshotBehavior",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED": 0,
+                "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT": 1,
+                "TASK_SNAPSHOT_BEHAVIOR_RESTORE": 2,
+                "TASK_SNAPSHOT_BEHAVIOR_NONE": 3
+              }
+            }
+          }
         },
         "gpuConfig": {
-          "target": "com.modal.sandbox#GPUConfig"
+          "target": "com.modal.sandbox#GPUConfig",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
+          }
         }
       }
     },
@@ -1937,33 +3400,61 @@
       "type": "structure",
       "members": {
         "memoryMb": {
-          "target": "com.modal.sandbox#ResourceInfoResourceValue"
+          "target": "com.modal.sandbox#ResourceInfoResourceValue",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "milliCpu": {
           "target": "com.modal.sandbox#ResourceInfoResourceValue",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
           }
         },
         "gpuType": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "milli CPU cores"
+            "smithy.api#documentation": "milli CPU cores",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "memoryMbMax": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
+          }
         },
         "ephemeralDiskMb": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint32"
+            }
           }
         },
         "milliCpuMax": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "MiB"
+            "smithy.api#documentation": "MiB",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "uint32"
+            }
           }
         }
       }
@@ -1972,10 +3463,22 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         },
         "isDefault": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -1989,7 +3492,14 @@
       "type": "structure",
       "members": {
         "sandboxes": {
-          "target": "com.modal.sandbox#SandboxInfoList"
+          "target": "com.modal.sandbox#SandboxInfoList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2016,19 +3526,50 @@
       "type": "structure",
       "members": {
         "appId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "beforeTimestamp": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "includeFinished": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2039,7 +3580,14 @@
       "type": "structure",
       "members": {
         "sandboxes": {
-          "target": "com.modal.sandbox#SandboxInfoList"
+          "target": "com.modal.sandbox#SandboxInfoList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2089,25 +3637,65 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sandboxNameOverride": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "sandboxNameOverrideType": {
-          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType"
+          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED": 0,
+                "SANDBOX_NAME_OVERRIDE_TYPE_NONE": 1,
+                "SANDBOX_NAME_OVERRIDE_TYPE_STRING": 2
+              }
+            }
+          }
         },
         "workerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "replaceVolumeMounts": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "For internal debugging use only."
+            "smithy.api#documentation": "For internal debugging use only.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
           }
         },
         "volumeMounts": {
-          "target": "com.modal.sandbox#VolumeMountList"
+          "target": "com.modal.sandbox#VolumeMountList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2118,7 +3706,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2145,16 +3739,45 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sandboxNameOverride": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "sandboxNameOverrideType": {
-          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType"
+          "target": "com.modal.sandbox#RestoreSandboxRequestSandboxNameOverrideType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED": 0,
+                "SANDBOX_NAME_OVERRIDE_TYPE_NONE": 1,
+                "SANDBOX_NAME_OVERRIDE_TYPE_STRING": 2
+              }
+            }
+          }
         },
         "workerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2165,19 +3788,50 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "tunnels": {
-          "target": "com.modal.sandbox#TunnelDataList"
+          "target": "com.modal.sandbox#TunnelDataList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "commandRouterAccess": {
-          "target": "com.modal.sandbox#CommandRouterAccess"
+          "target": "com.modal.sandbox#CommandRouterAccess",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2204,10 +3858,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2241,7 +3907,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2252,7 +3924,13 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2279,10 +3957,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2295,31 +3985,55 @@
         "pythonVersionInfo": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The output of `python -VV. Not set if missing"
+            "smithy.api#documentation": "The output of `python -VV. Not set if missing",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "pythonPackages": {
           "target": "com.modal.sandbox#StringMap",
           "traits": {
-            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing"
+            "smithy.api#documentation": "Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
           }
         },
         "workdir": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`."
+            "smithy.api#documentation": "The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
           }
         },
         "libcVersionInfo": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The version of glibc in this image, if any."
+            "smithy.api#documentation": "The version of glibc in this image, if any.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "imageBuilderVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The builder version for/with which the image was created."
+            "smithy.api#documentation": "The builder version for/with which the image was created.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
           }
         }
       }
@@ -2328,15 +4042,31 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "imageMetadata": {
           "target": "com.modal.sandbox#ImageMetadata",
           "traits": {
-            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons."
+            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         }
       },
@@ -2364,7 +4094,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2375,7 +4111,13 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2402,10 +4144,22 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2416,15 +4170,31 @@
       "type": "structure",
       "members": {
         "imageId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "imageMetadata": {
           "target": "com.modal.sandbox#ImageMetadata",
           "traits": {
-            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons."
+            "smithy.api#documentation": "Metadata may be empty since we may skip it for performance reasons.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         }
       },
@@ -2452,7 +4222,13 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2463,7 +4239,13 @@
       "type": "structure",
       "members": {
         "isV2": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -2471,10 +4253,22 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "handleMetadata": {
-          "target": "com.modal.sandbox#SandboxSnapshotHandleMetadata"
+          "target": "com.modal.sandbox#SandboxSnapshotHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2501,10 +4295,22 @@
       "type": "structure",
       "members": {
         "snapshotId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2515,7 +4321,13 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2542,16 +4354,40 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "input": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "index": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "eof": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -2585,7 +4421,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2596,7 +4438,14 @@
       "type": "structure",
       "members": {
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2623,7 +4472,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2634,7 +4489,14 @@
       "type": "structure",
       "members": {
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2661,13 +4523,32 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2694,13 +4575,32 @@
       "type": "structure",
       "members": {
         "environmentName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "tags": {
-          "target": "com.modal.sandbox#SandboxTagList"
+          "target": "com.modal.sandbox#SandboxTagList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -2727,7 +4627,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2738,7 +4644,13 @@
       "type": "structure",
       "members": {
         "existingResult": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2765,7 +4677,13 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -2776,7 +4694,13 @@
       "type": "structure",
       "members": {
         "existingResult": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2803,10 +4727,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2817,10 +4753,22 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -2847,10 +4795,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2861,7 +4821,13 @@
       "type": "structure",
       "members": {
         "readyAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "double"
+            }
+          }
         }
       },
       "traits": {
@@ -2888,10 +4854,22 @@
       "type": "structure",
       "members": {
         "sandboxId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -2902,10 +4880,22 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.sandbox#GenericResult"
+          "target": "com.modal.sandbox#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "metadata": {
-          "target": "com.modal.sandbox#SandboxHandleMetadata"
+          "target": "com.modal.sandbox#SandboxHandleMetadata",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -3043,7 +5033,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Sandbox",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Sandbox`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Sandbox`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

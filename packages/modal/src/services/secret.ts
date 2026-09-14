@@ -17,7 +17,7 @@ export interface DeleteSecretRequest {
 }
 export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secretId: S.optional(S.String),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -42,8 +42,10 @@ export interface ListPagination {
 }
 export const ListPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxObjects: S.optional(S.Number),
-    createdBefore: S.optional(S.Number),
+    maxObjects: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    createdBefore: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
   }),
 ).annotate({ identifier: "ListPagination" }) as any as S.Schema<ListPagination>;
 
@@ -53,8 +55,12 @@ export interface ListSecretRequest {
 }
 export const ListSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    pagination: S.optional(ListPagination),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pagination: S.optional(
+      ListPagination.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -74,8 +80,8 @@ export interface CreationInfo {
 }
 export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdAt: S.optional(S.Number),
-    createdBy: S.optional(S.String),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
+    createdBy: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
@@ -85,8 +91,10 @@ export interface SecretMetadata {
 }
 export const SecretMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    creationInfo: S.optional(CreationInfo),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    creationInfo: S.optional(
+      CreationInfo.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "SecretMetadata" }) as any as S.Schema<SecretMetadata>;
 
@@ -102,12 +110,16 @@ export interface SecretListItem {
 }
 export const SecretListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    label: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    lastUsedAt: S.optional(S.Number),
-    environmentName: S.optional(S.String),
-    secretId: S.optional(S.String),
-    metadata: S.optional(SecretMetadata),
+    label: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    lastUsedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    metadata: S.optional(
+      SecretMetadata.pipe(T.ProtoField({ n: 6, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "SecretListItem" }) as any as S.Schema<SecretListItem>;
 
@@ -122,8 +134,12 @@ export interface ListSecretResponse {
 }
 export const ListSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(SecretListItemList),
-    environmentName: S.optional(S.String),
+    items: S.optional(
+      SecretListItemList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ListSecretResponse",
@@ -162,12 +178,37 @@ export interface SecretGetOrCreateRequest {
 }
 export const SecretGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
-    envDict: S.optional(StringMap),
-    appId: S.optional(S.String),
-    requiredKeys: S.optional(StringList),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
+    envDict: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    requiredKeys: S.optional(
+      StringList.pipe(T.ProtoField({ n: 7, t: "string", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -185,8 +226,10 @@ export interface SecretGetOrCreateResponse {
 }
 export const SecretGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secretId: S.optional(S.String),
-    metadata: S.optional(SecretMetadata),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      SecretMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SecretGetOrCreateResponse",
@@ -198,8 +241,8 @@ export interface UpdateSecretRequestUpdate {
 }
 export const UpdateSecretRequestUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
-    value: S.optional(S.String),
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "UpdateSecretRequestUpdate",
@@ -217,8 +260,12 @@ export interface UpdateSecretRequest {
 }
 export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secretId: S.optional(S.String),
-    updates: S.optional(UpdateSecretRequestUpdateList),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    updates: S.optional(
+      UpdateSecretRequestUpdateList.pipe(
+        T.ProtoField({ n: 2, t: "message", rep: true }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

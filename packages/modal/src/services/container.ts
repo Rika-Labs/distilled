@@ -17,7 +17,9 @@ export interface ContainerCheckpointRequest {
 }
 export const ContainerCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    checkpointId: S.optional(S.String),
+    checkpointId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -44,9 +46,11 @@ export interface RuntimeInputMessage {
 }
 export const RuntimeInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
-    messageIndex: S.optional(S.String),
-    eof: S.optional(S.Boolean),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    messageIndex: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "uint64" })),
+    ),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
   }),
 ).annotate({
   identifier: "RuntimeInputMessage",
@@ -58,8 +62,10 @@ export interface ContainerExecPutInputRequest {
 }
 export const ContainerExecPutInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    execId: S.optional(S.String),
-    input: S.optional(RuntimeInputMessage),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    input: S.optional(
+      RuntimeInputMessage.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -84,8 +90,8 @@ export interface ContainerExecWaitRequest {
 }
 export const ContainerExecWaitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    execId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -103,8 +109,8 @@ export interface ContainerExecWaitResponse {
 }
 export const ContainerExecWaitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exitCode: S.optional(S.Number),
-    completed: S.optional(S.Boolean),
+    exitCode: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    completed: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "ContainerExecWaitResponse",
@@ -117,8 +123,12 @@ export interface ContainerHeartbeatRequest {
 }
 export const ContainerHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    canceledInputsReturnOutputs: S.optional(S.Boolean),
-    canceledInputsReturnOutputsV2: S.optional(S.Boolean),
+    canceledInputsReturnOutputs: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
+    canceledInputsReturnOutputsV2: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -142,9 +152,15 @@ export interface CancelInputEvent {
 }
 export const CancelInputEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputIds: S.optional(StringList),
-    terminateContainers: S.optional(S.Boolean),
-    cancellationReason: S.optional(S.String),
+    inputIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
+    terminateContainers: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" })),
+    ),
+    cancellationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "CancelInputEvent",
@@ -155,7 +171,9 @@ export interface ContainerHeartbeatResponse {
 }
 export const ContainerHeartbeatResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cancelInputEvent: S.optional(CancelInputEvent),
+    cancelInputEvent: S.optional(
+      CancelInputEvent.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ContainerHeartbeatResponse",
@@ -214,10 +232,18 @@ export interface TaskProgress {
 }
 export const TaskProgress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    len: S.optional(S.String),
-    pos: S.optional(S.String),
-    progressType: S.optional(ProgressType),
-    description: S.optional(S.String),
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "uint64" }))),
+    pos: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    progressType: S.optional(
+      ProgressType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { IMAGE_SNAPSHOT_UPLOAD: 0, FUNCTION_QUEUED: 1 },
+        }),
+      ),
+    ),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({ identifier: "TaskProgress" }) as any as S.Schema<TaskProgress>;
 
@@ -235,16 +261,60 @@ export interface TaskLogs {
 }
 export const TaskLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    taskState: S.optional(TaskState),
-    timestamp: S.optional(S.Number),
-    fileDescriptor: S.optional(FileDescriptor),
-    taskProgress: S.optional(TaskProgress),
-    functionCallId: S.optional(S.String),
-    inputId: S.optional(S.String),
-    timestampNs: S.optional(S.String),
-    containerId: S.optional(S.String),
-    containerName: S.optional(S.String),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskState: S.optional(
+      TaskState.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            TASK_STATE_UNSPECIFIED: 0,
+            TASK_STATE_CREATED: 6,
+            TASK_STATE_QUEUED: 1,
+            TASK_STATE_WORKER_ASSIGNED: 2,
+            TASK_STATE_LOADING_IMAGE: 3,
+            TASK_STATE_ACTIVE: 4,
+            TASK_STATE_COMPLETED: 5,
+            TASK_STATE_CREATING_CONTAINER: 7,
+            TASK_STATE_IDLE: 8,
+            TASK_STATE_PREEMPTIBLE: 9,
+            TASK_STATE_PREEMPTED: 10,
+            TASK_STATE_LOADING_CHECKPOINT_IMAGE: 11,
+          },
+        }),
+      ),
+    ),
+    timestamp: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    taskProgress: S.optional(
+      TaskProgress.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 10, t: "string" })),
+    ),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    timestampNs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "uint64" })),
+    ),
+    containerId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 14, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "TaskLogs" }) as any as S.Schema<TaskLogs>;
 
@@ -258,7 +328,9 @@ export interface ContainerLogRequest {
 }
 export const ContainerLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logs: S.optional(TaskLogsList),
+    logs: S.optional(
+      TaskLogsList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -282,7 +354,7 @@ export interface ContainerReloadVolumesRequest {
 }
 export const ContainerReloadVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -342,14 +414,32 @@ export interface PTYInfo {
 }
 export const PTYInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
-    winszRows: S.optional(S.Number),
-    winszCols: S.optional(S.Number),
-    envTerm: S.optional(S.String),
-    envColorterm: S.optional(S.String),
-    envTermProgram: S.optional(S.String),
-    ptyType: S.optional(PTYInfoPTYType),
-    noTerminateOnIdleStdin: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    winszRows: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    winszCols: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    envTerm: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    envColorterm: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
+    envTermProgram: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    ptyType: S.optional(
+      PTYInfoPTYType.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            PTY_TYPE_UNSPECIFIED: 0,
+            PTY_TYPE_FUNCTION: 1,
+            PTY_TYPE_SHELL: 2,
+          },
+        }),
+      ),
+    ),
+    noTerminateOnIdleStdin: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 8, t: "bool" })),
+    ),
   }),
 ).annotate({ identifier: "PTYInfo" }) as any as S.Schema<PTYInfo>;
 
@@ -377,16 +467,48 @@ export interface ExecContainerRequest {
 }
 export const ExecContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    command: S.optional(StringList),
-    ptyInfo: S.optional(PTYInfo),
-    terminateContainerOnExit: S.optional(S.Boolean),
-    runtimeDebug: S.optional(S.Boolean),
-    stdoutOutput: S.optional(ExecOutputOption),
-    stderrOutput: S.optional(ExecOutputOption),
-    timeoutSecs: S.optional(S.Number),
-    workdir: S.optional(S.String),
-    secretIds: S.optional(StringList),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    command: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    ptyInfo: S.optional(PTYInfo.pipe(T.ProtoField({ n: 3, t: "message" }))),
+    terminateContainerOnExit: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
+    runtimeDebug: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
+    stdoutOutput: S.optional(
+      ExecOutputOption.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            EXEC_OUTPUT_OPTION_UNSPECIFIED: 0,
+            EXEC_OUTPUT_OPTION_DEVNULL: 1,
+            EXEC_OUTPUT_OPTION_PIPE: 2,
+            EXEC_OUTPUT_OPTION_STDOUT: 3,
+          },
+        }),
+      ),
+    ),
+    stderrOutput: S.optional(
+      ExecOutputOption.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            EXEC_OUTPUT_OPTION_UNSPECIFIED: 0,
+            EXEC_OUTPUT_OPTION_DEVNULL: 1,
+            EXEC_OUTPUT_OPTION_PIPE: 2,
+            EXEC_OUTPUT_OPTION_STDOUT: 3,
+          },
+        }),
+      ),
+    ),
+    timeoutSecs: S.optional(S.Number.pipe(T.ProtoField({ n: 8, t: "uint32" }))),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 9, t: "string" }))),
+    secretIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 10, t: "string", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -403,7 +525,7 @@ export interface ExecContainerResponse {
 }
 export const ExecContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    execId: S.optional(S.String),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "ExecContainerResponse",
@@ -417,9 +539,11 @@ export interface ContainerFileOpenRequest {
 }
 export const ContainerFileOpenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
-    path: S.optional(S.String),
-    mode: S.optional(S.String),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    mode: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }),
 ).annotate({
   identifier: "ContainerFileOpenRequest",
@@ -431,8 +555,10 @@ export interface ContainerFileWriteRequest {
 }
 export const ContainerFileWriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
-    data: S.optional(S.String),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
   }),
 ).annotate({
   identifier: "ContainerFileWriteRequest",
@@ -444,8 +570,10 @@ export interface ContainerFileReadRequest {
 }
 export const ContainerFileReadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
-    n: S.optional(S.Number),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    n: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
   }),
 ).annotate({
   identifier: "ContainerFileReadRequest",
@@ -456,7 +584,9 @@ export interface ContainerFileFlushRequest {
 }
 export const ContainerFileFlushRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ContainerFileFlushRequest",
@@ -475,9 +605,19 @@ export interface ContainerFileSeekRequest {
 }
 export const ContainerFileSeekRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
-    offset: S.optional(S.Number),
-    whence: S.optional(SeekWhence),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    offset: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
+    whence: S.optional(
+      SeekWhence.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { SEEK_SET: 0, SEEK_CUR: 1, SEEK_END: 2 },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ContainerFileSeekRequest",
@@ -490,9 +630,15 @@ export interface ContainerFileDeleteBytesRequest {
 }
 export const ContainerFileDeleteBytesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileDescriptor: S.optional(S.String),
-    startInclusive: S.optional(S.Number),
-    endExclusive: S.optional(S.Number),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    startInclusive: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" })),
+    ),
+    endExclusive: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" })),
+    ),
   }),
 ).annotate({
   identifier: "ContainerFileDeleteBytesRequest",
@@ -507,10 +653,16 @@ export interface ContainerFileWriteReplaceBytesRequest {
 export const ContainerFileWriteReplaceBytesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      fileDescriptor: S.optional(S.String),
-      data: S.optional(S.String),
-      startInclusive: S.optional(S.Number),
-      endExclusive: S.optional(S.Number),
+      fileDescriptor: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
+      data: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+      startInclusive: S.optional(
+        S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" })),
+      ),
+      endExclusive: S.optional(
+        S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" })),
+      ),
     }),
 ).annotate({
   identifier: "ContainerFileWriteReplaceBytesRequest",
@@ -524,7 +676,7 @@ export interface ContainerFileLsRequest {
 }
 export const ContainerFileLsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "ContainerFileLsRequest",
@@ -536,8 +688,8 @@ export interface ContainerFileMkdirRequest {
 }
 export const ContainerFileMkdirRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    makeParents: S.optional(S.Boolean),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    makeParents: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "ContainerFileMkdirRequest",
@@ -549,8 +701,8 @@ export interface ContainerFileRmRequest {
 }
 export const ContainerFileRmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "ContainerFileRmRequest",
@@ -563,9 +715,9 @@ export interface ContainerFileWatchRequest {
 }
 export const ContainerFileWatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    path: S.optional(S.String),
-    recursive: S.optional(S.Boolean),
-    timeoutSecs: S.optional(S.String),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    timeoutSecs: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
   }),
 ).annotate({
   identifier: "ContainerFileWatchRequest",
@@ -589,22 +741,50 @@ export interface ExecContainerFilesystemRequest {
 }
 export const ExecContainerFilesystemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileOpenRequest: S.optional(ContainerFileOpenRequest),
-    fileWriteRequest: S.optional(ContainerFileWriteRequest),
-    fileReadRequest: S.optional(ContainerFileReadRequest),
-    fileFlushRequest: S.optional(ContainerFileFlushRequest),
-    fileReadLineRequest: S.optional(ContainerFileFlushRequest),
-    fileSeekRequest: S.optional(ContainerFileSeekRequest),
-    fileDeleteBytesRequest: S.optional(ContainerFileDeleteBytesRequest),
-    fileWriteReplaceBytesRequest: S.optional(
-      ContainerFileWriteReplaceBytesRequest,
+    fileOpenRequest: S.optional(
+      ContainerFileOpenRequest.pipe(T.ProtoField({ n: 1, t: "message" })),
     ),
-    fileCloseRequest: S.optional(ContainerFileFlushRequest),
-    fileLsRequest: S.optional(ContainerFileLsRequest),
-    fileMkdirRequest: S.optional(ContainerFileMkdirRequest),
-    fileRmRequest: S.optional(ContainerFileRmRequest),
-    fileWatchRequest: S.optional(ContainerFileWatchRequest),
-    taskId: S.optional(S.String),
+    fileWriteRequest: S.optional(
+      ContainerFileWriteRequest.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    fileReadRequest: S.optional(
+      ContainerFileReadRequest.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
+    fileFlushRequest: S.optional(
+      ContainerFileFlushRequest.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    fileReadLineRequest: S.optional(
+      ContainerFileFlushRequest.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
+    fileSeekRequest: S.optional(
+      ContainerFileSeekRequest.pipe(T.ProtoField({ n: 6, t: "message" })),
+    ),
+    fileDeleteBytesRequest: S.optional(
+      ContainerFileDeleteBytesRequest.pipe(
+        T.ProtoField({ n: 7, t: "message" }),
+      ),
+    ),
+    fileWriteReplaceBytesRequest: S.optional(
+      ContainerFileWriteReplaceBytesRequest.pipe(
+        T.ProtoField({ n: 8, t: "message" }),
+      ),
+    ),
+    fileCloseRequest: S.optional(
+      ContainerFileFlushRequest.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    fileLsRequest: S.optional(
+      ContainerFileLsRequest.pipe(T.ProtoField({ n: 11, t: "message" })),
+    ),
+    fileMkdirRequest: S.optional(
+      ContainerFileMkdirRequest.pipe(T.ProtoField({ n: 12, t: "message" })),
+    ),
+    fileRmRequest: S.optional(
+      ContainerFileRmRequest.pipe(T.ProtoField({ n: 13, t: "message" })),
+    ),
+    fileWatchRequest: S.optional(
+      ContainerFileWatchRequest.pipe(T.ProtoField({ n: 14, t: "message" })),
+    ),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -623,8 +803,10 @@ export interface ExecContainerFilesystemResponse {
 }
 export const ExecContainerFilesystemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    execId: S.optional(S.String),
-    fileDescriptor: S.optional(S.String),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    fileDescriptor: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "ExecContainerFilesystemResponse",
@@ -636,8 +818,8 @@ export interface StopContainerRequest {
 }
 export const StopContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    graceful: S.optional(S.Boolean),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    graceful: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",

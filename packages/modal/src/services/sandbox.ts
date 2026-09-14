@@ -38,9 +38,28 @@ export interface GPUConfig {
 }
 export const GPUConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(GPUType),
-    count: S.optional(S.Number),
-    gpuType: S.optional(S.String),
+    type: S.optional(
+      GPUType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GPU_TYPE_UNSPECIFIED: 0,
+            GPU_TYPE_T4: 1,
+            GPU_TYPE_A100: 2,
+            GPU_TYPE_A10G: 3,
+            GPU_TYPE_ANY: 4,
+            GPU_TYPE_A100_80GB: 8,
+            GPU_TYPE_L4: 9,
+            GPU_TYPE_H100: 10,
+            GPU_TYPE_L40S: 11,
+            GPU_TYPE_H200: 12,
+          },
+        }),
+      ),
+    ),
+    count: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({ identifier: "GPUConfig" }) as any as S.Schema<GPUConfig>;
 
@@ -61,13 +80,15 @@ export interface Resources {
 }
 export const Resources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memoryMb: S.optional(S.Number),
-    milliCpu: S.optional(S.Number),
-    gpuConfig: S.optional(GPUConfig),
-    memoryMbMax: S.optional(S.Number),
-    ephemeralDiskMb: S.optional(S.Number),
-    milliCpuMax: S.optional(S.Number),
-    rdma: S.optional(S.Boolean),
+    memoryMb: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    milliCpu: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    gpuConfig: S.optional(GPUConfig.pipe(T.ProtoField({ n: 4, t: "message" }))),
+    memoryMbMax: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" }))),
+    ephemeralDiskMb: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 6, t: "uint32" })),
+    ),
+    milliCpuMax: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "uint32" }))),
+    rdma: S.optional(S.Boolean.pipe(T.ProtoField({ n: 8, t: "bool" }))),
   }),
 ).annotate({ identifier: "Resources" }) as any as S.Schema<Resources>;
 
@@ -87,9 +108,25 @@ export interface SharedVolumeMount {
 }
 export const SharedVolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mountPath: S.optional(S.String),
-    sharedVolumeId: S.optional(S.String),
-    cloudProvider: S.optional(CloudProvider),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    cloudProvider: S.optional(
+      CloudProvider.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            CLOUD_PROVIDER_UNSPECIFIED: 0,
+            CLOUD_PROVIDER_AWS: 1,
+            CLOUD_PROVIDER_GCP: 2,
+            CLOUD_PROVIDER_AUTO: 3,
+            CLOUD_PROVIDER_OCI: 4,
+          },
+        }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "SharedVolumeMount",
@@ -108,10 +145,12 @@ export interface S3Mount {
 }
 export const S3Mount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bucketName: S.optional(S.String),
-    mountPath: S.optional(S.String),
-    credentialsSecretId: S.optional(S.String),
-    readOnly: S.optional(S.Boolean),
+    bucketName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    credentialsSecretId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    readOnly: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }),
 ).annotate({ identifier: "S3Mount" }) as any as S.Schema<S3Mount>;
 
@@ -145,18 +184,50 @@ export interface CloudBucketMount {
 }
 export const CloudBucketMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bucketName: S.optional(S.String),
-    mountPath: S.optional(S.String),
-    credentialsSecretId: S.optional(S.String),
-    readOnly: S.optional(S.Boolean),
-    bucketType: S.optional(CloudBucketMountBucketType),
-    requesterPays: S.optional(S.Boolean),
-    bucketEndpointUrl: S.optional(S.String),
-    keyPrefix: S.optional(S.String),
-    oidcAuthRoleArn: S.optional(S.String),
-    forcePathStyle: S.optional(S.Boolean),
-    metadataTtlType: S.optional(CloudBucketMountMetadataTTLType),
-    metadataTtlSeconds: S.optional(S.String),
+    bucketName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    credentialsSecretId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    readOnly: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    bucketType: S.optional(
+      CloudBucketMountBucketType.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: { UNSPECIFIED: 0, S3: 1, R2: 2, GCP: 3 },
+        }),
+      ),
+    ),
+    requesterPays: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 6, t: "bool" })),
+    ),
+    bucketEndpointUrl: S.optional(
+      S.String.pipe(T.ProtoField({ n: 7, t: "string" })),
+    ),
+    keyPrefix: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    oidcAuthRoleArn: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    forcePathStyle: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" })),
+    ),
+    metadataTtlType: S.optional(
+      CloudBucketMountMetadataTTLType.pipe(
+        T.ProtoField({
+          n: 11,
+          t: "enum",
+          e: {
+            METADATA_TTL_TYPE_UNSPECIFIED: 0,
+            METADATA_TTL_TYPE_MINIMAL: 1,
+            METADATA_TTL_TYPE_INDEFINITE: 2,
+          },
+        }),
+      ),
+    ),
+    metadataTtlSeconds: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "uint64" })),
+    ),
   }),
 ).annotate({
   identifier: "CloudBucketMount",
@@ -176,11 +247,13 @@ export interface VolumeMount {
 }
 export const VolumeMount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeId: S.optional(S.String),
-    mountPath: S.optional(S.String),
-    allowBackgroundCommits: S.optional(S.Boolean),
-    readOnly: S.optional(S.Boolean),
-    subPath: S.optional(S.String),
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    mountPath: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    allowBackgroundCommits: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
+    readOnly: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    subPath: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }),
 ).annotate({ identifier: "VolumeMount" }) as any as S.Schema<VolumeMount>;
 
@@ -209,14 +282,32 @@ export interface PTYInfo {
 }
 export const PTYInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enabled: S.optional(S.Boolean),
-    winszRows: S.optional(S.Number),
-    winszCols: S.optional(S.Number),
-    envTerm: S.optional(S.String),
-    envColorterm: S.optional(S.String),
-    envTermProgram: S.optional(S.String),
-    ptyType: S.optional(PTYInfoPTYType),
-    noTerminateOnIdleStdin: S.optional(S.Boolean),
+    enabled: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    winszRows: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    winszCols: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    envTerm: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    envColorterm: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
+    envTermProgram: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "string" })),
+    ),
+    ptyType: S.optional(
+      PTYInfoPTYType.pipe(
+        T.ProtoField({
+          n: 7,
+          t: "enum",
+          e: {
+            PTY_TYPE_UNSPECIFIED: 0,
+            PTY_TYPE_FUNCTION: 1,
+            PTY_TYPE_SHELL: 2,
+          },
+        }),
+      ),
+    ),
+    noTerminateOnIdleStdin: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 8, t: "bool" })),
+    ),
   }),
 ).annotate({ identifier: "PTYInfo" }) as any as S.Schema<PTYInfo>;
 
@@ -230,11 +321,17 @@ export interface SchedulerPlacement {
 }
 export const SchedulerPlacement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    regions: S.optional(StringList),
-    Zone: S.optional(S.String),
-    Lifecycle: S.optional(S.String),
-    InstanceTypes: S.optional(StringList),
-    nonpreemptible: S.optional(S.Boolean),
+    regions: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    Zone: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    Lifecycle: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    InstanceTypes: S.optional(
+      StringList.pipe(T.ProtoField({ n: 5, t: "string", rep: true })),
+    ),
+    nonpreemptible: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 6, t: "bool" })),
+    ),
   }),
 ).annotate({
   identifier: "SchedulerPlacement",
@@ -250,9 +347,17 @@ export interface PortSpec {
 }
 export const PortSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    port: S.optional(S.Number),
-    unencrypted: S.optional(S.Boolean),
-    tunnelType: S.optional(TunnelType),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" }))),
+    unencrypted: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    tunnelType: S.optional(
+      TunnelType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { TUNNEL_TYPE_UNSPECIFIED: 0, TUNNEL_TYPE_H2: 1 },
+        }),
+      ),
+    ),
   }),
 ).annotate({ identifier: "PortSpec" }) as any as S.Schema<PortSpec>;
 
@@ -266,7 +371,9 @@ export interface PortSpecs {
 }
 export const PortSpecs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ports: S.optional(PortSpecList),
+    ports: S.optional(
+      PortSpecList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({ identifier: "PortSpecs" }) as any as S.Schema<PortSpecs>;
 
@@ -284,9 +391,21 @@ export interface NetworkAccess {
 }
 export const NetworkAccess = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    networkAccessType: S.optional(NetworkAccessNetworkAccessType),
-    allowedCidrs: S.optional(StringList),
-    allowedDomains: S.optional(StringList),
+    networkAccessType: S.optional(
+      NetworkAccessNetworkAccessType.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: { UNSPECIFIED: 0, OPEN: 1, BLOCKED: 2, ALLOWLIST: 3 },
+        }),
+      ),
+    ),
+    allowedCidrs: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    allowedDomains: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
   }),
 ).annotate({ identifier: "NetworkAccess" }) as any as S.Schema<NetworkAccess>;
 
@@ -308,7 +427,9 @@ export interface ProbeExecCommand {
 }
 export const ProbeExecCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    argv: S.optional(StringList),
+    argv: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ProbeExecCommand",
@@ -321,9 +442,11 @@ export interface Probe {
 }
 export const Probe = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tcpPort: S.optional(S.Number),
-    execCommand: S.optional(ProbeExecCommand),
-    intervalMs: S.optional(S.Number),
+    tcpPort: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" }))),
+    execCommand: S.optional(
+      ProbeExecCommand.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    intervalMs: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
   }),
 ).annotate({ identifier: "Probe" }) as any as S.Schema<Probe>;
 
@@ -332,9 +455,56 @@ export interface StringMap2 {
 }
 export const StringMap2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contents: S.optional(StringMap),
+    contents: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 1, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({ identifier: "StringMap2" }) as any as S.Schema<StringMap2>;
+
+export interface OutboundPolicyHeaderReplacement {
+  /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
+  domain?: string;
+  /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
+  secretId?: string;
+  /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
+  headers?: StringMap;
+}
+export const OutboundPolicyHeaderReplacement = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    secretId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    headers: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "OutboundPolicyHeaderReplacement",
+}) as any as S.Schema<OutboundPolicyHeaderReplacement>;
+
+export type OutboundPolicyHeaderReplacementList =
+  Array<OutboundPolicyHeaderReplacement>;
+export const OutboundPolicyHeaderReplacementList = /*@__PURE__*/ S.Array(
+  OutboundPolicyHeaderReplacement,
+) as any as S.Schema<OutboundPolicyHeaderReplacementList>;
+
+/** Policy for outbound traffic from a sandbox. */
+export interface OutboundPolicy {
+  /** Replace headers in outbound HTTPS requests, potentially with secret values. */
+  headerReplacements?: OutboundPolicyHeaderReplacementList;
+}
+export const OutboundPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headerReplacements: S.optional(
+      OutboundPolicyHeaderReplacementList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+  }),
+).annotate({ identifier: "OutboundPolicy" }) as any as S.Schema<OutboundPolicy>;
 
 export interface Sandbox {
   entrypointArgs?: StringList;
@@ -399,48 +569,128 @@ export interface Sandbox {
   /** If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy). */
   inboundCidrAllowlist?: StringList;
   environmentVariables?: StringMap2;
+  outboundPolicy?: OutboundPolicy;
 }
 export const Sandbox = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entrypointArgs: S.optional(StringList),
-    mountIds: S.optional(StringList),
-    imageId: S.optional(S.String),
-    secretIds: S.optional(StringList),
-    resources: S.optional(Resources),
-    cloudProvider: S.optional(CloudProvider),
-    timeoutSecs: S.optional(S.Number),
-    workdir: S.optional(S.String),
-    nfsMounts: S.optional(SharedVolumeMountList),
-    runtimeDebug: S.optional(S.Boolean),
-    blockNetwork: S.optional(S.Boolean),
-    s3Mounts: S.optional(S3MountList),
-    cloudBucketMounts: S.optional(CloudBucketMountList),
-    volumeMounts: S.optional(VolumeMountList),
-    ptyInfo: S.optional(PTYInfo),
-    schedulerPlacement: S.optional(SchedulerPlacement),
-    workerId: S.optional(S.String),
-    openPorts: S.optional(PortSpecs),
-    i6pnEnabled: S.optional(S.Boolean),
-    networkAccess: S.optional(NetworkAccess),
-    proxyId: S.optional(S.String),
-    enableSnapshot: S.optional(S.Boolean),
-    snapshotVersion: S.optional(S.Number),
-    cloudProviderStr: S.optional(S.String),
-    runscRuntimeVersion: S.optional(S.String),
-    runtime: S.optional(S.String),
-    verbose: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    experimentalOptions: S.optional(BooleanMap),
-    experimentalOptionsV2: S.optional(StringMap),
-    preloadPathPrefixes: S.optional(StringList),
-    idleTimeoutSecs: S.optional(S.Number),
-    directSandboxCommandsEnabled: S.optional(S.Boolean),
-    RestoreInstanceType: S.optional(S.String),
-    customDomain: S.optional(S.String),
-    includeOidcIdentityToken: S.optional(S.Boolean),
-    readinessProbe: S.optional(Probe),
-    inboundCidrAllowlist: S.optional(StringList),
-    environmentVariables: S.optional(StringMap2),
+    entrypointArgs: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
+    mountIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    secretIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    resources: S.optional(Resources.pipe(T.ProtoField({ n: 5, t: "message" }))),
+    cloudProvider: S.optional(
+      CloudProvider.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            CLOUD_PROVIDER_UNSPECIFIED: 0,
+            CLOUD_PROVIDER_AWS: 1,
+            CLOUD_PROVIDER_GCP: 2,
+            CLOUD_PROVIDER_AUTO: 3,
+            CLOUD_PROVIDER_OCI: 4,
+          },
+        }),
+      ),
+    ),
+    timeoutSecs: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "uint32" }))),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    nfsMounts: S.optional(
+      SharedVolumeMountList.pipe(
+        T.ProtoField({ n: 9, t: "message", rep: true }),
+      ),
+    ),
+    runtimeDebug: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" })),
+    ),
+    blockNetwork: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 11, t: "bool" })),
+    ),
+    s3Mounts: S.optional(
+      S3MountList.pipe(T.ProtoField({ n: 12, t: "message", rep: true })),
+    ),
+    cloudBucketMounts: S.optional(
+      CloudBucketMountList.pipe(
+        T.ProtoField({ n: 14, t: "message", rep: true }),
+      ),
+    ),
+    volumeMounts: S.optional(
+      VolumeMountList.pipe(T.ProtoField({ n: 13, t: "message", rep: true })),
+    ),
+    ptyInfo: S.optional(PTYInfo.pipe(T.ProtoField({ n: 15, t: "message" }))),
+    schedulerPlacement: S.optional(
+      SchedulerPlacement.pipe(T.ProtoField({ n: 17, t: "message" })),
+    ),
+    workerId: S.optional(S.String.pipe(T.ProtoField({ n: 19, t: "string" }))),
+    openPorts: S.optional(
+      PortSpecs.pipe(T.ProtoField({ n: 20, t: "message" })),
+    ),
+    i6pnEnabled: S.optional(S.Boolean.pipe(T.ProtoField({ n: 21, t: "bool" }))),
+    networkAccess: S.optional(
+      NetworkAccess.pipe(T.ProtoField({ n: 22, t: "message" })),
+    ),
+    proxyId: S.optional(S.String.pipe(T.ProtoField({ n: 23, t: "string" }))),
+    enableSnapshot: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 24, t: "bool" })),
+    ),
+    snapshotVersion: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 25, t: "uint32" })),
+    ),
+    cloudProviderStr: S.optional(
+      S.String.pipe(T.ProtoField({ n: 26, t: "string" })),
+    ),
+    runscRuntimeVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 27, t: "string" })),
+    ),
+    runtime: S.optional(S.String.pipe(T.ProtoField({ n: 28, t: "string" }))),
+    verbose: S.optional(S.Boolean.pipe(T.ProtoField({ n: 29, t: "bool" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 30, t: "string" }))),
+    experimentalOptions: S.optional(
+      BooleanMap.pipe(
+        T.ProtoField({ n: 31, t: "map", k: "string", v: { t: "bool" } }),
+      ),
+    ),
+    experimentalOptionsV2: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 41, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    preloadPathPrefixes: S.optional(
+      StringList.pipe(T.ProtoField({ n: 32, t: "string", rep: true })),
+    ),
+    idleTimeoutSecs: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 33, t: "uint32" })),
+    ),
+    directSandboxCommandsEnabled: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 34, t: "bool" })),
+    ),
+    RestoreInstanceType: S.optional(
+      S.String.pipe(T.ProtoField({ n: 35, t: "string" })),
+    ),
+    customDomain: S.optional(
+      S.String.pipe(T.ProtoField({ n: 36, t: "string" })),
+    ),
+    includeOidcIdentityToken: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 37, t: "bool" })),
+    ),
+    readinessProbe: S.optional(
+      Probe.pipe(T.ProtoField({ n: 38, t: "message" })),
+    ),
+    inboundCidrAllowlist: S.optional(
+      StringList.pipe(T.ProtoField({ n: 39, t: "string", rep: true })),
+    ),
+    environmentVariables: S.optional(
+      StringMap2.pipe(T.ProtoField({ n: 40, t: "message" })),
+    ),
+    outboundPolicy: S.optional(
+      OutboundPolicy.pipe(T.ProtoField({ n: 42, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "Sandbox" }) as any as S.Schema<Sandbox>;
 
@@ -450,8 +700,8 @@ export interface SandboxTag {
 }
 export const SandboxTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tagName: S.optional(S.String),
-    tagValue: S.optional(S.String),
+    tagName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tagValue: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "SandboxTag" }) as any as S.Schema<SandboxTag>;
 
@@ -469,10 +719,14 @@ export interface CreateSandboxRequest {
 }
 export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    definition: S.optional(Sandbox),
-    environmentName: S.optional(S.String),
-    tags: S.optional(SandboxTagList),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    definition: S.optional(Sandbox.pipe(T.ProtoField({ n: 2, t: "message" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 4, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -519,15 +773,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -537,8 +813,10 @@ export interface SandboxHandleMetadata {
 }
 export const SandboxHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    appId: S.optional(S.String),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxHandleMetadata",
@@ -550,8 +828,10 @@ export interface CreateSandboxResponse {
 }
 export const CreateSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    metadata: S.optional(SandboxHandleMetadata),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "CreateSandboxResponse",
@@ -562,7 +842,7 @@ export interface GetSandboxSnapshotRequest {
 }
 export const GetSandboxSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -579,7 +859,7 @@ export interface SandboxSnapshotHandleMetadata {
 }
 export const SandboxSnapshotHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isV2: S.optional(S.Boolean),
+    isV2: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
   }),
 ).annotate({
   identifier: "SandboxSnapshotHandleMetadata",
@@ -591,8 +871,10 @@ export interface GetSandboxSnapshotResponse {
 }
 export const GetSandboxSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
-    handleMetadata: S.optional(SandboxSnapshotHandleMetadata),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    handleMetadata: S.optional(
+      SandboxSnapshotHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "GetSandboxSnapshotResponse",
@@ -604,8 +886,8 @@ export interface GetSandboxSnapshotFsAsyncRequest {
 }
 export const GetSandboxSnapshotFsAsyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -631,11 +913,21 @@ export interface ImageMetadata {
 }
 export const ImageMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pythonVersionInfo: S.optional(S.String),
-    pythonPackages: S.optional(StringMap),
-    workdir: S.optional(S.String),
-    libcVersionInfo: S.optional(S.String),
-    imageBuilderVersion: S.optional(S.String),
+    pythonVersionInfo: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    pythonPackages: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    workdir: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    libcVersionInfo: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "ImageMetadata" }) as any as S.Schema<ImageMetadata>;
 
@@ -647,9 +939,13 @@ export interface GetSandboxSnapshotFsAsyncResponse {
 }
 export const GetSandboxSnapshotFsAsyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    result: S.optional(GenericResult),
-    imageMetadata: S.optional(ImageMetadata),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    imageMetadata: S.optional(
+      ImageMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "GetSandboxSnapshotFsAsyncResponse",
@@ -660,7 +956,7 @@ export interface GetSandboxTagRequest {
 }
 export const GetSandboxTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -677,7 +973,9 @@ export interface GetSandboxTagResponse {
 }
 export const GetSandboxTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(SandboxTagList),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "GetSandboxTagResponse",
@@ -692,11 +990,19 @@ export interface ListSandboxRequest {
 }
 export const ListSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    beforeTimestamp: S.optional(S.Number),
-    environmentName: S.optional(S.String),
-    includeFinished: S.optional(S.Boolean),
-    tags: S.optional(SandboxTagList),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    beforeTimestamp: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    includeFinished: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -730,15 +1036,30 @@ export interface TaskInfo {
 }
 export const TaskInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    startedAt: S.optional(S.Number),
-    finishedAt: S.optional(S.Number),
-    result: S.optional(GenericResult),
-    enqueuedAt: S.optional(S.Number),
-    gpuType: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    snapshotBehavior: S.optional(TaskSnapshotBehavior),
-    gpuConfig: S.optional(GPUConfig),
+    id: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    startedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    finishedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    enqueuedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "double" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    snapshotBehavior: S.optional(
+      TaskSnapshotBehavior.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED: 0,
+            TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT: 1,
+            TASK_SNAPSHOT_BEHAVIOR_RESTORE: 2,
+            TASK_SNAPSHOT_BEHAVIOR_NONE: 3,
+          },
+        }),
+      ),
+    ),
+    gpuConfig: S.optional(GPUConfig.pipe(T.ProtoField({ n: 9, t: "message" }))),
   }),
 ).annotate({ identifier: "TaskInfo" }) as any as S.Schema<TaskInfo>;
 
@@ -748,8 +1069,8 @@ export interface ResourceInfoResourceValue {
 }
 export const ResourceInfoResourceValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.Number),
-    isDefault: S.optional(S.Boolean),
+    value: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "uint32" }))),
+    isDefault: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
   }),
 ).annotate({
   identifier: "ResourceInfoResourceValue",
@@ -769,12 +1090,18 @@ export interface ResourceInfo {
 }
 export const ResourceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memoryMb: S.optional(ResourceInfoResourceValue),
-    milliCpu: S.optional(ResourceInfoResourceValue),
-    gpuType: S.optional(S.String),
-    memoryMbMax: S.optional(S.Number),
-    ephemeralDiskMb: S.optional(S.Number),
-    milliCpuMax: S.optional(S.Number),
+    memoryMb: S.optional(
+      ResourceInfoResourceValue.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    milliCpu: S.optional(
+      ResourceInfoResourceValue.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    memoryMbMax: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" }))),
+    ephemeralDiskMb: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" })),
+    ),
+    milliCpuMax: S.optional(S.Number.pipe(T.ProtoField({ n: 6, t: "uint32" }))),
   }),
 ).annotate({ identifier: "ResourceInfo" }) as any as S.Schema<ResourceInfo>;
 
@@ -787,11 +1114,17 @@ export interface TunnelData {
 }
 export const TunnelData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
-    unencryptedHost: S.optional(S.String),
-    unencryptedPort: S.optional(S.Number),
-    containerPort: S.optional(S.Number),
+    host: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    unencryptedHost: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    unencryptedPort: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "uint32" })),
+    ),
+    containerPort: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" })),
+    ),
   }),
 ).annotate({ identifier: "TunnelData" }) as any as S.Schema<TunnelData>;
 
@@ -821,21 +1154,37 @@ export interface SandboxInfo {
 }
 export const SandboxInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    taskInfo: S.optional(TaskInfo),
-    appId: S.optional(S.String),
-    tags: S.optional(SandboxTagList),
-    name: S.optional(S.String),
-    imageId: S.optional(S.String),
-    resourceInfo: S.optional(ResourceInfo),
-    regions: S.optional(StringList),
-    timeoutSecs: S.optional(S.Number),
-    idleTimeoutSecs: S.optional(S.Number),
-    readyAt: S.optional(S.Number),
-    readinessProbe: S.optional(Probe),
-    tunnels: S.optional(TunnelDataList),
-    metadata: S.optional(SandboxHandleMetadata),
+    id: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    taskInfo: S.optional(TaskInfo.pipe(T.ProtoField({ n: 4, t: "message" }))),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 6, t: "message", rep: true })),
+    ),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    resourceInfo: S.optional(
+      ResourceInfo.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    regions: S.optional(
+      StringList.pipe(T.ProtoField({ n: 10, t: "string", rep: true })),
+    ),
+    timeoutSecs: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 11, t: "uint32" })),
+    ),
+    idleTimeoutSecs: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 12, t: "uint32" })),
+    ),
+    readyAt: S.optional(S.Number.pipe(T.ProtoField({ n: 13, t: "double" }))),
+    readinessProbe: S.optional(
+      Probe.pipe(T.ProtoField({ n: 14, t: "message" })),
+    ),
+    tunnels: S.optional(
+      TunnelDataList.pipe(T.ProtoField({ n: 15, t: "message", rep: true })),
+    ),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 16, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "SandboxInfo" }) as any as S.Schema<SandboxInfo>;
 
@@ -849,7 +1198,9 @@ export interface ListSandboxResponse {
 }
 export const ListSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxes: S.optional(SandboxInfoList),
+    sandboxes: S.optional(
+      SandboxInfoList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListSandboxResponse",
@@ -874,14 +1225,30 @@ export interface RestoreSandboxRequest {
 }
 export const RestoreSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
-    sandboxNameOverride: S.optional(S.String),
-    sandboxNameOverrideType: S.optional(
-      RestoreSandboxRequestSandboxNameOverrideType,
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sandboxNameOverride: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
     ),
-    workerId: S.optional(S.String),
-    replaceVolumeMounts: S.optional(S.Boolean),
-    volumeMounts: S.optional(VolumeMountList),
+    sandboxNameOverrideType: S.optional(
+      RestoreSandboxRequestSandboxNameOverrideType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED: 0,
+            SANDBOX_NAME_OVERRIDE_TYPE_NONE: 1,
+            SANDBOX_NAME_OVERRIDE_TYPE_STRING: 2,
+          },
+        }),
+      ),
+    ),
+    workerId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    replaceVolumeMounts: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
+    volumeMounts: S.optional(
+      VolumeMountList.pipe(T.ProtoField({ n: 6, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -898,7 +1265,7 @@ export interface RestoreSandboxResponse {
 }
 export const RestoreSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "RestoreSandboxResponse",
@@ -922,11 +1289,19 @@ export interface SandboxContainerCreateV2Request {
 }
 export const SandboxContainerCreateV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    containerName: S.optional(S.String),
-    definition: S.optional(Sandbox),
-    ephemeralSecrets: S.optional(StringMap2),
-    cloudBucketMountCredentials: S.optional(StringMap2Map),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    definition: S.optional(Sandbox.pipe(T.ProtoField({ n: 3, t: "message" }))),
+    ephemeralSecrets: S.optional(
+      StringMap2.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    cloudBucketMountCredentials: S.optional(
+      StringMap2Map.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "message" } }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -944,8 +1319,10 @@ export interface SandboxContainerCreateV2Response {
 }
 export const SandboxContainerCreateV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containerId: S.optional(S.String),
-    containerName: S.optional(S.String),
+    containerId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxContainerCreateV2Response",
@@ -959,9 +1336,11 @@ export interface SandboxCreateConnectTokenRequest {
 }
 export const SandboxCreateConnectTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    userMetadata: S.optional(S.String),
-    port: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    userMetadata: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -979,8 +1358,8 @@ export interface SandboxCreateConnectTokenResponse {
 }
 export const SandboxCreateConnectTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    token: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    token: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxCreateConnectTokenResponse",
@@ -994,9 +1373,11 @@ export interface SandboxCreateConnectTokenV2Request {
 }
 export const SandboxCreateConnectTokenV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    userMetadata: S.optional(S.String),
-    port: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    userMetadata: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1014,8 +1395,8 @@ export interface SandboxCreateConnectTokenV2Response {
 }
 export const SandboxCreateConnectTokenV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    token: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    token: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxCreateConnectTokenV2Response",
@@ -1030,11 +1411,19 @@ export interface SandboxCreateV2Request {
 }
 export const SandboxCreateV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    definition: S.optional(Sandbox),
-    ephemeralSecrets: S.optional(StringMap2),
-    tags: S.optional(SandboxTagList),
-    cloudBucketMountCredentials: S.optional(StringMap2Map),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    definition: S.optional(Sandbox.pipe(T.ProtoField({ n: 2, t: "message" }))),
+    ephemeralSecrets: S.optional(
+      StringMap2.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 4, t: "message", rep: true })),
+    ),
+    cloudBucketMountCredentials: S.optional(
+      StringMap2Map.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "message" } }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1053,8 +1442,8 @@ export interface CommandRouterAccess {
 }
 export const CommandRouterAccess = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    jwt: S.optional(S.String),
-    url: S.optional(S.String),
+    jwt: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "CommandRouterAccess",
@@ -1069,11 +1458,17 @@ export interface SandboxCreateV2Response {
 }
 export const SandboxCreateV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    tunnels: S.optional(TunnelDataList),
-    taskId: S.optional(S.String),
-    metadata: S.optional(SandboxHandleMetadata),
-    commandRouterAccess: S.optional(CommandRouterAccess),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tunnels: S.optional(
+      TunnelDataList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    commandRouterAccess: S.optional(
+      CommandRouterAccess.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxCreateV2Response",
@@ -1086,8 +1481,8 @@ export interface SandboxGetCommandRouterAccessRequest {
 export const SandboxGetCommandRouterAccessRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      sandboxId: S.optional(S.String),
-      taskId: S.optional(S.String),
+      sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      taskId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
     }).pipe(
       T.Http({
         method: "POST",
@@ -1108,9 +1503,11 @@ export interface SandboxGetCommandRouterAccessResponse {
 export const SandboxGetCommandRouterAccessResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      jwt: S.optional(S.String),
-      url: S.optional(S.String),
-      workerIpv4Address: S.optional(S.String),
+      jwt: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      url: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+      workerIpv4Address: S.optional(
+        S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+      ),
     }),
 ).annotate({
   identifier: "SandboxGetCommandRouterAccessResponse",
@@ -1122,8 +1519,8 @@ export interface SandboxGetExitSnapshotRequest {
 }
 export const SandboxGetExitSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1141,7 +1538,7 @@ export interface SandboxGetExitSnapshotResponseSuccess {
 export const SandboxGetExitSnapshotResponseSuccess = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      imageId: S.optional(S.String),
+      imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
     }),
 ).annotate({
   identifier: "SandboxGetExitSnapshotResponseSuccess",
@@ -1166,8 +1563,20 @@ export interface SandboxGetExitSnapshotResponseError {
 }
 export const SandboxGetExitSnapshotResponseError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errorCode: S.optional(SandboxGetExitSnapshotResponseErrorCode),
-    message: S.optional(S.String),
+    errorCode: S.optional(
+      SandboxGetExitSnapshotResponseErrorCode.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            ERROR_CODE_UNSPECIFIED: 0,
+            ERROR_CODE_TIMEOUT: 1,
+            ERROR_CODE_INTERNAL: 2,
+          },
+        }),
+      ),
+    ),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxGetExitSnapshotResponseError",
@@ -1180,9 +1589,21 @@ export interface SandboxGetExitSnapshotResponse {
 }
 export const SandboxGetExitSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    success: S.optional(SandboxGetExitSnapshotResponseSuccess),
-    pending: S.optional(SandboxGetExitSnapshotResponsePending),
-    error: S.optional(SandboxGetExitSnapshotResponseError),
+    success: S.optional(
+      SandboxGetExitSnapshotResponseSuccess.pipe(
+        T.ProtoField({ n: 1, t: "message" }),
+      ),
+    ),
+    pending: S.optional(
+      SandboxGetExitSnapshotResponsePending.pipe(
+        T.ProtoField({ n: 2, t: "message" }),
+      ),
+    ),
+    error: S.optional(
+      SandboxGetExitSnapshotResponseError.pipe(
+        T.ProtoField({ n: 3, t: "message" }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetExitSnapshotResponse",
@@ -1194,8 +1615,8 @@ export interface SandboxGetExitSnapshotV2Request {
 }
 export const SandboxGetExitSnapshotV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1214,9 +1635,21 @@ export interface SandboxGetExitSnapshotV2Response {
 }
 export const SandboxGetExitSnapshotV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    success: S.optional(SandboxGetExitSnapshotResponseSuccess),
-    pending: S.optional(SandboxGetExitSnapshotResponsePending),
-    error: S.optional(SandboxGetExitSnapshotResponseError),
+    success: S.optional(
+      SandboxGetExitSnapshotResponseSuccess.pipe(
+        T.ProtoField({ n: 1, t: "message" }),
+      ),
+    ),
+    pending: S.optional(
+      SandboxGetExitSnapshotResponsePending.pipe(
+        T.ProtoField({ n: 2, t: "message" }),
+      ),
+    ),
+    error: S.optional(
+      SandboxGetExitSnapshotResponseError.pipe(
+        T.ProtoField({ n: 3, t: "message" }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetExitSnapshotV2Response",
@@ -1229,9 +1662,11 @@ export interface SandboxGetFromNameRequest {
 }
 export const SandboxGetFromNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    appName: S.optional(S.String),
+    sandboxName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    appName: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1249,8 +1684,10 @@ export interface SandboxGetFromNameResponse {
 }
 export const SandboxGetFromNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    metadata: S.optional(SandboxHandleMetadata),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetFromNameResponse",
@@ -1263,9 +1700,11 @@ export interface SandboxGetFromNameV2Request {
 }
 export const SandboxGetFromNameV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    appName: S.optional(S.String),
+    sandboxName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    appName: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1283,8 +1722,10 @@ export interface SandboxGetFromNameV2Response {
 }
 export const SandboxGetFromNameV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    metadata: S.optional(SandboxHandleMetadata),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetFromNameV2Response",
@@ -1295,7 +1736,7 @@ export interface SandboxGetResourceUsageRequest {
 }
 export const SandboxGetResourceUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1315,10 +1756,14 @@ export interface SandboxGetResourceUsageResponse {
 }
 export const SandboxGetResourceUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cpuCoreNanosecs: S.optional(S.String),
-    memGibNanosecs: S.optional(S.String),
-    gpuNanosecs: S.optional(S.String),
-    gpuType: S.optional(S.String),
+    cpuCoreNanosecs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "uint64" })),
+    ),
+    memGibNanosecs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "uint64" })),
+    ),
+    gpuNanosecs: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    gpuType: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxGetResourceUsageResponse",
@@ -1332,9 +1777,11 @@ export interface SandboxGetTaskIdRequest {
 }
 export const SandboxGetTaskIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
-    waitUntilReady: S.optional(S.Boolean),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    waitUntilReady: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1353,8 +1800,10 @@ export interface SandboxGetTaskIdResponse {
 }
 export const SandboxGetTaskIdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    taskResult: S.optional(GenericResult),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskResult: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetTaskIdResponse",
@@ -1368,9 +1817,11 @@ export interface SandboxGetTaskIdV2Request {
 }
 export const SandboxGetTaskIdV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
-    waitUntilReady: S.optional(S.Boolean),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    waitUntilReady: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1389,8 +1840,10 @@ export interface SandboxGetTaskIdV2Response {
 }
 export const SandboxGetTaskIdV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    taskResult: S.optional(GenericResult),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskResult: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetTaskIdV2Response",
@@ -1402,8 +1855,8 @@ export interface SandboxGetTunnelsRequest {
 }
 export const SandboxGetTunnelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1421,8 +1874,12 @@ export interface SandboxGetTunnelsResponse {
 }
 export const SandboxGetTunnelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    tunnels: S.optional(TunnelDataList),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    tunnels: S.optional(
+      TunnelDataList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetTunnelsResponse",
@@ -1434,8 +1891,8 @@ export interface SandboxGetTunnelsV2Request {
 }
 export const SandboxGetTunnelsV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1453,8 +1910,12 @@ export interface SandboxGetTunnelsV2Response {
 }
 export const SandboxGetTunnelsV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    tunnels: S.optional(TunnelDataList),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    tunnels: S.optional(
+      TunnelDataList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxGetTunnelsV2Response",
@@ -1469,11 +1930,19 @@ export interface SandboxListV2Request {
 }
 export const SandboxListV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    beforeTimestamp: S.optional(S.Number),
-    environmentName: S.optional(S.String),
-    includeFinished: S.optional(S.Boolean),
-    tags: S.optional(SandboxTagList),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    beforeTimestamp: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "double" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    includeFinished: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 5, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1490,7 +1959,9 @@ export interface SandboxListV2Response {
 }
 export const SandboxListV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxes: S.optional(SandboxInfoList),
+    sandboxes: S.optional(
+      SandboxInfoList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxListV2Response",
@@ -1506,12 +1977,24 @@ export interface SandboxRestoreV2Request {
 }
 export const SandboxRestoreV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
-    sandboxNameOverride: S.optional(S.String),
-    sandboxNameOverrideType: S.optional(
-      RestoreSandboxRequestSandboxNameOverrideType,
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    sandboxNameOverride: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
     ),
-    workerId: S.optional(S.String),
+    sandboxNameOverrideType: S.optional(
+      RestoreSandboxRequestSandboxNameOverrideType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            SANDBOX_NAME_OVERRIDE_TYPE_UNSPECIFIED: 0,
+            SANDBOX_NAME_OVERRIDE_TYPE_NONE: 1,
+            SANDBOX_NAME_OVERRIDE_TYPE_STRING: 2,
+          },
+        }),
+      ),
+    ),
+    workerId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1532,11 +2015,17 @@ export interface SandboxRestoreV2Response {
 }
 export const SandboxRestoreV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    tunnels: S.optional(TunnelDataList),
-    taskId: S.optional(S.String),
-    metadata: S.optional(SandboxHandleMetadata),
-    commandRouterAccess: S.optional(CommandRouterAccess),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tunnels: S.optional(
+      TunnelDataList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    commandRouterAccess: S.optional(
+      CommandRouterAccess.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxRestoreV2Response",
@@ -1548,8 +2037,8 @@ export interface SandboxSetNameRequest {
 }
 export const SandboxSetNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    name: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1573,7 +2062,7 @@ export interface SandboxSnapshotRequest {
 }
 export const SandboxSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1590,7 +2079,7 @@ export interface SandboxSnapshotResponse {
 }
 export const SandboxSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxSnapshotResponse",
@@ -1602,8 +2091,8 @@ export interface SandboxSnapshotFsRequest {
 }
 export const SandboxSnapshotFsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1623,9 +2112,13 @@ export interface SandboxSnapshotFsResponse {
 }
 export const SandboxSnapshotFsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
-    result: S.optional(GenericResult),
-    imageMetadata: S.optional(ImageMetadata),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
+    imageMetadata: S.optional(
+      ImageMetadata.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxSnapshotFsResponse",
@@ -1636,7 +2129,7 @@ export interface SandboxSnapshotFsAsyncRequest {
 }
 export const SandboxSnapshotFsAsyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1653,7 +2146,7 @@ export interface SandboxSnapshotFsAsyncResponse {
 }
 export const SandboxSnapshotFsAsyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageId: S.optional(S.String),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "SandboxSnapshotFsAsyncResponse",
@@ -1667,10 +2160,10 @@ export interface SandboxStdinWriteRequest {
 }
 export const SandboxStdinWriteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    input: S.optional(S.String),
-    index: S.optional(S.Number),
-    eof: S.optional(S.Boolean),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    input: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    index: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1694,7 +2187,7 @@ export interface SandboxTagsGetV2Request {
 }
 export const SandboxTagsGetV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1711,7 +2204,9 @@ export interface SandboxTagsGetV2Response {
 }
 export const SandboxTagsGetV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(SandboxTagList),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxTagsGetV2Response",
@@ -1724,9 +2219,13 @@ export interface SandboxTagsSetV2Request {
 }
 export const SandboxTagsSetV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    tags: S.optional(SandboxTagList),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1750,7 +2249,7 @@ export interface SandboxTerminateV2Request {
 }
 export const SandboxTerminateV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1767,7 +2266,9 @@ export interface SandboxTerminateV2Response {
 }
 export const SandboxTerminateV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    existingResult: S.optional(GenericResult),
+    existingResult: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxTerminateV2Response",
@@ -1779,8 +2280,8 @@ export interface SandboxWaitUntilReadyRequest {
 }
 export const SandboxWaitUntilReadyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1797,7 +2298,7 @@ export interface SandboxWaitUntilReadyResponse {
 }
 export const SandboxWaitUntilReadyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    readyAt: S.optional(S.Number),
+    readyAt: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "double" }))),
   }),
 ).annotate({
   identifier: "SandboxWaitUntilReadyResponse",
@@ -1809,8 +2310,8 @@ export interface SandboxWaitV2Request {
 }
 export const SandboxWaitV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1828,8 +2329,12 @@ export interface SandboxWaitV2Response {
 }
 export const SandboxWaitV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    metadata: S.optional(SandboxHandleMetadata),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "SandboxWaitV2Response",
@@ -1842,9 +2347,13 @@ export interface SetSandboxTagRequest {
 }
 export const SetSandboxTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
-    sandboxId: S.optional(S.String),
-    tags: S.optional(SandboxTagList),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    tags: S.optional(
+      SandboxTagList.pipe(T.ProtoField({ n: 3, t: "message", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1868,7 +2377,7 @@ export interface TerminateSandboxRequest {
 }
 export const TerminateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1885,7 +2394,9 @@ export interface TerminateSandboxResponse {
 }
 export const TerminateSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    existingResult: S.optional(GenericResult),
+    existingResult: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "TerminateSandboxResponse",
@@ -1897,8 +2408,8 @@ export interface WaitSandboxRequest {
 }
 export const WaitSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sandboxId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1916,8 +2427,12 @@ export interface WaitSandboxResponse {
 }
 export const WaitSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    metadata: S.optional(SandboxHandleMetadata),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    metadata: S.optional(
+      SandboxHandleMetadata.pipe(T.ProtoField({ n: 2, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "WaitSandboxResponse",
@@ -1929,8 +2444,8 @@ export interface WaitSandboxSnapshotRequest {
 }
 export const WaitSandboxSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshotId: S.optional(S.String),
-    timeout: S.optional(S.Number),
+    snapshotId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1947,7 +2462,9 @@ export interface WaitSandboxSnapshotResponse {
 }
 export const WaitSandboxSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "WaitSandboxSnapshotResponse",

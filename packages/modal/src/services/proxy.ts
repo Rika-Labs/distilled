@@ -19,9 +19,11 @@ export interface CreateProxyRequest {
 }
 export const CreateProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    region: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    region: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -50,10 +52,26 @@ export interface ProxyIp {
 }
 export const ProxyIp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyIp: S.optional(S.String),
-    status: S.optional(ProxyIpStatus),
-    createdAt: S.optional(S.Number),
-    environmentName: S.optional(S.String),
+    proxyIp: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    status: S.optional(
+      ProxyIpStatus.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            PROXY_IP_STATUS_UNSPECIFIED: 0,
+            PROXY_IP_STATUS_CREATING: 1,
+            PROXY_IP_STATUS_ONLINE: 2,
+            PROXY_IP_STATUS_TERMINATED: 3,
+            PROXY_IP_STATUS_UNHEALTHY: 4,
+          },
+        }),
+      ),
+    ),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "ProxyIp" }) as any as S.Schema<ProxyIp>;
 
@@ -72,12 +90,16 @@ export interface Proxy {
 }
 export const Proxy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    environmentName: S.optional(S.String),
-    proxyIps: S.optional(ProxyIpList),
-    proxyId: S.optional(S.String),
-    region: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    proxyIps: S.optional(
+      ProxyIpList.pipe(T.ProtoField({ n: 4, t: "message", rep: true })),
+    ),
+    proxyId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    region: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
   }),
 ).annotate({ identifier: "Proxy" }) as any as S.Schema<Proxy>;
 
@@ -86,7 +108,7 @@ export interface CreateProxyResponse {
 }
 export const CreateProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxy: S.optional(Proxy),
+    proxy: S.optional(Proxy.pipe(T.ProtoField({ n: 1, t: "message" }))),
   }),
 ).annotate({
   identifier: "CreateProxyResponse",
@@ -97,7 +119,7 @@ export interface DeleteProxyRequest {
 }
 export const DeleteProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyId: S.optional(S.String),
+    proxyId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -122,8 +144,10 @@ export interface GetProxyRequest {
 }
 export const GetProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    environmentName: S.optional(S.String),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -140,7 +164,7 @@ export interface GetProxyResponse {
 }
 export const GetProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxy: S.optional(Proxy),
+    proxy: S.optional(Proxy.pipe(T.ProtoField({ n: 1, t: "message" }))),
   }),
 ).annotate({
   identifier: "GetProxyResponse",
@@ -169,7 +193,9 @@ export interface ListProxyResponse {
 }
 export const ListProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxies: S.optional(ProxyList2),
+    proxies: S.optional(
+      ProxyList2.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListProxyResponse",
@@ -180,7 +206,7 @@ export interface ProxyAddIpRequest {
 }
 export const ProxyAddIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyId: S.optional(S.String),
+    proxyId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -197,7 +223,7 @@ export interface ProxyAddIpResponse {
 }
 export const ProxyAddIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyIp: S.optional(ProxyIp),
+    proxyIp: S.optional(ProxyIp.pipe(T.ProtoField({ n: 1, t: "message" }))),
   }),
 ).annotate({
   identifier: "ProxyAddIpResponse",
@@ -220,9 +246,28 @@ export interface ProxyGetOrCreateRequest {
 }
 export const ProxyGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentName: S.optional(S.String),
-    environmentName: S.optional(S.String),
-    objectCreationType: S.optional(ObjectCreationType),
+    deploymentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    objectCreationType: S.optional(
+      ObjectCreationType.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            OBJECT_CREATION_TYPE_UNSPECIFIED: 0,
+            OBJECT_CREATION_TYPE_CREATE_IF_MISSING: 1,
+            OBJECT_CREATION_TYPE_CREATE_FAIL_IF_EXISTS: 2,
+            OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS: 3,
+            OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP: 4,
+            OBJECT_CREATION_TYPE_EPHEMERAL: 5,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -239,7 +284,7 @@ export interface ProxyGetOrCreateResponse {
 }
 export const ProxyGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyId: S.optional(S.String),
+    proxyId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "ProxyGetOrCreateResponse",
@@ -250,7 +295,7 @@ export interface ProxyRemoveIpRequest {
 }
 export const ProxyRemoveIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    proxyIp: S.optional(S.String),
+    proxyIp: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",

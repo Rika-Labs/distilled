@@ -17,7 +17,7 @@ export interface GetClusterRequest {
 }
 export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clusterId: S.optional(S.String),
+    clusterId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -42,10 +42,12 @@ export interface ClusterStats {
 }
 export const ClusterStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    appId: S.optional(S.String),
-    taskIds: S.optional(StringList),
-    clusterId: S.optional(S.String),
-    startedAt: S.optional(S.Number),
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 2, t: "string", rep: true })),
+    ),
+    clusterId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    startedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
   }),
 ).annotate({ identifier: "ClusterStats" }) as any as S.Schema<ClusterStats>;
 
@@ -54,7 +56,9 @@ export interface GetClusterResponse {
 }
 export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cluster: S.optional(ClusterStats),
+    cluster: S.optional(
+      ClusterStats.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "GetClusterResponse",
@@ -65,7 +69,9 @@ export interface ListClusterRequest {
 }
 export const ListClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -87,7 +93,9 @@ export interface ListClusterResponse {
 }
 export const ListClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clusters: S.optional(ClusterStatsList),
+    clusters: S.optional(
+      ClusterStatsList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListClusterResponse",

@@ -17,7 +17,9 @@ export interface GetWorkspaceDashboardUrlRequest {
 }
 export const GetWorkspaceDashboardUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentName: S.optional(S.String),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -34,7 +36,7 @@ export interface GetWorkspaceDashboardUrlResponse {
 }
 export const GetWorkspaceDashboardUrlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "GetWorkspaceDashboardUrlResponse",
@@ -63,6 +65,7 @@ export const MemberRole = S.String;
 export type IdentityProviderType =
   | "IDENTITY_PROVIDER_TYPE_UNSPECIFIED"
   | "IDENTITY_PROVIDER_TYPE_GITHUB"
+  | "IDENTITY_PROVIDER_TYPE_SAML"
   | "IDENTITY_PROVIDER_TYPE_OKTA"
   | "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH";
 export const IdentityProviderType = S.String;
@@ -82,17 +85,50 @@ export interface WorkspaceMembersListItem {
 }
 export const WorkspaceMembersListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memberId: S.optional(S.String),
-    memberDisplayname: S.optional(S.String),
-    memberRole: S.optional(MemberRole),
-    joinedAt: S.optional(S.Number),
-    lastActiveAt: S.optional(S.Number),
-    deletedAt: S.optional(S.Number),
-    userId: S.optional(S.String),
-    identityProviderType: S.optional(IdentityProviderType),
-    email: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    idpExternalId: S.optional(S.String),
+    memberId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    memberDisplayname: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    memberRole: S.optional(
+      MemberRole.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            MEMBER_ROLE_UNSPECIFIED: 0,
+            MEMBER_ROLE_USER: 1,
+            MEMBER_ROLE_MANAGER: 2,
+            MEMBER_ROLE_OWNER: 3,
+          },
+        }),
+      ),
+    ),
+    joinedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "double" }))),
+    lastActiveAt: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 5, t: "double" })),
+    ),
+    deletedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    userId: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
+    identityProviderType: S.optional(
+      IdentityProviderType.pipe(
+        T.ProtoField({
+          n: 9,
+          t: "enum",
+          e: {
+            IDENTITY_PROVIDER_TYPE_UNSPECIFIED: 0,
+            IDENTITY_PROVIDER_TYPE_GITHUB: 1,
+            IDENTITY_PROVIDER_TYPE_SAML: 2,
+            IDENTITY_PROVIDER_TYPE_OKTA: 2,
+            IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH: 3,
+          },
+        }),
+      ),
+    ),
+    email: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    avatarUrl: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    idpExternalId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "WorkspaceMembersListItem",
@@ -108,7 +144,11 @@ export interface ListWorkspaceMembersResponse {
 }
 export const ListWorkspaceMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    members: S.optional(WorkspaceMembersListItemList),
+    members: S.optional(
+      WorkspaceMembersListItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListWorkspaceMembersResponse",
@@ -133,8 +173,10 @@ export interface LookupWorkspaceNameResponse {
 }
 export const LookupWorkspaceNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workspaceName: S.optional(S.String),
-    username: S.optional(S.String),
+    workspaceName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    username: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "LookupWorkspaceNameResponse",
@@ -168,10 +210,22 @@ export interface WorkspaceBillingRatesResponse {
 }
 export const WorkspaceBillingRatesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rates: S.optional(StringMap),
-    deprecationWarnings: S.optional(StringMap),
-    deprecationErrors: S.optional(StringMap),
-    formatted: S.optional(S.String),
+    rates: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 1, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    deprecationWarnings: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 2, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    deprecationErrors: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 3, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    formatted: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
   }),
 ).annotate({
   identifier: "WorkspaceBillingRatesResponse",
@@ -183,7 +237,9 @@ export interface WorkspaceBillingSummaryRequest {
 }
 export const WorkspaceBillingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTimestamp: S.optional(S.String),
+    startTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -207,12 +263,24 @@ export interface WorkspaceBillingSummaryResponse {
 }
 export const WorkspaceBillingSummaryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTimestamp: S.optional(S.String),
-    endTimestamp: S.optional(S.String),
-    meteredCost: S.optional(S.String),
-    billedCost: S.optional(S.String),
-    meteredCostBreakdown: S.optional(StringMap),
-    adjustments: S.optional(StringMap),
+    startTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
+    endTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Timestamp" })),
+    ),
+    meteredCost: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    billedCost: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    meteredCostBreakdown: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 5, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    adjustments: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 6, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "WorkspaceBillingSummaryResponse",
@@ -224,7 +292,9 @@ export interface WorkspaceSetDefaultEnvironmentRequest {
 export const WorkspaceSetDefaultEnvironmentRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      environmentName: S.optional(S.String),
+      environmentName: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -243,13 +313,102 @@ export const WorkspaceSetDefaultEnvironmentResponse = /*@__PURE__*/ S.suspend(
   identifier: "WorkspaceSetDefaultEnvironmentResponse",
 }) as any as S.Schema<WorkspaceSetDefaultEnvironmentResponse>;
 
+/** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
+export type EnvironmentBlockUnauthenticatedResources =
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
+export const EnvironmentBlockUnauthenticatedResources = S.String;
+
+export interface WorkspaceSetDefaultEnvironmentSettingsRequest {
+  /** Omitted = no-op. INHERIT clears the workspace default so environments with no override have no block. Rejects UNSPECIFIED. */
+  blockUnauthenticatedResources?:
+    | EnvironmentBlockUnauthenticatedResources
+    | (string & {});
+}
+export const WorkspaceSetDefaultEnvironmentSettingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      blockUnauthenticatedResources: S.optional(
+        EnvironmentBlockUnauthenticatedResources.pipe(
+          T.ProtoField({
+            n: 1,
+            t: "enum",
+            e: {
+              ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED: 0,
+              ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT: 1,
+              ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK: 2,
+              ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW: 3,
+            },
+          }),
+        ),
+      ),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/modal.client.ModalClient/WorkspaceSetDefaultEnvironmentSettings",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "WorkspaceSetDefaultEnvironmentSettingsRequest",
+  }) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsRequest>;
+
+/** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
+export interface EnvironmentSettings {
+  imageBuilderVersion?: string;
+  webhookSuffix?: string;
+  maxConcurrentGpus?: number;
+  maxConcurrentTasks?: number;
+  /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
+  blockUnauthenticatedResources?: boolean;
+}
+export const EnvironmentSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    webhookSuffix: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    maxConcurrentGpus: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "int32" })),
+    ),
+    maxConcurrentTasks: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "int32" })),
+    ),
+    blockUnauthenticatedResources: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" })),
+    ),
+  }),
+).annotate({
+  identifier: "EnvironmentSettings",
+}) as any as S.Schema<EnvironmentSettings>;
+
+export interface WorkspaceSetDefaultEnvironmentSettingsResponse {
+  defaultEnvironmentSettings?: EnvironmentSettings;
+}
+export const WorkspaceSetDefaultEnvironmentSettingsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      defaultEnvironmentSettings: S.optional(
+        EnvironmentSettings.pipe(T.ProtoField({ n: 1, t: "message" })),
+      ),
+    }),
+  ).annotate({
+    identifier: "WorkspaceSetDefaultEnvironmentSettingsResponse",
+  }) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsResponse>;
+
 export interface WorkspaceSetImageBuilderVersionRequest {
   newImageBuilderVersion?: string;
 }
 export const WorkspaceSetImageBuilderVersionRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      newImageBuilderVersion: S.optional(S.String),
+      newImageBuilderVersion: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -267,7 +426,9 @@ export interface WorkspaceSetImageBuilderVersionResponse {
 export const WorkspaceSetImageBuilderVersionResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      imageBuilderVersion: S.optional(S.String),
+      imageBuilderVersion: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
     }),
 ).annotate({
   identifier: "WorkspaceSetImageBuilderVersionResponse",
@@ -292,8 +453,12 @@ export interface WorkspaceSettingsResponse {
 }
 export const WorkspaceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    defaultEnvironmentName: S.optional(S.String),
-    imageBuilderVersion: S.optional(S.String),
+    defaultEnvironmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    imageBuilderVersion: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "WorkspaceSettingsResponse",
@@ -379,6 +544,20 @@ export const workspaceSetDefaultEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkspaceSetDefaultEnvironmentRequest,
   output: WorkspaceSetDefaultEnvironmentResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WorkspaceSetDefaultEnvironmentSettingsError = ModalOpError;
+export const workspaceSetDefaultEnvironmentSettings: API.OperationMethod<
+  WorkspaceSetDefaultEnvironmentSettingsRequest,
+  WorkspaceSetDefaultEnvironmentSettingsResponse,
+  WorkspaceSetDefaultEnvironmentSettingsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WorkspaceSetDefaultEnvironmentSettingsRequest,
+  output: WorkspaceSetDefaultEnvironmentSettingsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

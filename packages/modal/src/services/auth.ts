@@ -30,7 +30,7 @@ export interface GetAuthTokenResponse {
 }
 export const GetAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String),
+    token: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "GetAuthTokenResponse",

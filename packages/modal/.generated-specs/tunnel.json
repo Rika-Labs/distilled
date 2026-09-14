@@ -39,13 +39,35 @@
       "type": "structure",
       "members": {
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         },
         "unencrypted": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "tunnelType": {
-          "target": "com.modal.tunnel#TunnelType"
+          "target": "com.modal.tunnel#TunnelType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "TUNNEL_TYPE_UNSPECIFIED": 0,
+                "TUNNEL_TYPE_H2": 1
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -56,16 +78,40 @@
       "type": "structure",
       "members": {
         "host": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "unencryptedHost": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "unencryptedPort": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
+          }
         }
       },
       "traits": {
@@ -93,7 +139,13 @@
       "type": "structure",
       "members": {
         "port": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
         }
       },
       "traits": {
@@ -104,7 +156,13 @@
       "type": "structure",
       "members": {
         "exists": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -140,7 +198,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Tunnel",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Tunnel`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Tunnel`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

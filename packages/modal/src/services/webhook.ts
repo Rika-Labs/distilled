@@ -19,8 +19,10 @@ export interface AddWebhookTokenEnvironmentRequest {
 }
 export const AddWebhookTokenEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
-    environmentId: S.optional(S.String),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -41,10 +43,12 @@ export const AddWebhookTokenEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateWebhookTokenRequest {
   scoped?: boolean;
+  name?: string;
 }
 export const CreateWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scoped: S.optional(S.Boolean),
+    scoped: S.optional(S.Boolean.pipe(T.ProtoField({ n: 1, t: "bool" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -62,8 +66,10 @@ export interface CreateWebhookTokenResponse {
 }
 export const CreateWebhookTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
-    tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tokenSecret: S.optional(
+      S.String.pipe(T.SensitiveValue({}), T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "CreateWebhookTokenResponse",
@@ -74,7 +80,7 @@ export interface DeleteWebhookTokenRequest {
 }
 export const DeleteWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -106,17 +112,34 @@ export const ListWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWebhookTokenRequest",
 }) as any as S.Schema<ListWebhookTokenRequest>;
 
+export interface UserIdentity {
+  userId?: string;
+  username?: string;
+}
+export const UserIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    username: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+  }),
+).annotate({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
+
 /** Additional URL suffix added for ephemeral Apps */
 export interface WebhookToken {
   tokenId?: string;
   createdAt?: number;
   scoped?: boolean;
+  name?: string;
+  createdBy?: UserIdentity;
 }
 export const WebhookToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
-    createdAt: S.optional(S.Number),
-    scoped: S.optional(S.Boolean),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    createdAt: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "double" }))),
+    scoped: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+    name: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    createdBy: S.optional(
+      UserIdentity.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
   }),
 ).annotate({ identifier: "WebhookToken" }) as any as S.Schema<WebhookToken>;
 
@@ -130,7 +153,9 @@ export interface ListWebhookTokenResponse {
 }
 export const ListWebhookTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokens: S.optional(WebhookTokenList2),
+    tokens: S.optional(
+      WebhookTokenList2.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListWebhookTokenResponse",
@@ -141,7 +166,7 @@ export interface ListWebhookTokenEnvironmentRequest {
 }
 export const ListWebhookTokenEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -163,7 +188,9 @@ export interface ListWebhookTokenEnvironmentResponse {
 }
 export const ListWebhookTokenEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentIds: S.optional(StringList),
+    environmentIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 1, t: "string", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "ListWebhookTokenEnvironmentResponse",
@@ -176,8 +203,10 @@ export interface RemoveWebhookTokenEnvironmentRequest {
 export const RemoveWebhookTokenEnvironmentRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      tokenId: S.optional(S.String),
-      environmentId: S.optional(S.String),
+      tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      environmentId: S.optional(
+        S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -202,7 +231,9 @@ export interface WebhookTokenListForEnvironmentRequest {
 export const WebhookTokenListForEnvironmentRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      environmentName: S.optional(S.String),
+      environmentName: S.optional(
+        S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+      ),
     }).pipe(
       T.Http({
         method: "POST",
@@ -220,7 +251,9 @@ export interface WebhookTokenListForEnvironmentResponse {
 export const WebhookTokenListForEnvironmentResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      tokens: S.optional(WebhookTokenList2),
+      tokens: S.optional(
+        WebhookTokenList2.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+      ),
     }),
 ).annotate({
   identifier: "WebhookTokenListForEnvironmentResponse",

@@ -22,7 +22,13 @@
       "type": "structure",
       "members": {
         "checkpointId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -56,34 +62,83 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bool"
+            }
+          }
         },
         "winszRows": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Soon deprecated"
+            "smithy.api#documentation": "Soon deprecated",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
           }
         },
         "winszCols": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "envTerm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         },
         "envColorterm": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
         },
         "envTermProgram": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
         },
         "ptyType": {
           "target": "com.modal.container#PTYInfoPTYType",
           "traits": {
-            "smithy.api#documentation": "Replace function with shell"
+            "smithy.api#documentation": "Replace function with shell",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "PTY_TYPE_UNSPECIFIED": 0,
+                "PTY_TYPE_FUNCTION": 1,
+                "PTY_TYPE_SHELL": 2
+              }
+            }
           }
         },
         "noTerminateOnIdleStdin": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -145,44 +200,112 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "command": {
-          "target": "com.modal.container#StringList"
+          "target": "com.modal.container#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "ptyInfo": {
           "target": "com.modal.container#PTYInfo",
           "traits": {
-            "smithy.api#documentation": "If pty_info is provided, open a PTY, but also this container exec is treated an \"interactive shell\" request, and it will be terminated if messages are not periodically sent on the stdin stream on some interval (currently 40 seconds)."
+            "smithy.api#documentation": "If pty_info is provided, open a PTY, but also this container exec is treated an \"interactive shell\" request, and it will be terminated if messages are not periodically sent on the stdin stream on some interval (currently 40 seconds).",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
           }
         },
         "terminateContainerOnExit": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Send SIGTERM to running container on exit of exec command.",
-            "smithy.api#deprecated": {}
+            "smithy.api#deprecated": {},
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
           }
         },
         "runtimeDebug": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
         },
         "stdoutOutput": {
           "target": "com.modal.container#ExecOutputOption",
           "traits": {
-            "smithy.api#documentation": "For internal debugging use only."
+            "smithy.api#documentation": "For internal debugging use only.",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "EXEC_OUTPUT_OPTION_UNSPECIFIED": 0,
+                "EXEC_OUTPUT_OPTION_DEVNULL": 1,
+                "EXEC_OUTPUT_OPTION_PIPE": 2,
+                "EXEC_OUTPUT_OPTION_STDOUT": 3
+              }
+            }
           }
         },
         "stderrOutput": {
-          "target": "com.modal.container#ExecOutputOption"
+          "target": "com.modal.container#ExecOutputOption",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "enum",
+              "e": {
+                "EXEC_OUTPUT_OPTION_UNSPECIFIED": 0,
+                "EXEC_OUTPUT_OPTION_DEVNULL": 1,
+                "EXEC_OUTPUT_OPTION_PIPE": 2,
+                "EXEC_OUTPUT_OPTION_STDOUT": 3
+              }
+            }
+          }
         },
         "timeoutSecs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "uint32"
+            }
+          }
         },
         "workdir": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
         },
         "secretIds": {
-          "target": "com.modal.container#StringList"
+          "target": "com.modal.container#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -193,7 +316,13 @@
       "type": "structure",
       "members": {
         "execId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -220,13 +349,31 @@
       "type": "structure",
       "members": {
         "message": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
         },
         "messageIndex": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "eof": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -237,10 +384,22 @@
       "type": "structure",
       "members": {
         "execId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "input": {
-          "target": "com.modal.container#RuntimeInputMessage"
+          "target": "com.modal.container#RuntimeInputMessage",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -267,10 +426,22 @@
       "type": "structure",
       "members": {
         "execId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "timeout": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
         }
       },
       "traits": {
@@ -281,10 +452,22 @@
       "type": "structure",
       "members": {
         "exitCode": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
+          }
         },
         "completed": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -313,14 +496,30 @@
         "fileDescriptor": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "file descriptor is hydrated when sent from server -> worker"
+            "smithy.api#documentation": "file descriptor is hydrated when sent from server -> worker",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
           }
         },
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "mode": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -328,10 +527,22 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         }
       }
     },
@@ -339,10 +550,22 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "n": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -350,7 +573,13 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -358,7 +587,13 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -366,13 +601,36 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "offset": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
+          }
         },
         "whence": {
-          "target": "com.modal.container#SeekWhence"
+          "target": "com.modal.container#SeekWhence",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "SEEK_SET": 0,
+                "SEEK_CUR": 1,
+                "SEEK_END": 2
+              }
+            }
+          }
         }
       }
     },
@@ -403,13 +661,31 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "startInclusive": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "endExclusive": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -417,16 +693,40 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "data": {
-          "target": "smithy.api#Blob"
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
         },
         "startInclusive": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "endExclusive": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint32"
+            }
+          }
         }
       }
     },
@@ -434,7 +734,13 @@
       "type": "structure",
       "members": {
         "fileDescriptor": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -442,7 +748,13 @@
       "type": "structure",
       "members": {
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -450,10 +762,22 @@
       "type": "structure",
       "members": {
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "makeParents": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -461,10 +785,22 @@
       "type": "structure",
       "members": {
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       }
     },
@@ -472,13 +808,31 @@
       "type": "structure",
       "members": {
         "path": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "recursive": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "timeoutSecs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
         }
       }
     },
@@ -486,46 +840,130 @@
       "type": "structure",
       "members": {
         "fileOpenRequest": {
-          "target": "com.modal.container#ContainerFileOpenRequest"
+          "target": "com.modal.container#ContainerFileOpenRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "fileWriteRequest": {
-          "target": "com.modal.container#ContainerFileWriteRequest"
+          "target": "com.modal.container#ContainerFileWriteRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "fileReadRequest": {
-          "target": "com.modal.container#ContainerFileReadRequest"
+          "target": "com.modal.container#ContainerFileReadRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "fileFlushRequest": {
-          "target": "com.modal.container#ContainerFileFlushRequest"
+          "target": "com.modal.container#ContainerFileFlushRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
         },
         "fileReadLineRequest": {
-          "target": "com.modal.container#ContainerFileReadLineRequest"
+          "target": "com.modal.container#ContainerFileReadLineRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message"
+            }
+          }
         },
         "fileSeekRequest": {
-          "target": "com.modal.container#ContainerFileSeekRequest"
+          "target": "com.modal.container#ContainerFileSeekRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message"
+            }
+          }
         },
         "fileDeleteBytesRequest": {
-          "target": "com.modal.container#ContainerFileDeleteBytesRequest"
+          "target": "com.modal.container#ContainerFileDeleteBytesRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "message"
+            }
+          }
         },
         "fileWriteReplaceBytesRequest": {
-          "target": "com.modal.container#ContainerFileWriteReplaceBytesRequest"
+          "target": "com.modal.container#ContainerFileWriteReplaceBytesRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "message"
+            }
+          }
         },
         "fileCloseRequest": {
-          "target": "com.modal.container#ContainerFileCloseRequest"
+          "target": "com.modal.container#ContainerFileCloseRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
+          }
         },
         "fileLsRequest": {
-          "target": "com.modal.container#ContainerFileLsRequest"
+          "target": "com.modal.container#ContainerFileLsRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "message"
+            }
+          }
         },
         "fileMkdirRequest": {
-          "target": "com.modal.container#ContainerFileMkdirRequest"
+          "target": "com.modal.container#ContainerFileMkdirRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "message"
+            }
+          }
         },
         "fileRmRequest": {
-          "target": "com.modal.container#ContainerFileRmRequest"
+          "target": "com.modal.container#ContainerFileRmRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "message"
+            }
+          }
         },
         "fileWatchRequest": {
-          "target": "com.modal.container#ContainerFileWatchRequest"
+          "target": "com.modal.container#ContainerFileWatchRequest",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "message"
+            }
+          }
         },
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -536,12 +974,22 @@
       "type": "structure",
       "members": {
         "execId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "fileDescriptor": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "only set when the request opens a new file, i.e., ContainerFileOpenRequest"
+            "smithy.api#documentation": "only set when the request opens a new file, i.e., ContainerFileOpenRequest",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         }
       },
@@ -569,12 +1017,22 @@
       "type": "structure",
       "members": {
         "canceledInputsReturnOutputs": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         },
         "canceledInputsReturnOutputsV2": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Bad client version."
+            "smithy.api#documentation": "Bad client version.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
           }
         }
       },
@@ -586,13 +1044,32 @@
       "type": "structure",
       "members": {
         "inputIds": {
-          "target": "com.modal.container#StringList"
+          "target": "com.modal.container#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string",
+              "rep": true
+            }
+          }
         },
         "terminateContainers": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         },
         "cancellationReason": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -600,7 +1077,13 @@
       "type": "structure",
       "members": {
         "cancelInputEvent": {
-          "target": "com.modal.container#CancelInputEvent"
+          "target": "com.modal.container#CancelInputEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -643,34 +1126,114 @@
       "type": "structure",
       "members": {
         "data": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "taskState": {
-          "target": "com.modal.container#TaskState"
+          "target": "com.modal.container#TaskState",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "enum",
+              "e": {
+                "TASK_STATE_UNSPECIFIED": 0,
+                "TASK_STATE_CREATED": 6,
+                "TASK_STATE_QUEUED": 1,
+                "TASK_STATE_WORKER_ASSIGNED": 2,
+                "TASK_STATE_LOADING_IMAGE": 3,
+                "TASK_STATE_ACTIVE": 4,
+                "TASK_STATE_COMPLETED": 5,
+                "TASK_STATE_CREATING_CONTAINER": 7,
+                "TASK_STATE_IDLE": 8,
+                "TASK_STATE_PREEMPTIBLE": 9,
+                "TASK_STATE_PREEMPTED": 10,
+                "TASK_STATE_LOADING_CHECKPOINT_IMAGE": 11
+              }
+            }
+          }
         },
         "timestamp": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "double"
+            }
+          }
         },
         "fileDescriptor": {
-          "target": "com.modal.container#FileDescriptor"
+          "target": "com.modal.container#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
         },
         "taskProgress": {
-          "target": "com.modal.container#TaskProgress"
+          "target": "com.modal.container#TaskProgress",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "message"
+            }
+          }
         },
         "functionCallId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
         },
         "inputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
         },
         "timestampNs": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "uint64"
+            }
+          }
         },
         "containerId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
+          }
         },
         "containerName": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -784,16 +1347,44 @@
       "type": "structure",
       "members": {
         "len": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint64"
+            }
+          }
         },
         "pos": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
         },
         "progressType": {
-          "target": "com.modal.container#ProgressType"
+          "target": "com.modal.container#ProgressType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "IMAGE_SNAPSHOT_UPLOAD": 0,
+                "FUNCTION_QUEUED": 1
+              }
+            }
+          }
         },
         "description": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       }
     },
@@ -825,7 +1416,14 @@
       "type": "structure",
       "members": {
         "logs": {
-          "target": "com.modal.container#TaskLogsList"
+          "target": "com.modal.container#TaskLogsList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message",
+              "rep": true
+            }
+          }
         }
       },
       "traits": {
@@ -852,7 +1450,13 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -909,10 +1513,22 @@
       "type": "structure",
       "members": {
         "taskId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "graceful": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -982,7 +1598,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Container",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Container`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Container`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

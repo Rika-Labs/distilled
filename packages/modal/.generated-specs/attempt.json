@@ -22,15 +22,31 @@
       "type": "structure",
       "members": {
         "attemptToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "requestedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
         },
         "timeoutSecs": {
           "target": "smithy.api#Float",
           "traits": {
-            "smithy.api#documentation": "Used for waypoints."
+            "smithy.api#documentation": "Used for waypoints.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "float"
+            }
           }
         }
       },
@@ -42,34 +58,93 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "com.modal.attempt#GenericResult"
+          "target": "com.modal.attempt#GenericResult",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         },
         "idx": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "int32"
+            }
+          }
         },
         "inputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
         },
         "dataFormat": {
-          "target": "com.modal.attempt#DataFormat"
+          "target": "com.modal.attempt#DataFormat",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              }
+            }
+          }
         },
         "taskId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "for result.data_oneof"
+            "smithy.api#documentation": "for result.data_oneof",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
           }
         },
         "inputStartedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "double"
+            }
+          }
         },
         "outputCreatedAt": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "double"
+            }
+          }
         },
         "retryCount": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "uint32"
+            }
+          }
         },
         "fcTraceTag": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -80,54 +155,103 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "com.modal.attempt#GenericResultGenericStatus"
+          "target": "com.modal.attempt#GenericResultGenericStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "GENERIC_STATUS_UNSPECIFIED": 0,
+                "GENERIC_STATUS_SUCCESS": 1,
+                "GENERIC_STATUS_FAILURE": 2,
+                "GENERIC_STATUS_TERMINATED": 3,
+                "GENERIC_STATUS_TIMEOUT": 4,
+                "GENERIC_STATUS_INIT_FAILURE": 5,
+                "GENERIC_STATUS_INTERNAL_FAILURE": 6,
+                "GENERIC_STATUS_IDLE_TIMEOUT": 7,
+                "GENERIC_STATUS_MEMORY_MANAGER_EVICTION": 8
+              }
+            }
+          }
         },
         "exception": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status of the task or function output."
+            "smithy.api#documentation": "Status of the task or function output.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
           }
         },
         "exitcode": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exception message for failures, if available."
+            "smithy.api#documentation": "Exception message for failures, if available.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
           }
         },
         "traceback": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly."
+            "smithy.api#documentation": "Status code of the container entrypoint or builder process if it terminates unexpectedly.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
           }
         },
         "serializedTb": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "String value of the Python traceback."
+            "smithy.api#documentation": "String value of the Python traceback.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "bytes"
+            }
           }
         },
         "tbLineCache": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled traceback object."
+            "smithy.api#documentation": "Pickled traceback object.",
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "bytes"
+            }
           }
         },
         "data": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "Pickled line cache for traceback object."
+            "smithy.api#documentation": "Pickled line cache for traceback object.",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bytes"
+            }
           }
         },
         "dataBlobId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Inline data of the result."
+            "smithy.api#documentation": "Inline data of the result.",
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
           }
         },
         "propagationReason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Blob ID for large data."
+            "smithy.api#documentation": "Blob ID for large data.",
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
           }
         }
       },
@@ -246,7 +370,13 @@
       "type": "structure",
       "members": {
         "output": {
-          "target": "com.modal.attempt#FunctionGetOutputsItem"
+          "target": "com.modal.attempt#FunctionGetOutputsItem",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -274,18 +404,50 @@
       "type": "structure",
       "members": {
         "idx": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "int32"
+            }
+          }
         },
         "input": {
-          "target": "com.modal.attempt#FunctionInput"
+          "target": "com.modal.attempt#FunctionInput",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         },
         "r2Failed": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
         },
         "r2ThroughputBytesS": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "r2_latency_ms"
+            "smithy.api#documentation": "r2_latency_ms",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "uint64"
+            }
+          }
+        },
+        "blobUploadResults": {
+          "target": "com.modal.attempt#BlobUploadResultList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message",
+              "rep": true
+            }
           }
         }
       }
@@ -296,40 +458,164 @@
         "args": {
           "target": "smithy.api#Blob",
           "traits": {
-            "smithy.api#documentation": "serialized (args, kwargs)."
+            "smithy.api#documentation": "serialized (args, kwargs).",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
           }
         },
         "argsBlobId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
         },
         "finalInput": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "bool"
+            }
+          }
         },
         "dataFormat": {
-          "target": "com.modal.attempt#DataFormat"
+          "target": "com.modal.attempt#DataFormat",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              }
+            }
+          }
         },
         "methodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "For args_oneof."
+            "smithy.api#documentation": "For args_oneof.",
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
           }
         }
+      }
+    },
+    "com.modal.attempt#BlobUploadResult": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "outcome": {
+          "target": "com.modal.attempt#BlobUploadResultOutcome",
+          "traits": {
+            "smithy.api#documentation": "The blob id (from BlobCreateResponse) that this upload attempt targeted.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "OUTCOME_UNSPECIFIED": 0,
+                "OUTCOME_SUCCESS": 1,
+                "OUTCOME_FAILURE": 2
+              }
+            }
+          }
+        },
+        "throughputBytesS": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        }
+      }
+    },
+    "com.modal.attempt#BlobUploadResultOutcome": {
+      "type": "enum",
+      "members": {
+        "OUTCOME_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_UNSPECIFIED"
+          }
+        },
+        "OUTCOME_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_SUCCESS"
+          }
+        },
+        "OUTCOME_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_FAILURE"
+          }
+        }
+      }
+    },
+    "com.modal.attempt#BlobUploadResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.attempt#BlobUploadResult"
       }
     },
     "com.modal.attempt#RetryAttemptRequest": {
       "type": "structure",
       "members": {
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "parentInputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "input": {
-          "target": "com.modal.attempt#FunctionPutInputsItem"
+          "target": "com.modal.attempt#FunctionPutInputsItem",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "attemptToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -340,7 +626,13 @@
       "type": "structure",
       "members": {
         "attemptToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         }
       },
       "traits": {
@@ -367,16 +659,40 @@
       "type": "structure",
       "members": {
         "functionId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "parentInputId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "input": {
-          "target": "com.modal.attempt#FunctionPutInputsItem"
+          "target": "com.modal.attempt#FunctionPutInputsItem",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
         },
         "proxied": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
         }
       },
       "traits": {
@@ -387,18 +703,40 @@
       "type": "structure",
       "members": {
         "backoffCoefficient": {
-          "target": "smithy.api#Float"
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "float"
+            }
+          }
         },
         "initialDelayMs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
         },
         "maxDelayMs": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
         },
         "retries": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "NOTE: two-byte field number not used for special reason. copy-paste error. Ref: PR #2542"
+            "smithy.api#documentation": "NOTE: two-byte field number not used for special reason. copy-paste error. Ref: PR #2542",
+            "com.distilled.proto#field": {
+              "n": 18,
+              "t": "uint32"
+            }
           }
         }
       }
@@ -407,10 +745,22 @@
       "type": "structure",
       "members": {
         "attemptToken": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "retryPolicy": {
-          "target": "com.modal.attempt#FunctionRetryPolicy"
+          "target": "com.modal.attempt#FunctionRetryPolicy",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
         }
       },
       "traits": {
@@ -449,7 +799,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal Attempt",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Attempt`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Attempt`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

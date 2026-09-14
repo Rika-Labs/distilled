@@ -26,9 +26,24 @@ export interface SetUserGroupEnvironmentRequest {
 }
 export const SetUserGroupEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    environmentId: S.optional(S.String),
-    userGroupId: S.optional(S.String),
-    role: S.optional(EnvironmentRole),
+    environmentId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    userGroupId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    role: S.optional(
+      EnvironmentRole.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            ENVIRONMENT_ROLE_UNSPECIFIED: 0,
+            ENVIRONMENT_ROLE_VIEWER: 1,
+            ENVIRONMENT_ROLE_CONTRIBUTOR: 2,
+            ENVIRONMENT_ROLE_NO_ACCESS: 3,
+          },
+        }),
+      ),
+    ),
   }).pipe(
     T.Http({
       method: "POST",

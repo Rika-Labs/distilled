@@ -1,0 +1,440 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.server#ServerGetTimeRangeStatsRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "since": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "until": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "Inclusive.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive. Filter stats for a specific container",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCount": {
+      "type": "structure",
+      "members": {
+        "statusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
+        },
+        "count": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        }
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCount"
+      }
+    },
+    "com.modal.server#StatsPercentileDistribution": {
+      "type": "structure",
+      "members": {
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit identifier such as \"seconds\", \"cores\", \"gibibytes\", or \"fraction\".",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "percentiles": {
+          "target": "com.modal.server#StatsPercentileList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      }
+    },
+    "com.modal.server#StatsPercentile": {
+      "type": "structure",
+      "members": {
+        "percentileBasisPoints": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "double"
+            }
+          }
+        }
+      }
+    },
+    "com.modal.server#StatsPercentileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.server#StatsPercentile"
+      }
+    },
+    "com.modal.server#StatsPercentileDistributionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.server#StatsPercentileDistribution"
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerInferenceStats": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "com.modal.server#LLMEngine",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "LLM_ENGINE_UNSPECIFIED": 0,
+                "LLM_ENGINE_SGLANG": 1,
+                "LLM_ENGINE_VLLM": 2
+              }
+            }
+          }
+        },
+        "status": {
+          "target": "com.modal.server#ServerInferenceStatsStatus",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "SERVER_INFERENCE_STATS_STATUS_UNSPECIFIED": 0,
+                "SERVER_INFERENCE_STATS_STATUS_AVAILABLE": 1,
+                "SERVER_INFERENCE_STATS_STATUS_NO_DATA": 2,
+                "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE": 3
+              }
+            }
+          }
+        },
+        "percentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include time_to_first_token, inter_token_latency, and end_to_end_latency, subject to change as requirements evolve.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
+          }
+        },
+        "scalarStats": {
+          "target": "com.modal.server#DoubleMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include input_tokens_per_second, cached_input_tokens_per_second, and output_tokens_per_second, subject to change as requirements evolve.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "double"
+              }
+            }
+          }
+        }
+      }
+    },
+    "com.modal.server#LLMEngine": {
+      "type": "enum",
+      "members": {
+        "LLM_ENGINE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_UNSPECIFIED"
+          }
+        },
+        "LLM_ENGINE_SGLANG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_SGLANG"
+          }
+        },
+        "LLM_ENGINE_VLLM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_VLLM"
+          }
+        }
+      }
+    },
+    "com.modal.server#ServerInferenceStatsStatus": {
+      "type": "enum",
+      "members": {
+        "SERVER_INFERENCE_STATS_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_UNSPECIFIED"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_AVAILABLE"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_NO_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_NO_DATA"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE"
+          }
+        }
+      }
+    },
+    "com.modal.server#DoubleMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponse": {
+      "type": "structure",
+      "members": {
+        "since": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "until": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "Inclusive.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "requestCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        },
+        "requestCountByStatusCode": {
+          "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCountList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
+          }
+        },
+        "requestRatePerSecond": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "double"
+            }
+          }
+        },
+        "requestPercentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include request_latency, subject to change as requirements evolve.",
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
+          }
+        },
+        "containerPercentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include startup_time, cpu_usage, memory_usage, and gpu_utilization, subject to change as requirements evolve.",
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "message"
+              }
+            }
+          }
+        },
+        "inference": {
+          "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerInferenceStats",
+          "traits": {
+            "smithy.api#documentation": "Absent when the image does not contain a supported inference engine.",
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "message"
+            }
+          }
+        },
+        "containerStartedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range.",
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "uint64"
+            }
+          }
+        },
+        "containerErrorCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "uint64"
+            }
+          }
+        },
+        "containerCreatingAtEndCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsRequest"
+      },
+      "output": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ServerGetTimeRangeStats",
+          "code": 200
+        },
+        "smithy.api#documentation": "Servers"
+      }
+    },
+    "com.modal.server#ServerService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.server#ServerGetTimeRangeStats"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Server",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Server`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
+      }
+    }
+  }
+}

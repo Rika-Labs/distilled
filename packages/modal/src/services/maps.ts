@@ -22,11 +22,13 @@ export interface MapAwaitRequest {
 }
 export const MapAwaitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionCallId: S.optional(S.String),
-    mapToken: S.optional(S.String),
-    lastEntryId: S.optional(S.String),
-    requestedAt: S.optional(S.Number),
-    timeout: S.optional(S.Number),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    mapToken: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    requestedAt: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "double" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 4, t: "float" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -73,15 +75,37 @@ export interface GenericResult {
 }
 export const GenericResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.optional(GenericResultGenericStatus),
-    exception: S.optional(S.String),
-    exitcode: S.optional(S.Number),
-    traceback: S.optional(S.String),
-    serializedTb: S.optional(S.String),
-    tbLineCache: S.optional(S.String),
-    data: S.optional(S.String),
-    dataBlobId: S.optional(S.String),
-    propagationReason: S.optional(S.String),
+    status: S.optional(
+      GenericResultGenericStatus.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            GENERIC_STATUS_UNSPECIFIED: 0,
+            GENERIC_STATUS_SUCCESS: 1,
+            GENERIC_STATUS_FAILURE: 2,
+            GENERIC_STATUS_TERMINATED: 3,
+            GENERIC_STATUS_TIMEOUT: 4,
+            GENERIC_STATUS_INIT_FAILURE: 5,
+            GENERIC_STATUS_INTERNAL_FAILURE: 6,
+            GENERIC_STATUS_IDLE_TIMEOUT: 7,
+            GENERIC_STATUS_MEMORY_MANAGER_EVICTION: 8,
+          },
+        }),
+      ),
+    ),
+    exception: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    exitcode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    traceback: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    serializedTb: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "bytes" })),
+    ),
+    tbLineCache: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "bytes" }))),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    propagationReason: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
   }),
 ).annotate({ identifier: "GenericResult" }) as any as S.Schema<GenericResult>;
 
@@ -109,15 +133,35 @@ export interface FunctionGetOutputsItem {
 }
 export const FunctionGetOutputsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: S.optional(GenericResult),
-    idx: S.optional(S.Number),
-    inputId: S.optional(S.String),
-    dataFormat: S.optional(DataFormat),
-    taskId: S.optional(S.String),
-    inputStartedAt: S.optional(S.Number),
-    outputCreatedAt: S.optional(S.Number),
-    retryCount: S.optional(S.Number),
-    fcTraceTag: S.optional(S.String),
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    idx: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "int32" }))),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    dataFormat: S.optional(
+      DataFormat.pipe(
+        T.ProtoField({
+          n: 5,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+        }),
+      ),
+    ),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    inputStartedAt: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 7, t: "double" })),
+    ),
+    outputCreatedAt: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 8, t: "double" })),
+    ),
+    retryCount: S.optional(S.Number.pipe(T.ProtoField({ n: 9, t: "uint32" }))),
+    fcTraceTag: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
   }),
 ).annotate({
   identifier: "FunctionGetOutputsItem",
@@ -134,8 +178,12 @@ export interface MapAwaitResponse {
 }
 export const MapAwaitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    outputs: S.optional(FunctionGetOutputsItemList),
-    lastEntryId: S.optional(S.String),
+    outputs: S.optional(
+      FunctionGetOutputsItemList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({
   identifier: "MapAwaitResponse",
@@ -153,9 +201,11 @@ export interface MapCheckInputsRequest {
 }
 export const MapCheckInputsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastEntryId: S.optional(S.String),
-    timeout: S.optional(S.Number),
-    attemptTokens: S.optional(StringList),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    attemptTokens: S.optional(
+      StringList.pipe(T.ProtoField({ n: 3, t: "string", rep: true })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -177,7 +227,9 @@ export interface MapCheckInputsResponse {
 }
 export const MapCheckInputsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lost: S.optional(BooleanList),
+    lost: S.optional(
+      BooleanList.pipe(T.ProtoField({ n: 1, t: "bool", rep: true })),
+    ),
   }),
 ).annotate({
   identifier: "MapCheckInputsResponse",
@@ -194,13 +246,64 @@ export interface FunctionInput {
 }
 export const FunctionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    args: S.optional(S.String),
-    argsBlobId: S.optional(S.String),
-    finalInput: S.optional(S.Boolean),
-    dataFormat: S.optional(DataFormat),
-    methodName: S.optional(S.String),
+    args: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    argsBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    finalInput: S.optional(S.Boolean.pipe(T.ProtoField({ n: 9, t: "bool" }))),
+    dataFormat: S.optional(
+      DataFormat.pipe(
+        T.ProtoField({
+          n: 10,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+        }),
+      ),
+    ),
+    methodName: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
   }),
 ).annotate({ identifier: "FunctionInput" }) as any as S.Schema<FunctionInput>;
+
+export type BlobUploadResultOutcome =
+  | "OUTCOME_UNSPECIFIED"
+  | "OUTCOME_SUCCESS"
+  | "OUTCOME_FAILURE";
+export const BlobUploadResultOutcome = S.String;
+
+export interface BlobUploadResult {
+  blobId?: string;
+  /** The blob id (from BlobCreateResponse) that this upload attempt targeted. */
+  outcome?: BlobUploadResultOutcome | (string & {});
+  throughputBytesS?: string;
+}
+export const BlobUploadResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blobId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    outcome: S.optional(
+      BlobUploadResultOutcome.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: { OUTCOME_UNSPECIFIED: 0, OUTCOME_SUCCESS: 1, OUTCOME_FAILURE: 2 },
+        }),
+      ),
+    ),
+    throughputBytesS: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "uint64" })),
+    ),
+  }),
+).annotate({
+  identifier: "BlobUploadResult",
+}) as any as S.Schema<BlobUploadResult>;
+
+export type BlobUploadResultList = Array<BlobUploadResult>;
+export const BlobUploadResultList = /*@__PURE__*/ S.Array(
+  BlobUploadResult,
+) as any as S.Schema<BlobUploadResultList>;
 
 export interface FunctionPutInputsItem {
   idx?: number;
@@ -208,13 +311,21 @@ export interface FunctionPutInputsItem {
   r2Failed?: boolean;
   /** r2_latency_ms */
   r2ThroughputBytesS?: string;
+  blobUploadResults?: BlobUploadResultList;
 }
 export const FunctionPutInputsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idx: S.optional(S.Number),
-    input: S.optional(FunctionInput),
-    r2Failed: S.optional(S.Boolean),
-    r2ThroughputBytesS: S.optional(S.String),
+    idx: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "int32" }))),
+    input: S.optional(FunctionInput.pipe(T.ProtoField({ n: 2, t: "message" }))),
+    r2Failed: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+    r2ThroughputBytesS: S.optional(
+      S.String.pipe(T.ProtoField({ n: 5, t: "uint64" })),
+    ),
+    blobUploadResults: S.optional(
+      BlobUploadResultList.pipe(
+        T.ProtoField({ n: 6, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "FunctionPutInputsItem",
@@ -226,8 +337,12 @@ export interface MapStartOrContinueItem {
 }
 export const MapStartOrContinueItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    input: S.optional(FunctionPutInputsItem),
-    attemptToken: S.optional(S.String),
+    input: S.optional(
+      FunctionPutInputsItem.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    attemptToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "MapStartOrContinueItem",
@@ -249,12 +364,20 @@ export interface MapStartOrContinueRequest {
 }
 export const MapStartOrContinueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionId: S.optional(S.String),
-    parentInputId: S.optional(S.String),
-    functionCallId: S.optional(S.String),
-    mapToken: S.optional(S.String),
-    items: S.optional(MapStartOrContinueItemList),
-    proxied: S.optional(S.Boolean),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    parentInputId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    mapToken: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    items: S.optional(
+      MapStartOrContinueItemList.pipe(
+        T.ProtoField({ n: 4, t: "message", rep: true }),
+      ),
+    ),
+    proxied: S.optional(S.Boolean.pipe(T.ProtoField({ n: 6, t: "bool" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -275,10 +398,14 @@ export interface FunctionRetryPolicy {
 }
 export const FunctionRetryPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    backoffCoefficient: S.optional(S.Number),
-    initialDelayMs: S.optional(S.Number),
-    maxDelayMs: S.optional(S.Number),
-    retries: S.optional(S.Number),
+    backoffCoefficient: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 1, t: "float" })),
+    ),
+    initialDelayMs: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" })),
+    ),
+    maxDelayMs: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    retries: S.optional(S.Number.pipe(T.ProtoField({ n: 18, t: "uint32" }))),
   }),
 ).annotate({
   identifier: "FunctionRetryPolicy",
@@ -295,12 +422,20 @@ export interface MapStartOrContinueResponse {
 }
 export const MapStartOrContinueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mapToken: S.optional(S.String),
-    functionId: S.optional(S.String),
-    functionCallId: S.optional(S.String),
-    maxInputsOutstanding: S.optional(S.Number),
-    attemptTokens: S.optional(StringList),
-    retryPolicy: S.optional(FunctionRetryPolicy),
+    mapToken: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    maxInputsOutstanding: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" })),
+    ),
+    attemptTokens: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    retryPolicy: S.optional(
+      FunctionRetryPolicy.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "MapStartOrContinueResponse",

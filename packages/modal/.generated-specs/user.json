@@ -51,13 +51,37 @@
       "type": "structure",
       "members": {
         "environmentId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
         },
         "userGroupId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
         },
         "role": {
-          "target": "com.modal.user#EnvironmentRole"
+          "target": "com.modal.user#EnvironmentRole",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "ENVIRONMENT_ROLE_UNSPECIFIED": 0,
+                "ENVIRONMENT_ROLE_VIEWER": 1,
+                "ENVIRONMENT_ROLE_CONTRIBUTOR": 2,
+                "ENVIRONMENT_ROLE_NO_ACCESS": 3
+              }
+            }
+          }
         }
       },
       "traits": {
@@ -91,7 +115,7 @@
       ],
       "traits": {
         "smithy.api#title": "Modal User",
-        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `User`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `User`. Each operation is a unary binary gRPC call to POST /modal.client.ModalClient/<Method>."
       }
     }
   }

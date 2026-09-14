@@ -17,7 +17,7 @@ export interface FlashContainerDeregisterRequest {
 }
 export const FlashContainerDeregisterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceName: S.optional(S.String),
+    serviceName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -43,8 +43,8 @@ export interface FlashSetTargetSlotsMetricsRequest {
 }
 export const FlashSetTargetSlotsMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionId: S.optional(S.String),
-    targetSlots: S.optional(S.Number),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    targetSlots: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -68,7 +68,7 @@ export interface ListFlashContainerRequest {
 }
 export const ListFlashContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionId: S.optional(S.String),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -87,9 +87,9 @@ export interface ListFlashContainerResponseContainer {
 }
 export const ListFlashContainerResponseContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskId: S.optional(S.String),
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    host: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
   }),
 ).annotate({
   identifier: "ListFlashContainerResponseContainer",
@@ -106,7 +106,11 @@ export interface ListFlashContainerResponse {
 }
 export const ListFlashContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    containers: S.optional(ListFlashContainerResponseContainerList),
+    containers: S.optional(
+      ListFlashContainerResponseContainerList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
   }),
 ).annotate({
   identifier: "ListFlashContainerResponse",
@@ -122,11 +126,11 @@ export interface RegisterFlashContainerRequest {
 }
 export const RegisterFlashContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceName: S.optional(S.String),
-    priority: S.optional(S.Number),
-    weight: S.optional(S.Number),
-    host: S.optional(S.String),
-    port: S.optional(S.Number),
+    serviceName: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    priority: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "uint32" }))),
+    weight: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+    host: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    port: S.optional(S.Number.pipe(T.ProtoField({ n: 5, t: "uint32" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -143,7 +147,7 @@ export interface RegisterFlashContainerResponse {
 }
 export const RegisterFlashContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
+    url: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
   }),
 ).annotate({
   identifier: "RegisterFlashContainerResponse",

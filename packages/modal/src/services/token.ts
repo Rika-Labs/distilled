@@ -20,9 +20,11 @@ export interface CreateTokenFlowRequest {
 }
 export const CreateTokenFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    utmSource: S.optional(S.String),
-    localhostPort: S.optional(S.Number),
-    nextUrl: S.optional(S.String),
+    utmSource: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    localhostPort: S.optional(
+      S.Number.pipe(T.ProtoField({ n: 4, t: "int32" })),
+    ),
+    nextUrl: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -42,10 +44,12 @@ export interface CreateTokenFlowResponse {
 }
 export const CreateTokenFlowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenFlowId: S.optional(S.String),
-    webUrl: S.optional(S.String),
-    code: S.optional(S.String),
-    waitSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    tokenFlowId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    webUrl: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    code: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    waitSecret: S.optional(
+      S.String.pipe(T.SensitiveValue({}), T.ProtoField({ n: 4, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "CreateTokenFlowResponse",
@@ -70,8 +74,8 @@ export interface UserIdentity {
 }
 export const UserIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
+    userId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    username: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
   }),
 ).annotate({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
 
@@ -82,9 +86,15 @@ export interface ServiceUserIdentity {
 }
 export const ServiceUserIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceUserId: S.optional(S.String),
-    serviceUserName: S.optional(S.String),
-    createdBy: S.optional(UserIdentity),
+    serviceUserId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    serviceUserName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+    createdBy: S.optional(
+      UserIdentity.pipe(T.ProtoField({ n: 3, t: "message" })),
+    ),
   }),
 ).annotate({
   identifier: "ServiceUserIdentity",
@@ -103,14 +113,24 @@ export interface GetTokenInfoResponse {
 }
 export const GetTokenInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
-    workspaceId: S.optional(S.String),
-    workspaceName: S.optional(S.String),
-    userIdentity: S.optional(UserIdentity),
-    serviceUserIdentity: S.optional(ServiceUserIdentity),
-    createdAt: S.optional(S.String),
-    expiresAt: S.optional(S.String),
-    tokenName: S.optional(S.String),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    workspaceId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    workspaceName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    userIdentity: S.optional(
+      UserIdentity.pipe(T.ProtoField({ n: 4, t: "message" })),
+    ),
+    serviceUserIdentity: S.optional(
+      ServiceUserIdentity.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
+    createdAt: S.optional(
+      S.String.pipe(T.ProtoField({ n: 6, t: "wkt", w: "Timestamp" })),
+    ),
+    expiresAt: S.optional(
+      S.String.pipe(T.ProtoField({ n: 7, t: "wkt", w: "Timestamp" })),
+    ),
+    tokenName: S.optional(S.String.pipe(T.ProtoField({ n: 8, t: "string" }))),
   }),
 ).annotate({
   identifier: "GetTokenInfoResponse",
@@ -123,9 +143,11 @@ export interface WaitTokenFlowRequest {
 }
 export const WaitTokenFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timeout: S.optional(S.Number),
-    tokenFlowId: S.optional(S.String),
-    waitSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 1, t: "float" }))),
+    tokenFlowId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    waitSecret: S.optional(
+      S.String.pipe(T.SensitiveValue({}), T.ProtoField({ n: 3, t: "string" })),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -145,10 +167,14 @@ export interface WaitTokenFlowResponse {
 }
 export const WaitTokenFlowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.String),
-    tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    timeout: S.optional(S.Boolean),
-    workspaceUsername: S.optional(S.String),
+    tokenId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    tokenSecret: S.optional(
+      S.String.pipe(T.SensitiveValue({}), T.ProtoField({ n: 2, t: "string" })),
+    ),
+    timeout: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+    workspaceUsername: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "string" })),
+    ),
   }),
 ).annotate({
   identifier: "WaitTokenFlowResponse",
