@@ -16,6 +16,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
+import * as Schema from "effect/Schema";
 import { isThrottling, isTransientError } from "./category.ts";
 
 // ============================================================================
@@ -121,7 +122,8 @@ export const ServerRetryHintCapMs = Context.Service<number>(
 export const serverRetryHintCapLayer = (capMs: number) =>
   Layer.succeed(ServerRetryHintCapMs, capMs);
 
-const serverRetryHintCapMsConfig: Config.Config<number> = Config.String(
+const serverRetryHintCapMsConfig: Config.Config<number> = Config.schema(
+  Schema.String,
   ENV_SERVER_RETRY_HINT_CAP_MS,
 ).pipe(
   Config.map((raw) => {

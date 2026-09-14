@@ -161,7 +161,7 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
 export interface RestErrorInfo {
   readonly status: number;
   /** Error code from the envelope (services vary between string and number). */
-  readonly code?: string | number;
+  readonly code?: string | number | undefined;
   readonly message: string;
   /** Parsed JSON body, or the raw text when the body wasn't JSON. */
   readonly body: unknown;
@@ -169,8 +169,8 @@ export interface RestErrorInfo {
 }
 
 export interface RestErrorEnvelope {
-  readonly code?: string | number;
-  readonly message?: string;
+  readonly code?: string | number | undefined;
+  readonly message?: string | undefined;
 }
 
 export interface RestProtocolOptions<C> {

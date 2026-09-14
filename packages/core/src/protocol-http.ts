@@ -288,8 +288,11 @@ export const mapKeys = (
           ? (dict[k] ?? k)
           : (Object.entries(dict).find(([, w]) => w === k)?.[0] ?? k)
         : k;
+      const renamedKey =
+        typeof renamed === "string" ? renamed : renamed?.[0];
+      if (renamedKey === undefined) continue;
 
-      out[typeof renamed === "string" ? renamed : renamed[0]] =
+      out[renamedKey] =
         isigs && isigs.length
           ? mapKeys(isigs[0]!.type, v, direction, dict)
           : dict
@@ -350,13 +353,13 @@ export interface BuildRequestOptions {
    * Transform a member-bound header value before it is set (e.g.
    * Bearer-prefixing a raw token supplied as an Authorization member).
    */
-  readonly mapMemberHeader?: (name: string, value: string) => string;
+  readonly mapMemberHeader?: ((name: string, value: string) => string) | undefined;
   /**
    * Wire name for input keys the schema doesn't declare (spec drift —
    * unknown keys pass through as body fields rather than being dropped).
    * Defaults to the key verbatim.
    */
-  readonly unknownKeyToWire?: (key: string) => string;
+  readonly unknownKeyToWire?: ((key: string) => string) | undefined;
 }
 
 /**
@@ -499,7 +502,9 @@ export const buildRequest = ({
     if (consumed.has(key) || value === undefined) continue;
     const wire =
       rootDict?.[key] ?? (unknownKeyToWire ? unknownKeyToWire(key) : key);
-    body[typeof wire === "string" ? wire : wire[0]] = rootDict
+    const wireKey = typeof wire === "string" ? wire : wire?.[0];
+    if (wireKey === undefined) continue;
+    body[wireKey] = rootDict
       ? mapKeysByDictionary(rootDict, value, "encode")
       : value;
     hasBodyMembers = true;
@@ -680,10 +685,10 @@ const matcherSpecificity = (m: ErrorMatcher): number =>
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
   status: number,
-  errors: ReadonlyArray<{ code?: number; message: string }>,
+  errors: ReadonlyArray<{ code?: number | undefined; message: string }>,
 ): unknown | undefined => {
   let best:
-    | { cls: unknown; specificity: number; code?: number; message: string }
+    | { cls: unknown; specificity: number; code?: number | undefined; message: string }
     | undefined;
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);

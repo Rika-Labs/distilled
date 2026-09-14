@@ -99,15 +99,15 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
   const command = Command.make(
     "generate",
     {
-      smithy: Flag.String("smithy").pipe(
+      smithy: Flag.string("smithy").pipe(
         Flag.withDefault(options.smithyDir ?? ".generated-specs"),
         Flag.withDescription("Directory of Smithy JSON models"),
       ),
-      out: Flag.String("out").pipe(
+      out: Flag.string("out").pipe(
         Flag.withDefault(options.outDir ?? "src/services"),
         Flag.withDescription("Output directory for generated service modules"),
       ),
-      resource: Flag.String("resource").pipe(
+      resource: Flag.string("resource").pipe(
         Flag.withDefault(""),
         Flag.withDescription("Only generate this resource (e.g. ai)"),
       ),

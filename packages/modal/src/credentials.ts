@@ -10,6 +10,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
 import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
@@ -32,11 +33,11 @@ export class Credentials extends Context.Service<
 >()("ModalCredentials") {}
 
 const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.String("MODAL_TOKEN_ID"),
-  tokenSecret: EffectConfig.String("MODAL_TOKEN_SECRET"),
-  apiBaseUrl: EffectConfig.String("MODAL_SERVER_URL").pipe(
+  tokenId: EffectConfig.schema(Schema.String, "MODAL_TOKEN_ID"),
+  tokenSecret: EffectConfig.schema(Schema.String, "MODAL_TOKEN_SECRET"),
+  apiBaseUrl: EffectConfig.schema(Schema.String, "MODAL_SERVER_URL").pipe(
     EffectConfig.orElse(() =>
-      EffectConfig.String("MODAL_API_URL").pipe(
+      EffectConfig.schema(Schema.String, "MODAL_API_URL").pipe(
         EffectConfig.withDefault(DEFAULT_API_BASE_URL),
       ),
     ),
