@@ -1,6 +1,7 @@
 {
   "name": "@distilled.cloud/digitalocean",
   "version": "1.0.0-rc.9",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -72,7 +73,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-digitalocean"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "1.0.0-rc.9"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

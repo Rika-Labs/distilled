@@ -1,4 +1,4 @@
-# @distilled.cloud/modal
+# @rikalabs/distilled-modal
 
 Effect-native Modal SDK, generated from Modal's public proto3 gRPC API.
 

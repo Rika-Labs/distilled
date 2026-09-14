@@ -23,7 +23,9 @@ catalog:
   "@types/node": "26.2.0"
   changelogithub: "^13.16.1"
   dedent: "^1.7.2"
-  effect: ">=4.0.0-rc.115 || >=4.0.0"
+  # Fork: widened to rc.112 — the Modal gRPC transport is verified on the
+  # effect-sandbox-pinned rc.112; upstream's floor (rc.115) is not required.
+  effect: ">=4.0.0-rc.112 || >=4.0.0"
   fast-xml-parser: "^5.10.1"
   graphql: "^16.14.2"
   husky: "^9.1.7"

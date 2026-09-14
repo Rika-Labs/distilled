@@ -1,9 +1,9 @@
 {
-  "name": "@distilled.cloud/modal",
+  "name": "@rikalabs/distilled-modal",
   "version": "1.0.0-rc.9",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alchemy-run/distilled",
+    "url": "https://github.com/Rika-Labs/distilled",
     "directory": "packages/modal"
   },
   "license": "Apache-2.0",
@@ -73,7 +73,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-modal"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@rikalabs/distilled-core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

@@ -1,9 +1,9 @@
 {
-  "name": "@distilled.cloud/core",
+  "name": "@rikalabs/distilled-core",
   "version": "1.0.0-rc.9",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alchemy-run/distilled",
+    "url": "https://github.com/Rika-Labs/distilled",
     "directory": "packages/core"
   },
   "license": "Apache-2.0",

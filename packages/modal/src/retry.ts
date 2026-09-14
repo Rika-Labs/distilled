@@ -1,5 +1,5 @@
 /**
- * Modal retry surface — a veneer over `@distilled.cloud/core/retry`.
+ * Modal retry surface — a veneer over `@rikalabs/distilled-core/retry`.
  *
  * The `Retry` service tag is threaded into every generated operation via
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import * as Modal from "@distilled.cloud/modal";
+ * import * as Modal from "@rikalabs/distilled-modal";
  *
  * myEffect.pipe(Modal.Retry.transient);
  * ```
@@ -16,7 +16,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Retries from "@distilled.cloud/core/retry";
+import * as Retries from "@rikalabs/distilled-core/retry";
 
 export type Options = Retries.Options;
 export type Factory = Retries.Factory;

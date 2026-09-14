@@ -1,0 +1,101 @@
+name: Release (Rika Labs)
+
+# Fork-scoped release: publishes only the non-private packages —
+# @rikalabs/distilled-core and @rikalabs/distilled-modal — under the
+# @rikalabs npm scope. The other packages are marked private in this
+# fork; upstream's release.yml publishes all packages under
+# @distilled.cloud and is left untouched for sync purposes.
+#
+# Requires secrets.NPM_TOKEN with publish access to the @rikalabs scope.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: >-
+          Release spec. `rc` (default) publishes the next `1.0.0-rc.N`;
+          `rc.N` an exact candidate; `beta[.N]`/`alpha[.N]` those
+          channels; `patch|minor|major` or `x.y.z` a stable release;
+          anything else publishes `0.0.0-<name>` under its own tag.
+        required: false
+        type: string
+        default: "rc"
+      force-latest:
+        description: Publish under the latest dist-tag
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-rikalabs-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  FORCE_LATEST: ${{ inputs.force-latest }}
+
+jobs:
+  release:
+    name: Build, pack and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@v2
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - id: release
+        name: Prepare release (versions non-private packages only)
+        run: |
+          set -euo pipefail
+          bun scripts/release/prepare.ts '${{ inputs.version }}' | tee -a "$GITHUB_OUTPUT"
+
+      - name: Build publishable packages (core first via project references)
+        run: |
+          set -euo pipefail
+          pnpm --dir packages/core run build
+          pnpm --dir packages/modal run build
+
+      - name: Pack release artifacts
+        run: |
+          set -euo pipefail
+          mkdir release-packages
+          while IFS= read -r dir; do
+            pnpm --dir "$dir" pack --pack-destination "$GITHUB_WORKSPACE/release-packages"
+          done < <(jq -r '.[]' release-package-dirs.json)
+          ls -la release-packages/
+
+      - name: Commit version bump and tag
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          CHANNEL: ${{ steps.release.outputs.channel }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          mapfile -t PACKAGE_JSONS < <(jq -r '.[] | "\(.)/package.json"' release-package-dirs.json)
+          git add "${PACKAGE_JSONS[@]}" pnpm-lock.yaml
+          if ! git diff --cached --quiet; then git commit -m "chore(release): ${VERSION}"; fi
+          if ! git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then git tag -a "$TAG" -m "Release ${TAG}"; fi
+          git push origin HEAD
+          if ! git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then git push origin "refs/tags/${TAG}"; fi
+
+      - name: Configure npm token auth
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Publish tarballs
+        env:
+          PUBLISH_TAG: ${{ steps.release.outputs.tag }}
+          CHANNEL_TAG: ${{ steps.release.outputs.channel == 'release' && 'latest' || steps.release.outputs.channel == 'tag' && steps.release.outputs.tag || 'next' }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: bash scripts/release/publish.sh

@@ -2,16 +2,18 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node"],
-    "typeRoots": ["/Users/dallenpyrah/Projects/rika-labs/effect-sandbox/node_modules/@types"],
+    "typeRoots": [
+      "/Users/dallenpyrah/Projects/rika-labs/effect-sandbox/node_modules/@types"
+    ],
     "noCheck": false,
     "composite": false,
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
     "paths": {
-      "@distilled.cloud/core/*": ["./packages/core/src/*"],
-      "@distilled.cloud/modal": ["./packages/modal/src/index.ts"],
-      "@distilled.cloud/modal/*": ["./packages/modal/src/*"]
+      "@rikalabs/distilled-core/*": ["./packages/core/src/*"],
+      "@rikalabs/distilled-modal": ["./packages/modal/src/index.ts"],
+      "@rikalabs/distilled-modal/*": ["./packages/modal/src/*"]
     }
   },
   "include": ["packages/core/src/**/*.ts", "packages/modal/src/**/*.ts"],

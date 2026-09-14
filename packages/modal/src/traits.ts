@@ -35,7 +35,7 @@ export {
   unionCasesSymbol,
   protoFieldSymbol,
   errorMatchersSymbol,
-} from "@distilled.cloud/core/trait";
+} from "@rikalabs/distilled-core/trait";
 
 export {
   SensitiveValue,
@@ -44,4 +44,4 @@ export {
   sensitiveValueSymbol,
   rawResponseSymbol,
   rawResponseRootSymbol,
-} from "@distilled.cloud/core/protocol-rest";
+} from "@rikalabs/distilled-core/protocol-rest";

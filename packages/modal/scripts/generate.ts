@@ -7,12 +7,13 @@
  * Output: src/services/<group>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Modal's provider spec.
- * Wire names are proto3 JSON camelCase, which convert.ts already uses as
- * Smithy member names, so no renaming.
+ * `@rikalabs/distilled-core/codegen`; this script is Modal's provider spec.
+ * Member names keep proto3 JSON camelCase (what convert.ts already uses as
+ * Smithy member names); the wire encoding is binary protobuf driven by the
+ * `T.ProtoField` descriptors, so no renaming.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@rikalabs/distilled-core/codegen/generator";
+import { runGeneratorCli } from "@rikalabs/distilled-core/codegen/cli";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 /**
@@ -31,6 +32,7 @@ const camel = (slug: string): string =>
 
 const spec: SdkSpec = {
   sourceNote: ".generated-specs (modal_proto → smithy)",
+  corePackage: "@rikalabs/distilled-core",
 
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
@@ -57,8 +59,8 @@ const spec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@rikalabs/distilled-core/schema";\n`,
+          `import * as S from "@rikalabs/distilled-core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };

@@ -7,7 +7,7 @@
  * Output: .generated-specs/<group>.json  (one Smithy model per RPC-name
  *         prefix of each proto service — `AppCreate` → `app.json`)
  *
- * The proto→Smithy converter lives in `@distilled.cloud/core/codegen/proto`.
+ * The proto→Smithy converter lives in `@rikalabs/distilled-core/codegen/proto`.
  * Operations are unary gRPC methods, stamped as
  * `POST /<package>.<Service>/<Method>`; members carry the
  * `com.distilled.proto#field` wire descriptor (field number + kind) so the
@@ -25,9 +25,9 @@ import {
   convertProtoToSmithy,
   parseProto,
   rpcGroupName,
-} from "@distilled.cloud/core/codegen/proto";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@rikalabs/distilled-core/codegen/proto";
+import { finalizeConvert } from "@rikalabs/distilled-core/codegen/patches";
+import { resolveSpecPath } from "@rikalabs/distilled-core/codegen/spec-path";
 
 const ROOT = path.resolve(import.meta.dir, "..");
 const OUT_DIR = path.join(ROOT, ".generated-specs");

@@ -26,16 +26,16 @@ import * as Encoding from "effect/Encoding";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type * as API from "@rikalabs/distilled-core/api";
+import type { ConfigError } from "@rikalabs/distilled-core/errors";
 import {
   grpcFrame,
   makeGrpcProtocol,
   readMessageFrame,
   type GrpcErrorInfo,
-} from "@distilled.cloud/core/protocol-grpc";
-import { decodeMessage } from "@distilled.cloud/core/protobuf";
-import { ProtoField } from "@distilled.cloud/core/trait";
+} from "@rikalabs/distilled-core/protocol-grpc";
+import { decodeMessage } from "@rikalabs/distilled-core/protobuf";
+import { ProtoField } from "@rikalabs/distilled-core/trait";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownModalError, type DefaultErrors } from "./errors.ts";
 

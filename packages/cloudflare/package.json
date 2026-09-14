@@ -1,6 +1,7 @@
 {
   "name": "@distilled.cloud/cloudflare",
   "version": "1.0.0-rc.9",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -522,7 +523,7 @@
     "typecheck:strict": "tsc -p tsconfig.strict.json"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "1.0.0-rc.9"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

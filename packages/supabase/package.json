@@ -1,6 +1,7 @@
 {
   "name": "@distilled.cloud/supabase",
   "version": "1.0.0-rc.9",
+  "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -73,7 +74,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-supabase"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "1.0.0-rc.9"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

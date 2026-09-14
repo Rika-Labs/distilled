@@ -50,7 +50,7 @@ catalogs:
       specifier: ^1.7.2
       version: 1.7.2
     effect:
-      specifier: '>=4.0.0-rc.115 || >=4.0.0'
+      specifier: '>=4.0.0-rc.112 || >=4.0.0'
       version: 4.0.0-rc.115
     fast-xml-parser:
       specifier: ^5.10.1
@@ -122,8 +122,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/cloudflare
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../../packages/core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -153,8 +153,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/cloudflare
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../../packages/core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -181,8 +181,8 @@ importers:
   packages/adyen:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -200,8 +200,8 @@ importers:
   packages/apache-superset:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -219,8 +219,8 @@ importers:
   packages/archil:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -238,8 +238,8 @@ importers:
   packages/argocd:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -257,8 +257,8 @@ importers:
   packages/auth0:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -279,8 +279,8 @@ importers:
         specifier: 'catalog:'
         version: 3.974.3
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       '@smithy/shared-ini-file-loader':
         specifier: 'catalog:'
         version: 4.7.0
@@ -316,8 +316,8 @@ importers:
   packages/axiom:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -335,8 +335,8 @@ importers:
   packages/azure:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -354,8 +354,8 @@ importers:
   packages/chronosphere:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -373,8 +373,8 @@ importers:
   packages/clerk:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -392,8 +392,8 @@ importers:
   packages/cloudflare:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -411,8 +411,8 @@ importers:
   packages/coinbase:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -430,8 +430,8 @@ importers:
   packages/coolify:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -468,8 +468,8 @@ importers:
   packages/customerio:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -487,8 +487,8 @@ importers:
   packages/datadog:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -506,8 +506,8 @@ importers:
   packages/digitalocean:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -525,8 +525,8 @@ importers:
   packages/discord:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -544,8 +544,8 @@ importers:
   packages/docker:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -563,8 +563,8 @@ importers:
   packages/doppler:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -582,8 +582,8 @@ importers:
   packages/elasticsearch:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -601,8 +601,8 @@ importers:
   packages/expo-eas:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -620,8 +620,8 @@ importers:
   packages/fly-io:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -639,8 +639,8 @@ importers:
   packages/forgejo:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -658,8 +658,8 @@ importers:
   packages/gcp:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -677,8 +677,8 @@ importers:
   packages/github:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -696,8 +696,8 @@ importers:
   packages/google-workspace:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -715,8 +715,8 @@ importers:
   packages/grafana:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -734,8 +734,8 @@ importers:
   packages/growthbook:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -753,8 +753,8 @@ importers:
   packages/gusto:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -772,8 +772,8 @@ importers:
   packages/hetzner:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -791,8 +791,8 @@ importers:
   packages/hostinger:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -810,8 +810,8 @@ importers:
   packages/huggingface:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -829,8 +829,8 @@ importers:
   packages/infisical:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -848,8 +848,8 @@ importers:
   packages/inngest:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -867,8 +867,8 @@ importers:
   packages/intercom:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -886,8 +886,8 @@ importers:
   packages/kubernetes:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -905,8 +905,8 @@ importers:
   packages/launchdarkly:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -924,8 +924,8 @@ importers:
   packages/meilisearch:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -943,8 +943,8 @@ importers:
   packages/mercury:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -962,8 +962,8 @@ importers:
   packages/metabase:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -980,7 +980,7 @@ importers:
 
   packages/modal:
     dependencies:
-      '@distilled.cloud/core':
+      '@rikalabs/distilled-core':
         specifier: workspace:*
         version: link:../core
       effect:
@@ -1000,8 +1000,8 @@ importers:
   packages/modrinth:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1019,8 +1019,8 @@ importers:
   packages/mongodb-atlas:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1038,8 +1038,8 @@ importers:
   packages/neon:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1057,8 +1057,8 @@ importers:
   packages/okta:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1076,8 +1076,8 @@ importers:
   packages/onepassword:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1095,8 +1095,8 @@ importers:
   packages/opencode:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1114,8 +1114,8 @@ importers:
   packages/ovh:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1133,8 +1133,8 @@ importers:
   packages/paypal:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1152,8 +1152,8 @@ importers:
   packages/plaid:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1171,8 +1171,8 @@ importers:
   packages/planetscale:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1190,8 +1190,8 @@ importers:
   packages/polar:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1209,8 +1209,8 @@ importers:
   packages/porkbun:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1228,8 +1228,8 @@ importers:
   packages/posthog:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1247,8 +1247,8 @@ importers:
   packages/prisma-postgres:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1266,8 +1266,8 @@ importers:
   packages/railway:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1285,8 +1285,8 @@ importers:
   packages/redis-cloud:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1304,8 +1304,8 @@ importers:
   packages/remote:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1323,8 +1323,8 @@ importers:
   packages/render:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1342,8 +1342,8 @@ importers:
   packages/resend:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1361,8 +1361,8 @@ importers:
   packages/sentry:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1380,8 +1380,8 @@ importers:
   packages/slack:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1399,8 +1399,8 @@ importers:
   packages/spacetimedb:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1418,8 +1418,8 @@ importers:
   packages/squarespace:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1437,8 +1437,8 @@ importers:
   packages/stripe:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1456,8 +1456,8 @@ importers:
   packages/supabase:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1475,8 +1475,8 @@ importers:
   packages/surrealdb:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1494,8 +1494,8 @@ importers:
   packages/temporal:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1513,8 +1513,8 @@ importers:
   packages/trigger-dev:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1532,8 +1532,8 @@ importers:
   packages/turbopuffer:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1551,8 +1551,8 @@ importers:
   packages/turso:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1570,8 +1570,8 @@ importers:
   packages/typesense:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1589,8 +1589,8 @@ importers:
   packages/unkey:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1608,8 +1608,8 @@ importers:
   packages/vanta:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1627,8 +1627,8 @@ importers:
   packages/vercel:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1646,8 +1646,8 @@ importers:
   packages/whop:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1665,8 +1665,8 @@ importers:
   packages/workos:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1684,8 +1684,8 @@ importers:
   packages/xata:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -1703,8 +1703,8 @@ importers:
   packages/zendesk:
     dependencies:
       '@distilled.cloud/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0-rc.9
+        version: 1.0.0-rc.9(effect@4.0.0-rc.115)
       effect:
         specifier: 'catalog:'
         version: 4.0.0-rc.115
@@ -4526,6 +4526,10 @@ snapshots:
   '@distilled.cloud/core@1.0.0-rc.9(effect@4.0.0-rc.112)':
     dependencies:
       effect: 4.0.0-rc.112
+
+  '@distilled.cloud/core@1.0.0-rc.9(effect@4.0.0-rc.115)':
+    dependencies:
+      effect: 4.0.0-rc.115
 
   '@distilled.cloud/fly-io@1.0.0-rc.9(effect@4.0.0-rc.112)':
     dependencies:
