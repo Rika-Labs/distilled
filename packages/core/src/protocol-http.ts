@@ -288,8 +288,7 @@ export const mapKeys = (
           ? (dict[k] ?? k)
           : (Object.entries(dict).find(([, w]) => w === k)?.[0] ?? k)
         : k;
-      const renamedKey =
-        typeof renamed === "string" ? renamed : renamed?.[0];
+      const renamedKey = typeof renamed === "string" ? renamed : renamed?.[0];
       if (renamedKey === undefined) continue;
 
       out[renamedKey] =
@@ -353,7 +352,9 @@ export interface BuildRequestOptions {
    * Transform a member-bound header value before it is set (e.g.
    * Bearer-prefixing a raw token supplied as an Authorization member).
    */
-  readonly mapMemberHeader?: ((name: string, value: string) => string) | undefined;
+  readonly mapMemberHeader?:
+    | ((name: string, value: string) => string)
+    | undefined;
   /**
    * Wire name for input keys the schema doesn't declare (spec drift —
    * unknown keys pass through as body fields rather than being dropped).
@@ -688,7 +689,12 @@ export const matchTypedError = (
   errors: ReadonlyArray<{ code?: number | undefined; message: string }>,
 ): unknown | undefined => {
   let best:
-    | { cls: unknown; specificity: number; code?: number | undefined; message: string }
+    | {
+        cls: unknown;
+        specificity: number;
+        code?: number | undefined;
+        message: string;
+      }
     | undefined;
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);
