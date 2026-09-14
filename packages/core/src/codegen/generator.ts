@@ -57,6 +57,7 @@ import { memberBases, smithyWireName } from "./members.ts";
 import { validatePaginated } from "./pagination.ts";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
+const PROTO_STREAMING_TRAIT = "com.distilled.proto#streaming";
 
 /**
  * Error categories, derived from the STANDARD Smithy error traits.
@@ -473,6 +474,14 @@ export const generateService = (
 
   const selected: OpEntry[] = [];
   for (const op of operations) {
+    // Client-streaming ops (request: stream …) need a streaming request
+    // body the fetch transport cannot express — skip them here so their
+    // request/response shapes aren't emitted either. Server-streaming ops
+    // (response: stream …) are emitted via API.makeStream.
+    const streamTrait = op.def.traits?.[PROTO_STREAMING_TRAIT] as
+      | { readonly request?: boolean }
+      | undefined;
+    if (streamTrait?.request === true) continue;
     selected.push(op);
 
     const { input, output } = ensureNamedIo(shapes, op, ns);
@@ -1078,6 +1087,12 @@ export const generateService = (
       }
       const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
       const paginated = ctx.pagination !== undefined;
+      const streaming =
+        (
+          ctx.op.def.traits?.[PROTO_STREAMING_TRAIT] as
+            | { readonly request?: boolean; readonly response?: boolean }
+            | undefined
+        )?.response === true;
       const itemTsType = paginated
         ? paginatedItemTsType(
             ctx.op.def.__output,
@@ -1085,7 +1100,13 @@ export const generateService = (
           )
         : undefined;
       const typeAnnotation =
-        `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
+        `API.${
+          paginated
+            ? "PaginatedOperationMethod"
+            : streaming
+              ? "StreamingOperationMethod"
+              : "OperationMethod"
+        }<\n` +
         `  ${ctx.inputName},\n` +
         `  ${ctx.outputTsType},\n` +
         `  ${ctx.opName}Error,\n` +
@@ -1110,7 +1131,11 @@ export const generateService = (
         operationConst({
           exportName: ctx.exportName,
           typeAnnotation,
-          factory: paginated ? "API.makePaginated" : "API.make",
+          factory: paginated
+            ? "API.makePaginated"
+            : streaming
+              ? "API.makeStream"
+              : "API.make",
           pure,
           extraArg: paginated ? opProfile.get(ctx.op.id)?.strategy : undefined,
           config,

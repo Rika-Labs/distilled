@@ -108,6 +108,180 @@
         "smithy.api#documentation": "Workspaces"
       }
     },
+    "com.modal.workspace#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingReportRequest": {
+      "type": "structure",
+      "members": {
+        "startTimestamp": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "Workspace ID will be implicit in the request metadata",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "endTimestamp": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "resolution": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "tagNames": {
+          "target": "com.modal.workspace#StringList",
+          "traits": {
+            "smithy.api#documentation": "e.g. 'd' or 'h'; server defines what we accept",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string",
+              "rep": true
+            }
+          }
+        },
+        "environmentIds": {
+          "target": "com.modal.workspace#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string",
+              "rep": true
+            }
+          }
+        },
+        "appIds": {
+          "target": "com.modal.workspace#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingReportResponse": {
+      "type": "structure",
+      "members": {
+        "objectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "interval": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "wkt",
+              "w": "Timestamp"
+            }
+          }
+        },
+        "cost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
+        },
+        "tags": {
+          "target": "com.modal.workspace#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
+        },
+        "costByResource": {
+          "target": "com.modal.workspace#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceBillingReport": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceBillingReportRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceBillingReportResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceBillingReport",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.workspace#WorkspaceBillingSummaryRequest": {
       "type": "structure",
       "members": {
@@ -806,6 +980,9 @@
       "operations": [
         {
           "target": "com.modal.workspace#WorkspaceBillingRates"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceBillingReport"
         },
         {
           "target": "com.modal.workspace#WorkspaceBillingSummary"

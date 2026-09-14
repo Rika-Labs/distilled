@@ -345,6 +345,229 @@
         }
       }
     },
+    "com.modal.container#FileDescriptor": {
+      "type": "enum",
+      "members": {
+        "FILE_DESCRIPTOR_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_UNSPECIFIED"
+          }
+        },
+        "FILE_DESCRIPTOR_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDOUT"
+          }
+        },
+        "FILE_DESCRIPTOR_STDERR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDERR"
+          }
+        },
+        "FILE_DESCRIPTOR_INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE_DESCRIPTOR_INFO"
+          }
+        }
+      }
+    },
+    "com.modal.container#ContainerExecGetOutputRequest": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
+        },
+        "lastBatchIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        },
+        "fileDescriptor": {
+          "target": "com.modal.container#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
+        },
+        "getRawBytes": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Old clients (up to 0.65.39) expect string output. Newer clients stream raw bytes",
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "bool"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#RuntimeOutputMessage": {
+      "type": "structure",
+      "members": {
+        "fileDescriptor": {
+          "target": "com.modal.container#FileDescriptor",
+          "traits": {
+            "smithy.api#documentation": "only stdout / stderr is used",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "messageBytes": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bytes"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for `modal container exec`, `modal shell`, and Sandboxes"
+      }
+    },
+    "com.modal.container#RuntimeOutputMessageList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.container#RuntimeOutputMessage"
+      }
+    },
+    "com.modal.container#ContainerExecGetOutputResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.modal.container#RuntimeOutputMessageList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        },
+        "batchIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        },
+        "exitCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "if an exit code is given, this is the final message that will be sent.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "int32"
+            }
+          }
+        },
+        "stdout": {
+          "target": "com.modal.container#RuntimeOutputMessageList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message",
+              "rep": true
+            }
+          }
+        },
+        "stderr": {
+          "target": "com.modal.container#RuntimeOutputMessageList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "message",
+              "rep": true
+            }
+          }
+        },
+        "info": {
+          "target": "com.modal.container#RuntimeOutputMessageList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ContainerExecGetOutput": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerExecGetOutputRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ContainerExecGetOutputResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerExecGetOutput",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.container#RuntimeInputMessage": {
       "type": "structure",
       "members": {
@@ -1013,6 +1236,242 @@
         }
       }
     },
+    "com.modal.container#ContainerFilesystemExecGetOutputRequest": {
+      "type": "structure",
+      "members": {
+        "execId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.container#BlobList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Blob"
+      }
+    },
+    "com.modal.container#SystemErrorMessage": {
+      "type": "structure",
+      "members": {
+        "errorCode": {
+          "target": "com.modal.container#SystemErrorCode",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "SYSTEM_ERROR_CODE_UNSPECIFIED": 0,
+                "SYSTEM_ERROR_CODE_PERM": 1,
+                "SYSTEM_ERROR_CODE_NOENT": 2,
+                "SYSTEM_ERROR_CODE_IO": 5,
+                "SYSTEM_ERROR_CODE_NXIO": 6,
+                "SYSTEM_ERROR_CODE_NOMEM": 12,
+                "SYSTEM_ERROR_CODE_ACCES": 13,
+                "SYSTEM_ERROR_CODE_EXIST": 17,
+                "SYSTEM_ERROR_CODE_NOTDIR": 20,
+                "SYSTEM_ERROR_CODE_ISDIR": 21,
+                "SYSTEM_ERROR_CODE_INVAL": 22,
+                "SYSTEM_ERROR_CODE_MFILE": 24,
+                "SYSTEM_ERROR_CODE_FBIG": 27,
+                "SYSTEM_ERROR_CODE_NOSPC": 28
+              }
+            }
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        }
+      }
+    },
+    "com.modal.container#SystemErrorCode": {
+      "type": "enum",
+      "members": {
+        "SYSTEM_ERROR_CODE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_UNSPECIFIED"
+          }
+        },
+        "SYSTEM_ERROR_CODE_PERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_PERM"
+          }
+        },
+        "SYSTEM_ERROR_CODE_NOENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_NOENT",
+            "smithy.api#documentation": "EPERM: Operation not permitted"
+          }
+        },
+        "SYSTEM_ERROR_CODE_IO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_IO",
+            "smithy.api#documentation": "ENOENT: No such file or directory"
+          }
+        },
+        "SYSTEM_ERROR_CODE_NXIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_NXIO",
+            "smithy.api#documentation": "EIO: Input/output error"
+          }
+        },
+        "SYSTEM_ERROR_CODE_NOMEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_NOMEM",
+            "smithy.api#documentation": "ENXIO: No such device or address"
+          }
+        },
+        "SYSTEM_ERROR_CODE_ACCES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_ACCES",
+            "smithy.api#documentation": "ENOMEM: Out of memory"
+          }
+        },
+        "SYSTEM_ERROR_CODE_EXIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_EXIST",
+            "smithy.api#documentation": "EACCES: Permission denied"
+          }
+        },
+        "SYSTEM_ERROR_CODE_NOTDIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_NOTDIR",
+            "smithy.api#documentation": "EEXIST: File exists"
+          }
+        },
+        "SYSTEM_ERROR_CODE_ISDIR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_ISDIR",
+            "smithy.api#documentation": "ENOTDIR: Not a directory"
+          }
+        },
+        "SYSTEM_ERROR_CODE_INVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_INVAL",
+            "smithy.api#documentation": "EISDIR: Is a directory"
+          }
+        },
+        "SYSTEM_ERROR_CODE_MFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_MFILE",
+            "smithy.api#documentation": "EINVAL: Invalid argument"
+          }
+        },
+        "SYSTEM_ERROR_CODE_FBIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_FBIG",
+            "smithy.api#documentation": "EMFILE: Too many open files"
+          }
+        },
+        "SYSTEM_ERROR_CODE_NOSPC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYSTEM_ERROR_CODE_NOSPC",
+            "smithy.api#documentation": "EFBIG: File too large"
+          }
+        }
+      }
+    },
+    "com.modal.container#ContainerFilesystemExecGetOutputResponse": {
+      "type": "structure",
+      "members": {
+        "output": {
+          "target": "com.modal.container#BlobList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes",
+              "rep": true
+            }
+          }
+        },
+        "error": {
+          "target": "com.modal.container#SystemErrorMessage",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        },
+        "batchIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        },
+        "eof": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.container#ContainerFilesystemExecGetOutput": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.container#ContainerFilesystemExecGetOutputRequest"
+      },
+      "output": {
+        "target": "com.modal.container#ContainerFilesystemExecGetOutputResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ContainerFilesystemExecGetOutput",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.container#ContainerHeartbeatRequest": {
       "type": "structure",
       "members": {
@@ -1314,35 +1773,6 @@
         }
       }
     },
-    "com.modal.container#FileDescriptor": {
-      "type": "enum",
-      "members": {
-        "FILE_DESCRIPTOR_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_DESCRIPTOR_UNSPECIFIED"
-          }
-        },
-        "FILE_DESCRIPTOR_STDOUT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDOUT"
-          }
-        },
-        "FILE_DESCRIPTOR_STDERR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_DESCRIPTOR_STDERR"
-          }
-        },
-        "FILE_DESCRIPTOR_INFO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FILE_DESCRIPTOR_INFO"
-          }
-        }
-      }
-    },
     "com.modal.container#TaskProgress": {
       "type": "structure",
       "members": {
@@ -1569,6 +1999,9 @@
           "target": "com.modal.container#ExecContainer"
         },
         {
+          "target": "com.modal.container#ContainerExecGetOutput"
+        },
+        {
           "target": "com.modal.container#ContainerExecPutInput"
         },
         {
@@ -1576,6 +2009,9 @@
         },
         {
           "target": "com.modal.container#ExecContainerFilesystem"
+        },
+        {
+          "target": "com.modal.container#ContainerFilesystemExecGetOutput"
         },
         {
           "target": "com.modal.container#ContainerHeartbeat"

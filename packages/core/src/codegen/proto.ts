@@ -806,6 +806,14 @@ const EMPTY_STRUCT_ID = "GoogleProtobufEmpty";
  */
 export const PROTO_FIELD_TRAIT = "com.distilled.proto#field";
 
+/**
+ * `com.distilled.proto#streaming` — operation-level trait marking a
+ * streaming RPC: `{request: true}` for client-streaming input,
+ * `{response: true}` for server-streaming output. Emitted only when the
+ * converter is invoked with `skipStreaming: false`.
+ */
+export const PROTO_STREAMING_TRAIT = "com.distilled.proto#streaming";
+
 const descForType = (
   ctx: EmitCtx,
   raw: string,
@@ -1152,11 +1160,16 @@ export const convertProtoToSmithy = (
 
   for (const rpc of service.rpcs) {
     if (options.rpcNames && !options.rpcNames.has(rpc.name)) continue;
-    if (rpc.requestStream || rpc.responseStream) {
-      if (skipStreaming) {
-        skippedStreaming++;
-        continue;
-      }
+    const streaming =
+      rpc.requestStream || rpc.responseStream
+        ? {
+            ...(rpc.requestStream ? { request: true } : {}),
+            ...(rpc.responseStream ? { response: true } : {}),
+          }
+        : undefined;
+    if (streaming !== undefined && skipStreaming) {
+      skippedStreaming++;
+      continue;
     }
     if (rpc.deprecated && skipDeprecated) {
       skippedDeprecated++;
@@ -1172,6 +1185,7 @@ export const convertProtoToSmithy = (
     const doc = oneLineDoc(rpc.documentation);
     if (doc) traits["smithy.api#documentation"] = doc;
     if (rpc.deprecated) traits["smithy.api#deprecated"] = {};
+    if (streaming !== undefined) traits[PROTO_STREAMING_TRAIT] = streaming;
 
     const opId = addExact(bag, rpc.name, {
       type: "operation",

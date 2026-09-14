@@ -12,8 +12,9 @@
  * `POST /<package>.<Service>/<Method>`; members carry the
  * `com.distilled.proto#field` wire descriptor (field number + kind) so the
  * generated SDK can encode binary `application/grpc` frames via
- * `core/protobuf`. Streaming RPCs are skipped (they are not a
- * request/response POST).
+ * `core/protobuf`. Streaming RPCs carry the `com.distilled.proto#streaming`
+ * trait; the generator emits server-streaming ops via `API.makeStream` and
+ * skips client-streaming ops (no streaming request transport).
  *
  * Modal's production control plane speaks binary gRPC — see
  * `src/protocol.ts`. Direct use of the gRPC API is unsupported by Modal and
@@ -86,7 +87,7 @@ const writeModel = (
     serviceDocumentation,
     protoService,
     rpcNames,
-    skipStreaming: true,
+    skipStreaming: false,
     skipDeprecated: true,
   });
   if (result.converted === 0) {

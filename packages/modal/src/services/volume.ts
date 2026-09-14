@@ -562,6 +562,123 @@ export const VolumeHeartbeatResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "VolumeHeartbeatResponse",
 }) as any as S.Schema<VolumeHeartbeatResponse>;
 
+export interface VolumeListFilesRequest {
+  volumeId?: string;
+  path?: string;
+  recursive?: boolean;
+  maxEntries?: number;
+}
+export const VolumeListFilesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    maxEntries: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/VolumeListFiles",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "VolumeListFilesRequest",
+}) as any as S.Schema<VolumeListFilesRequest>;
+
+export type FileEntryFileType =
+  | "UNSPECIFIED"
+  | "FILE"
+  | "DIRECTORY"
+  | "SYMLINK"
+  | "FIFO"
+  | "SOCKET";
+export const FileEntryFileType = S.String;
+
+/** A file entry when listing files in a volume or network file system. */
+export interface FileEntry {
+  path?: string;
+  type?: FileEntryFileType;
+  mtime?: string;
+  size?: string;
+}
+export const FileEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    type: S.optional(
+      FileEntryFileType.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            UNSPECIFIED: 0,
+            FILE: 1,
+            DIRECTORY: 2,
+            SYMLINK: 3,
+            FIFO: 4,
+            SOCKET: 5,
+          },
+        }),
+      ),
+    ),
+    mtime: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    size: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+  }),
+).annotate({ identifier: "FileEntry" }) as any as S.Schema<FileEntry>;
+
+export type FileEntryList = Array<FileEntry>;
+export const FileEntryList = /*@__PURE__*/ S.Array(
+  FileEntry,
+) as any as S.Schema<FileEntryList>;
+
+export interface VolumeListFilesResponse {
+  entries?: FileEntryList;
+}
+export const VolumeListFilesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entries: S.optional(
+      FileEntryList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+  }),
+).annotate({
+  identifier: "VolumeListFilesResponse",
+}) as any as S.Schema<VolumeListFilesResponse>;
+
+export interface VolumeListFiles2Request {
+  volumeId?: string;
+  path?: string;
+  recursive?: boolean;
+  maxEntries?: number;
+}
+export const VolumeListFiles2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    volumeId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    recursive: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    maxEntries: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "uint32" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/VolumeListFiles2",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "VolumeListFiles2Request",
+}) as any as S.Schema<VolumeListFiles2Request>;
+
+export interface VolumeListFiles2Response {
+  entries?: FileEntryList;
+}
+export const VolumeListFiles2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entries: S.optional(
+      FileEntryList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+  }),
+).annotate({
+  identifier: "VolumeListFiles2Response",
+}) as any as S.Schema<VolumeListFiles2Response>;
+
 export interface MountFile {
   filename?: string;
   sha256Hex?: string;
@@ -972,6 +1089,34 @@ export const volumeHeartbeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: VolumeHeartbeatRequest,
   output: VolumeHeartbeatResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type VolumeListFilesError = ModalOpError;
+export const volumeListFiles: API.StreamingOperationMethod<
+  VolumeListFilesRequest,
+  VolumeListFilesResponse,
+  VolumeListFilesError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: VolumeListFilesRequest,
+  output: VolumeListFilesResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type VolumeListFiles2Error = ModalOpError;
+export const volumeListFiles2: API.StreamingOperationMethod<
+  VolumeListFiles2Request,
+  VolumeListFiles2Response,
+  VolumeListFiles2Error,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: VolumeListFiles2Request,
+  output: VolumeListFiles2Response,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

@@ -1731,6 +1731,203 @@ export const SandboxGetFromNameV2Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxGetFromNameV2Response",
 }) as any as S.Schema<SandboxGetFromNameV2Response>;
 
+export type FileDescriptor =
+  | "FILE_DESCRIPTOR_UNSPECIFIED"
+  | "FILE_DESCRIPTOR_STDOUT"
+  | "FILE_DESCRIPTOR_STDERR"
+  | "FILE_DESCRIPTOR_INFO";
+export const FileDescriptor = S.String;
+
+export interface SandboxGetLogsRequest {
+  sandboxId?: string;
+  fileDescriptor?: FileDescriptor | (string & {});
+  timeout?: number;
+  lastEntryId?: string;
+}
+export const SandboxGetLogsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 2,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "float" }))),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/SandboxGetLogs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SandboxGetLogsRequest",
+}) as any as S.Schema<SandboxGetLogsRequest>;
+
+export type TaskState =
+  | "TASK_STATE_UNSPECIFIED"
+  | "TASK_STATE_CREATED"
+  | "TASK_STATE_QUEUED"
+  | "TASK_STATE_WORKER_ASSIGNED"
+  | "TASK_STATE_LOADING_IMAGE"
+  | "TASK_STATE_ACTIVE"
+  | "TASK_STATE_COMPLETED"
+  | "TASK_STATE_CREATING_CONTAINER"
+  | "TASK_STATE_IDLE"
+  | "TASK_STATE_PREEMPTIBLE"
+  | "TASK_STATE_PREEMPTED"
+  | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
+export const TaskState = S.String;
+
+export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
+export const ProgressType = S.String;
+
+export interface TaskProgress {
+  len?: string;
+  pos?: string;
+  progressType?: ProgressType;
+  description?: string;
+}
+export const TaskProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "uint64" }))),
+    pos: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    progressType: S.optional(
+      ProgressType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { IMAGE_SNAPSHOT_UPLOAD: 0, FUNCTION_QUEUED: 1 },
+        }),
+      ),
+    ),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+  }),
+).annotate({ identifier: "TaskProgress" }) as any as S.Schema<TaskProgress>;
+
+export interface TaskLogs {
+  data?: string;
+  taskState?: TaskState;
+  timestamp?: number;
+  fileDescriptor?: FileDescriptor;
+  taskProgress?: TaskProgress;
+  functionCallId?: string;
+  inputId?: string;
+  timestampNs?: string;
+  containerId?: string;
+  containerName?: string;
+}
+export const TaskLogs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskState: S.optional(
+      TaskState.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            TASK_STATE_UNSPECIFIED: 0,
+            TASK_STATE_CREATED: 6,
+            TASK_STATE_QUEUED: 1,
+            TASK_STATE_WORKER_ASSIGNED: 2,
+            TASK_STATE_LOADING_IMAGE: 3,
+            TASK_STATE_ACTIVE: 4,
+            TASK_STATE_COMPLETED: 5,
+            TASK_STATE_CREATING_CONTAINER: 7,
+            TASK_STATE_IDLE: 8,
+            TASK_STATE_PREEMPTIBLE: 9,
+            TASK_STATE_PREEMPTED: 10,
+            TASK_STATE_LOADING_CHECKPOINT_IMAGE: 11,
+          },
+        }),
+      ),
+    ),
+    timestamp: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    taskProgress: S.optional(
+      TaskProgress.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 10, t: "string" })),
+    ),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    timestampNs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "uint64" })),
+    ),
+    containerId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 14, t: "string" })),
+    ),
+  }),
+).annotate({ identifier: "TaskLogs" }) as any as S.Schema<TaskLogs>;
+
+export type TaskLogsList = Array<TaskLogs>;
+export const TaskLogsList = /*@__PURE__*/ S.Array(
+  TaskLogs,
+) as any as S.Schema<TaskLogsList>;
+
+export interface SandboxGetLogsResponse {
+  taskId?: string;
+  items?: TaskLogsList;
+  entryId?: string;
+  appDone?: boolean;
+  functionId?: string;
+  inputId?: string;
+  imageId?: string;
+  /** Used for image logs */
+  eof?: boolean;
+  ptyExecId?: string;
+  /** Used for interactive functions */
+  rootFunctionId?: string;
+  ttlDays?: number;
+}
+export const SandboxGetLogsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    items: S.optional(
+      TaskLogsList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    entryId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    appDone: S.optional(S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "string" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 13, t: "string" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 14, t: "bool" }))),
+    ptyExecId: S.optional(S.String.pipe(T.ProtoField({ n: 15, t: "string" }))),
+    rootFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 16, t: "string" })),
+    ),
+    ttlDays: S.optional(S.Number.pipe(T.ProtoField({ n: 17, t: "uint32" }))),
+  }),
+).annotate({
+  identifier: "SandboxGetLogsResponse",
+}) as any as S.Schema<SandboxGetLogsResponse>;
+
 export interface SandboxGetResourceUsageRequest {
   sandboxId?: string;
 }
@@ -2676,6 +2873,20 @@ export const sandboxGetFromNameV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SandboxGetFromNameV2Request,
   output: SandboxGetFromNameV2Response,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SandboxGetLogsError = ModalOpError;
+export const sandboxGetLogs: API.StreamingOperationMethod<
+  SandboxGetLogsRequest,
+  SandboxGetLogsResponse,
+  SandboxGetLogsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: SandboxGetLogsRequest,
+  output: SandboxGetLogsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

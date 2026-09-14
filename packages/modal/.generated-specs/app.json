@@ -3003,6 +3003,248 @@
         }
       }
     },
+    "com.modal.app#AppGetLogsRequest": {
+      "type": "structure",
+      "members": {
+        "appId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Float",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "float"
+            }
+          }
+        },
+        "lastEntryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
+        },
+        "parametrizedFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
+        },
+        "inputId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 6,
+              "t": "string"
+            }
+          }
+        },
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 7,
+              "t": "string"
+            }
+          }
+        },
+        "functionCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 9,
+              "t": "string"
+            }
+          }
+        },
+        "fileDescriptor": {
+          "target": "com.modal.app#FileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 8,
+              "t": "enum",
+              "e": {
+                "FILE_DESCRIPTOR_UNSPECIFIED": 0,
+                "FILE_DESCRIPTOR_STDOUT": 1,
+                "FILE_DESCRIPTOR_STDERR": 2,
+                "FILE_DESCRIPTOR_INFO": 3
+              }
+            }
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "string"
+            }
+          }
+        },
+        "searchText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "string"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.app#AppGetLogsResponse": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "items": {
+          "target": "com.modal.app#TaskLogsList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message",
+              "rep": true
+            }
+          }
+        },
+        "entryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 5,
+              "t": "string"
+            }
+          }
+        },
+        "appDone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 10,
+              "t": "bool"
+            }
+          }
+        },
+        "functionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 11,
+              "t": "string"
+            }
+          }
+        },
+        "inputId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 12,
+              "t": "string"
+            }
+          }
+        },
+        "imageId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 13,
+              "t": "string"
+            }
+          }
+        },
+        "eof": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Used for image logs",
+            "com.distilled.proto#field": {
+              "n": 14,
+              "t": "bool"
+            }
+          }
+        },
+        "ptyExecId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 15,
+              "t": "string"
+            }
+          }
+        },
+        "rootFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used for interactive functions",
+            "com.distilled.proto#field": {
+              "n": 16,
+              "t": "string"
+            }
+          }
+        },
+        "ttlDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 17,
+              "t": "uint32"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.app#AppGetLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.app#AppGetLogsRequest"
+      },
+      "output": {
+        "target": "com.modal.app#AppGetLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/AppGetLogs",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.app#AppGetObjectsRequest": {
       "type": "structure",
       "members": {
@@ -4265,6 +4507,9 @@
         },
         {
           "target": "com.modal.app#AppGetLifecycle"
+        },
+        {
+          "target": "com.modal.app#AppGetLogs"
         },
         {
           "target": "com.modal.app#AppGetObjects"

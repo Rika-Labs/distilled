@@ -231,6 +231,85 @@ export const WorkspaceBillingRatesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkspaceBillingRatesResponse",
 }) as any as S.Schema<WorkspaceBillingRatesResponse>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+export interface WorkspaceBillingReportRequest {
+  /** Workspace ID will be implicit in the request metadata */
+  startTimestamp?: string;
+  endTimestamp?: string;
+  resolution?: string;
+  /** e.g. 'd' or 'h'; server defines what we accept */
+  tagNames?: StringList;
+  environmentIds?: StringList;
+  appIds?: StringList;
+}
+export const WorkspaceBillingReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "wkt", w: "Timestamp" })),
+    ),
+    endTimestamp: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "wkt", w: "Timestamp" })),
+    ),
+    resolution: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    tagNames: S.optional(
+      StringList.pipe(T.ProtoField({ n: 4, t: "string", rep: true })),
+    ),
+    environmentIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 5, t: "string", rep: true })),
+    ),
+    appIds: S.optional(
+      StringList.pipe(T.ProtoField({ n: 6, t: "string", rep: true })),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/WorkspaceBillingReport",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "WorkspaceBillingReportRequest",
+}) as any as S.Schema<WorkspaceBillingReportRequest>;
+
+export interface WorkspaceBillingReportResponse {
+  objectId?: string;
+  description?: string;
+  environmentName?: string;
+  interval?: string;
+  cost?: string;
+  tags?: StringMap;
+  costByResource?: StringMap;
+}
+export const WorkspaceBillingReportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    environmentName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    interval: S.optional(
+      S.String.pipe(T.ProtoField({ n: 4, t: "wkt", w: "Timestamp" })),
+    ),
+    cost: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    tags: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 6, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+    costByResource: S.optional(
+      StringMap.pipe(
+        T.ProtoField({ n: 8, t: "map", k: "string", v: { t: "string" } }),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "WorkspaceBillingReportResponse",
+}) as any as S.Schema<WorkspaceBillingReportResponse>;
+
 export interface WorkspaceBillingSummaryRequest {
   /** all query intervals are implicitly one month long (to line up with billing cycles) */
   startTimestamp?: string;
@@ -516,6 +595,20 @@ export const workspaceBillingRates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkspaceBillingRatesRequest,
   output: WorkspaceBillingRatesResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WorkspaceBillingReportError = ModalOpError;
+export const workspaceBillingReport: API.StreamingOperationMethod<
+  WorkspaceBillingReportRequest,
+  WorkspaceBillingReportResponse,
+  WorkspaceBillingReportError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: WorkspaceBillingReportRequest,
+  output: WorkspaceBillingReportResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

@@ -400,6 +400,58 @@ export const SandboxStdinWriteV2Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxStdinWriteV2Response",
 }) as any as S.Schema<SandboxStdinWriteV2Response>;
 
+export type SandboxStdioFileDescriptor =
+  | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT"
+  | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR";
+export const SandboxStdioFileDescriptor = S.String;
+
+export interface SandboxStdioReadV2Request {
+  taskId?: string;
+  offset?: string;
+  fileDescriptor?: SandboxStdioFileDescriptor | (string & {});
+}
+export const SandboxStdioReadV2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    offset: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    fileDescriptor: S.optional(
+      SandboxStdioFileDescriptor.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: {
+            SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT: 0,
+            SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR: 1,
+          },
+        }),
+      ),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.task_command_router.TaskCommandRouter/SandboxStdioReadV2",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SandboxStdioReadV2Request",
+}) as any as S.Schema<SandboxStdioReadV2Request>;
+
+export interface SandboxStdioReadV2Response {
+  data?: string;
+  startingOffset?: string;
+}
+export const SandboxStdioReadV2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    startingOffset: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "uint64" })),
+    ),
+  }),
+).annotate({
+  identifier: "SandboxStdioReadV2Response",
+}) as any as S.Schema<SandboxStdioReadV2Response>;
+
 export interface SandboxWaitUntilReadyRequest {
   taskId?: string;
   timeout?: number;
@@ -643,6 +695,61 @@ export const TaskExecStdinWriteResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TaskExecStdinWriteResponse",
 }) as any as S.Schema<TaskExecStdinWriteResponse>;
+
+export type TaskExecStdioFileDescriptor =
+  | "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT"
+  | "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR";
+export const TaskExecStdioFileDescriptor = S.String;
+
+export interface TaskExecStdioReadRequest {
+  /** The ID of the task running the exec'd command. */
+  taskId?: string;
+  /** The execution ID of the command to read from. */
+  execId?: string;
+  /** The offset to start reading from. This is used to resume reading from the last read position if the connection is closed and reopened. */
+  offset?: string;
+  /** Which file descriptor to read from. */
+  fileDescriptor?: TaskExecStdioFileDescriptor | (string & {});
+}
+export const TaskExecStdioReadRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    offset: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "uint64" }))),
+    fileDescriptor: S.optional(
+      TaskExecStdioFileDescriptor.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT: 0,
+            TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR: 1,
+          },
+        }),
+      ),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.task_command_router.TaskCommandRouter/TaskExecStdioRead",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "TaskExecStdioReadRequest",
+}) as any as S.Schema<TaskExecStdioReadRequest>;
+
+export interface TaskExecStdioReadResponse {
+  /** The data read from the file descriptor. */
+  data?: string;
+}
+export const TaskExecStdioReadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+  }),
+).annotate({
+  identifier: "TaskExecStdioReadResponse",
+}) as any as S.Schema<TaskExecStdioReadResponse>;
 
 export interface TaskExecWaitRequest {
   /** The ID of the task running the exec'd command. */
@@ -1110,6 +1217,20 @@ export const sandboxStdinWriteV2: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SandboxStdioReadV2Error = ModalOpError;
+export const sandboxStdioReadV2: API.StreamingOperationMethod<
+  SandboxStdioReadV2Request,
+  SandboxStdioReadV2Response,
+  SandboxStdioReadV2Error,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: SandboxStdioReadV2Request,
+  output: SandboxStdioReadV2Response,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SandboxWaitUntilReadyError = ModalOpError;
 export const sandboxWaitUntilReady: API.OperationMethod<
   SandboxWaitUntilReadyRequest,
@@ -1179,6 +1300,21 @@ export const taskExecStdinWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TaskExecStdinWriteRequest,
   output: TaskExecStdinWriteResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TaskExecStdioReadError = ModalOpError;
+/** Get a stream of output from the stdout or stderr stream of an exec'd command. */
+export const taskExecStdioRead: API.StreamingOperationMethod<
+  TaskExecStdioReadRequest,
+  TaskExecStdioReadResponse,
+  TaskExecStdioReadError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: TaskExecStdioReadRequest,
+  output: TaskExecStdioReadResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

@@ -10,6 +10,7 @@
  */
 import type * as AST from "effect/SchemaAST";
 import * as HttpBody from "effect/unstable/http/HttpBody";
+import { debugHttp } from "./env.ts";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import {
   bodySymbol,
@@ -513,7 +514,7 @@ export const buildRequest = ({
 
   const qs = query.toString();
   const url = `${baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-  if (process.env.DISTILLED_DEBUG_HTTP) {
+  if (debugHttp()) {
     console.error(
       `[distilled] ${http.method} ${url}` +
         (Object.keys(body).length

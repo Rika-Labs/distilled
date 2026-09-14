@@ -7,7 +7,7 @@ import type * as AST from "effect/SchemaAST";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
 import * as Scope from "effect/Scope";
-import type * as Stream from "effect/Stream";
+import * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
 import * as Pagination from "./pagination.ts";
 import { makeDefault, type Policy as RetryPolicy } from "./retry.ts";
@@ -72,6 +72,19 @@ export class Protocol extends Context.Service<
       /** The operation's config (memoized per operation — see {@link ProtocolOperationConfig}). */
       readonly config: ProtocolOperationConfig;
     }) => Effect.Effect<unknown>;
+    /**
+     * Server-streaming counterpart of {@link decode}: the response body is an
+     * unterminated sequence of framed messages, surfaced as one Stream element
+     * per frame. Only protocols whose wire format supports streaming implement
+     * it (e.g. `application/grpc`); ops emitted with {@link makeStream} die
+     * when the bound protocol leaves it undefined.
+     */
+    readonly decodeStream?: (args: {
+      readonly response: HttpClientResponse.HttpClientResponse;
+      readonly outputAst: AST.AST;
+      readonly errors: ReadonlyArray<ApiErrorClass>;
+      readonly config: ProtocolOperationConfig;
+    }) => Stream.Stream<unknown, unknown>;
   }
 >()("Protocol") {}
 
@@ -455,6 +468,131 @@ export function makePaginated<
     );
 
   return withStreams(fn);
+}
+
+//#endregion
+
+//#region MakeStream
+
+/**
+ * The shape of a generated server-streaming operation — the same dual-call
+ * pattern as {@link OperationMethod}, but the call returns a Stream of
+ * response messages instead of an Effect of one response:
+ *
+ * 1. Direct call: `yield* Stream.runCollect(op(input))` — the Stream carries
+ *    the operation's requirements.
+ * 2. Yield first: `const fn = yield* op` — captures the current context and
+ *    returns a requirement-free `input => Stream`.
+ */
+export type StreamingOperationMethod<I, O, E, R> = Effect.Effect<
+  (input: I) => Stream.Stream<O, E, never>,
+  never,
+  R
+> &
+  ((input: I) => Stream.Stream<O, E, R>);
+
+/**
+ * Like {@link make}, for server-streaming RPCs (`rpc … returns (stream R)`).
+ * The request encodes exactly like a unary call; the bound protocol's
+ * {@link Protocol.decodeStream} turns the framed response body into one
+ * Stream element per message. No client-streaming: `stream` request types
+ * still need a different transport and are not emitted.
+ */
+export function makeStream<
+  I extends S.Top,
+  O extends S.Top,
+  PE,
+  PR,
+  const E extends readonly ApiErrorClass[] = readonly [],
+>(
+  configFn: () => OperationConfig<I, O, PE, PR, E>,
+): StreamingOperationMethod<
+  S.Schema.Type<I>,
+  S.Schema.Type<O>,
+  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  PR | HttpClient.HttpClient
+> {
+  interface Prepared {
+    readonly cfg: OperationConfig<I, O, PE, PR, E>;
+    readonly inputAst: AST.AST;
+    readonly outputAst: AST.AST;
+  }
+  let prepared: Prepared | undefined;
+  const prepare = (): Prepared => {
+    if (prepared) return prepared;
+    const cfg = configFn();
+    prepared = {
+      cfg,
+      inputAst: cfg.input!.ast,
+      outputAst: cfg.output!.ast,
+    };
+    return prepared;
+  };
+
+  const open = (input: unknown) =>
+    Effect.suspend(() => {
+      const { cfg, inputAst, outputAst } = prepare();
+      return Effect.flatMap(protocolContext(cfg.protocol), (protocolCtx) =>
+        Effect.gen(function* () {
+          const protocol = yield* Protocol;
+          const client = yield* HttpClient.HttpClient;
+          const request = yield* protocol.encode({
+            input,
+            inputAst,
+            config: cfg,
+          });
+          const response = yield* client.execute(request);
+          if (protocol.decodeStream === undefined) {
+            return yield* Effect.die(
+              new Error(
+                "the bound protocol does not implement decodeStream (server-streaming)",
+              ),
+            );
+          }
+          return protocol.decodeStream({
+            response,
+            outputAst,
+            errors: cfg.errors ?? [],
+            config: cfg,
+          });
+        }).pipe(Effect.provideContext(protocolCtx)),
+      );
+    });
+
+  const fn = (input: unknown) => Stream.unwrap(open(input));
+
+  const Proto = {
+    [Symbol.iterator](this: any) {
+      return new SingleShotGen(this.asEffect());
+    },
+    pipe(this: any) {
+      return pipeArguments(this.asEffect(), arguments);
+    },
+    asEffect() {
+      return Effect.map(
+        Effect.context(),
+        (context) => (input: unknown) =>
+          // Call-time fiber entries win over the captured context — the same
+          // fallback (not snapshot) semantics as `make`'s yieldable form.
+          Stream.updateContext(fn(input), (current): Context.Context<any> =>
+            Context.merge(context, current),
+          ),
+      );
+    },
+  };
+  Object.assign(fn, Proto);
+
+  Object.defineProperties(fn, {
+    input: { get: () => prepare().cfg.input, configurable: true },
+    output: { get: () => prepare().cfg.output, configurable: true },
+    errors: { get: () => prepare().cfg.errors ?? [], configurable: true },
+    operationName: {
+      get: () => prepare().cfg.operationName,
+      configurable: true,
+    },
+  });
+
+  return fn as any;
 }
 
 //#endregion

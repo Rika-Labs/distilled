@@ -111,6 +111,87 @@
         }
       }
     },
+    "com.modal.dict#DictContentsRequest": {
+      "type": "structure",
+      "members": {
+        "dictId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "keys": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Setting these to True will populate the corresponding field in the response, otherwise it will be null This lets us support the keys/values/items SDK API through one RPC without unnecessary data transfer",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
+        },
+        "values": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bool"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.dict#DictContentsResponse": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
+        },
+        "value": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.dict#DictContents": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.dict#DictContentsRequest"
+      },
+      "output": {
+        "target": "com.modal.dict#DictContentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/DictContents",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.dict#DeleteDictRequest": {
       "type": "structure",
       "members": {
@@ -856,6 +937,9 @@
         },
         {
           "target": "com.modal.dict#DictContains"
+        },
+        {
+          "target": "com.modal.dict#DictContents"
         },
         {
           "target": "com.modal.dict#DeleteDict"

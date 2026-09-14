@@ -594,6 +594,69 @@
         }
       }
     },
+    "com.modal.shared#SharedVolumeListFilesStreamRequest": {
+      "type": "structure",
+      "members": {
+        "sharedVolumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeListFilesStreamResponse": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.modal.shared#FileEntryList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.shared#SharedVolumeListFilesStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.shared#SharedVolumeListFilesStreamRequest"
+      },
+      "output": {
+        "target": "com.modal.shared#SharedVolumeListFilesStreamResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/SharedVolumeListFilesStream",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.shared#SharedVolumePutFileRequest": {
       "type": "structure",
       "members": {
@@ -761,6 +824,9 @@
         },
         {
           "target": "com.modal.shared#SharedVolumeListFiles"
+        },
+        {
+          "target": "com.modal.shared#SharedVolumeListFilesStream"
         },
         {
           "target": "com.modal.shared#SharedVolumePutFile"

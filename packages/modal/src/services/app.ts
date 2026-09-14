@@ -1305,6 +1305,97 @@ export const AppGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppGetLifecycleResponse",
 }) as any as S.Schema<AppGetLifecycleResponse>;
 
+export interface AppGetLogsRequest {
+  appId?: string;
+  timeout?: number;
+  lastEntryId?: string;
+  functionId?: string;
+  parametrizedFunctionId?: string;
+  inputId?: string;
+  taskId?: string;
+  functionCallId?: string;
+  fileDescriptor?: FileDescriptor | (string & {});
+  sandboxId?: string;
+  searchText?: string;
+}
+export const AppGetLogsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    parametrizedFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 11, t: "string" })),
+    ),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 6, t: "string" }))),
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 7, t: "string" }))),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 9, t: "string" })),
+    ),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    sandboxId: S.optional(S.String.pipe(T.ProtoField({ n: 10, t: "string" }))),
+    searchText: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "string" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/AppGetLogs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "AppGetLogsRequest",
+}) as any as S.Schema<AppGetLogsRequest>;
+
+export interface AppGetLogsResponse {
+  taskId?: string;
+  items?: TaskLogsList;
+  entryId?: string;
+  appDone?: boolean;
+  functionId?: string;
+  inputId?: string;
+  imageId?: string;
+  /** Used for image logs */
+  eof?: boolean;
+  ptyExecId?: string;
+  /** Used for interactive functions */
+  rootFunctionId?: string;
+  ttlDays?: number;
+}
+export const AppGetLogsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    items: S.optional(
+      TaskLogsList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    entryId: S.optional(S.String.pipe(T.ProtoField({ n: 5, t: "string" }))),
+    appDone: S.optional(S.Boolean.pipe(T.ProtoField({ n: 10, t: "bool" }))),
+    functionId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 12, t: "string" }))),
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 13, t: "string" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 14, t: "bool" }))),
+    ptyExecId: S.optional(S.String.pipe(T.ProtoField({ n: 15, t: "string" }))),
+    rootFunctionId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 16, t: "string" })),
+    ),
+    ttlDays: S.optional(S.Number.pipe(T.ProtoField({ n: 17, t: "uint32" }))),
+  }),
+).annotate({
+  identifier: "AppGetLogsResponse",
+}) as any as S.Schema<AppGetLogsResponse>;
+
 export interface AppGetObjectsRequest {
   appId?: string;
   includeUnindexed?: boolean;
@@ -2261,6 +2352,20 @@ export const appGetLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AppGetLifecycleRequest,
   output: AppGetLifecycleResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AppGetLogsError = ModalOpError;
+export const appGetLogs: API.StreamingOperationMethod<
+  AppGetLogsRequest,
+  AppGetLogsResponse,
+  AppGetLogsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: AppGetLogsRequest,
+  output: AppGetLogsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

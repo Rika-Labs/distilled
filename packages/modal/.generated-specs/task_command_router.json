@@ -85,6 +85,107 @@
         }
       }
     },
+    "com.modal.task.command.router#SandboxStdioFileDescriptor": {
+      "type": "enum",
+      "members": {
+        "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT"
+          }
+        },
+        "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR"
+          }
+        }
+      }
+    },
+    "com.modal.task.command.router#SandboxStdioReadV2Request": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "offset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        },
+        "fileDescriptor": {
+          "target": "com.modal.task.command.router#SandboxStdioFileDescriptor",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "enum",
+              "e": {
+                "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT": 0,
+                "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR": 1
+              }
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task.command.router#SandboxStdioReadV2Response": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
+        },
+        "startingOffset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task.command.router#SandboxStdioReadV2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task.command.router#SandboxStdioReadV2Request"
+      },
+      "output": {
+        "target": "com.modal.task.command.router#SandboxStdioReadV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.task_command_router.TaskCommandRouter/SandboxStdioReadV2",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.task.command.router#SandboxWaitUntilReadyRequest": {
       "type": "structure",
       "members": {
@@ -1459,6 +1560,219 @@
         "smithy.api#documentation": "Write to the stdin stream of an exec'd command."
       }
     },
+    "com.modal.task.command.router#TaskExecStdinWriteStreamStart": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "execId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The execution ID of the command to write to.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "offset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The byte offset at which the stream begins. Will be 0 unless resuming a broken stream.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        }
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdinWriteStreamEnd": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.modal.task.command.router#TaskExecStdinWriteStreamRequest": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "com.modal.task.command.router#TaskExecStdinWriteStreamStart",
+          "traits": {
+            "smithy.api#documentation": "Start of a stdin write stream. Includes task_id, exec_id, and offset to write to.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "A chunk of stdin data to write to the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        },
+        "end": {
+          "target": "com.modal.task.command.router#TaskExecStdinWriteStreamEnd",
+          "traits": {
+            "smithy.api#documentation": "Signals EOF: close stdin after the data sent so far.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdinWriteStreamResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdinWriteStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task.command.router#TaskExecStdinWriteStreamRequest"
+      },
+      "output": {
+        "target": "com.modal.task.command.router#TaskExecStdinWriteStreamResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.task_command_router.TaskCommandRouter/TaskExecStdinWriteStream",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stream stdin bytes to an exec'd command. First message carries the start message (task_id, exec_id, offset); subsequent messages carry data.",
+        "com.distilled.proto#streaming": {
+          "request": true
+        }
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdioFileDescriptor": {
+      "type": "enum",
+      "members": {
+        "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT",
+            "smithy.api#documentation": "Read from stdout."
+          }
+        },
+        "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR",
+            "smithy.api#documentation": "Read from stderr."
+          }
+        }
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdioReadRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the task running the exec'd command.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "execId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The execution ID of the command to read from.",
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "offset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The offset to start reading from. This is used to resume reading from the last read position if the connection is closed and reopened.",
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        },
+        "fileDescriptor": {
+          "target": "com.modal.task.command.router#TaskExecStdioFileDescriptor",
+          "traits": {
+            "smithy.api#documentation": "Which file descriptor to read from.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "enum",
+              "e": {
+                "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT": 0,
+                "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR": 1
+              }
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdioReadResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The data read from the file descriptor.",
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task.command.router#TaskExecStdioRead": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task.command.router#TaskExecStdioReadRequest"
+      },
+      "output": {
+        "target": "com.modal.task.command.router#TaskExecStdioReadResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.task_command_router.TaskCommandRouter/TaskExecStdioRead",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a stream of output from the stdout or stderr stream of an exec'd command.",
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.task.command.router#TaskExecWaitRequest": {
       "type": "structure",
       "members": {
@@ -2133,6 +2447,9 @@
           "target": "com.modal.task.command.router#SandboxStdinWriteV2"
         },
         {
+          "target": "com.modal.task.command.router#SandboxStdioReadV2"
+        },
+        {
           "target": "com.modal.task.command.router#SandboxWaitUntilReady"
         },
         {
@@ -2161,6 +2478,12 @@
         },
         {
           "target": "com.modal.task.command.router#TaskExecStdinWrite"
+        },
+        {
+          "target": "com.modal.task.command.router#TaskExecStdinWriteStream"
+        },
+        {
+          "target": "com.modal.task.command.router#TaskExecStdioRead"
         },
         {
           "target": "com.modal.task.command.router#TaskExecWait"

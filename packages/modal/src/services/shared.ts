@@ -328,6 +328,40 @@ export const SharedVolumeListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SharedVolumeListFilesResponse",
 }) as any as S.Schema<SharedVolumeListFilesResponse>;
 
+export interface SharedVolumeListFilesStreamRequest {
+  sharedVolumeId?: string;
+  path?: string;
+}
+export const SharedVolumeListFilesStreamRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sharedVolumeId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    path: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/SharedVolumeListFilesStream",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SharedVolumeListFilesStreamRequest",
+}) as any as S.Schema<SharedVolumeListFilesStreamRequest>;
+
+export interface SharedVolumeListFilesStreamResponse {
+  entries?: FileEntryList;
+}
+export const SharedVolumeListFilesStreamResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entries: S.optional(
+      FileEntryList.pipe(T.ProtoField({ n: 1, t: "message", rep: true })),
+    ),
+  }),
+).annotate({
+  identifier: "SharedVolumeListFilesStreamResponse",
+}) as any as S.Schema<SharedVolumeListFilesStreamResponse>;
+
 export interface SharedVolumePutFileRequest {
   sharedVolumeId?: string;
   path?: string;
@@ -478,6 +512,20 @@ export const sharedVolumeListFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SharedVolumeListFilesRequest,
   output: SharedVolumeListFilesResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SharedVolumeListFilesStreamError = ModalOpError;
+export const sharedVolumeListFilesStream: API.StreamingOperationMethod<
+  SharedVolumeListFilesStreamRequest,
+  SharedVolumeListFilesStreamResponse,
+  SharedVolumeListFilesStreamError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: SharedVolumeListFilesStreamRequest,
+  output: SharedVolumeListFilesStreamResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

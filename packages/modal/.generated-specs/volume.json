@@ -1008,6 +1008,267 @@
         }
       }
     },
+    "com.modal.volume#VolumeListFilesRequest": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
+        },
+        "maxEntries": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#FileEntry": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "type": {
+          "target": "com.modal.volume#FileEntryFileType",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "UNSPECIFIED": 0,
+                "FILE": 1,
+                "DIRECTORY": 2,
+                "SYMLINK": 3,
+                "FIFO": 4,
+                "SOCKET": 5
+              }
+            }
+          }
+        },
+        "mtime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint64"
+            }
+          }
+        },
+        "size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A file entry when listing files in a volume or network file system."
+      }
+    },
+    "com.modal.volume#FileEntryFileType": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILE"
+          }
+        },
+        "DIRECTORY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIRECTORY"
+          }
+        },
+        "SYMLINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SYMLINK"
+          }
+        },
+        "FIFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FIFO"
+          }
+        },
+        "SOCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOCKET"
+          }
+        }
+      }
+    },
+    "com.modal.volume#FileEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.volume#FileEntry"
+      }
+    },
+    "com.modal.volume#VolumeListFilesResponse": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.modal.volume#FileEntryList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeListFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeListFilesRequest"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeListFilesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeListFiles",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
+    "com.modal.volume#VolumeListFiles2Request": {
+      "type": "structure",
+      "members": {
+        "volumeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        },
+        "recursive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
+        },
+        "maxEntries": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "uint32"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.volume#VolumeListFiles2Response": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.modal.volume#FileEntryList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.volume#VolumeListFiles2": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.volume#VolumeListFiles2Request"
+      },
+      "output": {
+        "target": "com.modal.volume#VolumeListFiles2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/VolumeListFiles2",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.volume#MountFile": {
       "type": "structure",
       "members": {
@@ -1520,6 +1781,12 @@
         },
         {
           "target": "com.modal.volume#ListVolume"
+        },
+        {
+          "target": "com.modal.volume#VolumeListFiles"
+        },
+        {
+          "target": "com.modal.volume#VolumeListFiles2"
         },
         {
           "target": "com.modal.volume#VolumePutFiles"

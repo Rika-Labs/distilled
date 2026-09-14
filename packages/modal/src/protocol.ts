@@ -29,12 +29,16 @@ import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as API from "@rikalabs/distilled-core/api";
 import type { ConfigError } from "@rikalabs/distilled-core/errors";
 import {
+  decodeGrpcMessage,
   grpcFrame,
   makeGrpcProtocol,
   readMessageFrame,
   type GrpcErrorInfo,
 } from "@rikalabs/distilled-core/protocol-grpc";
-import { decodeMessage } from "@rikalabs/distilled-core/protobuf";
+import {
+  decodeMessage,
+  encodeMessage,
+} from "@rikalabs/distilled-core/protobuf";
 import { ProtoField } from "@rikalabs/distilled-core/trait";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownModalError, type DefaultErrors } from "./errors.ts";
@@ -63,6 +67,95 @@ export type ModalOpError =
 export type ModalOpContext = Credentials | HttpClient.HttpClient;
 
 const AUTH_TOKEN_GET_PATH = "/modal.client.ModalClient/AuthTokenGet";
+
+/**
+ * `modal.task_command_router.TaskCommandRouter` — the per-task data plane
+ * (exec stdio, container control). Router calls go to the task's own URL
+ * with `authorization: Bearer <jwt>` — never the token-id/secret pair —
+ * resolved per `taskId` request field via `*GetCommandRouterAccess` on the
+ * control plane and cached until ~55% through the JWT's lifetime.
+ */
+const ROUTER_PREFIX = "/modal.task_command_router.";
+
+/** `TaskGetCommandRouterAccessRequest { string taskId = 1 }` (encode only). */
+const TaskRouterAccessRequest = S.Struct({
+  taskId: S.optional(S.String.pipe(ProtoField({ n: 1, t: "string" }))),
+});
+
+/**
+ * `SandboxGetCommandRouterAccessRequest { string sandboxId = 1;
+ * string taskId = 2 }` (encode only).
+ */
+const SandboxRouterAccessRequest = S.Struct({
+  sandboxId: S.optional(S.String.pipe(ProtoField({ n: 1, t: "string" }))),
+  taskId: S.optional(S.String.pipe(ProtoField({ n: 2, t: "string" }))),
+});
+
+/** `*GetCommandRouterAccessResponse { string jwt = 1; string url = 2; }`. */
+const RouterAccessResponse = S.Struct({
+  jwt: S.optional(S.String.pipe(ProtoField({ n: 1, t: "string" }))),
+  url: S.optional(S.String.pipe(ProtoField({ n: 2, t: "string" }))),
+});
+
+interface RouterAccess {
+  readonly url: string;
+  readonly jwt: string;
+}
+
+interface CachedRouterAccess extends RouterAccess {
+  readonly refreshAt: number;
+}
+
+const routerCache = new Map<string, CachedRouterAccess>();
+
+/** One framed unary POST to the control plane, authenticated with the session token. */
+const controlPlaneCall = (
+  creds: Config,
+  path: string,
+  input: unknown,
+  inputAst: S.Top["ast"],
+  outputAst: S.Top["ast"],
+): Effect.Effect<
+  unknown,
+  UnknownModalError | HttpClientError.HttpClientError,
+  HttpClient.HttpClient
+> =>
+  Effect.gen(function* () {
+    const client = yield* HttpClient.HttpClient;
+    const token = yield* authTokenFor(creds);
+    const response = yield* client.execute(
+      HttpClientRequest.post(`${creds.apiBaseUrl}${path}`).pipe(
+        HttpClientRequest.bodyUint8Array(
+          grpcFrame(encodeMessage(inputAst, input)),
+        ),
+        HttpClientRequest.setHeaders({
+          "content-type": "application/grpc",
+          accept: "application/grpc",
+          te: "trailers",
+          "x-modal-token-id": Redacted.value(creds.tokenId),
+          "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+          "x-modal-auth-token": token,
+          "x-modal-client-type": CLIENT_TYPE_LIBMODAL_JS,
+          "x-modal-client-version": CLIENT_VERSION,
+        }),
+      ),
+    );
+    const headers = response.headers as Record<string, string | undefined>;
+    const grpcStatus = headers["grpc-status"];
+    if (grpcStatus !== undefined && grpcStatus !== "0") {
+      return yield* Effect.fail(
+        new UnknownModalError({
+          code: `grpc:${grpcStatus}`,
+          message:
+            decodeGrpcMessage(headers["grpc-message"]) ?? `${path} failed`,
+          body: undefined,
+        }),
+      );
+    }
+    const buf = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
+    const payload = readMessageFrame(buf);
+    return payload !== undefined ? decodeMessage(outputAst, payload) : {};
+  });
 
 /** `AuthTokenGetResponse { string token = 1 }`. */
 const AuthTokenGetResponse = S.Struct({
@@ -179,6 +272,75 @@ const authTokenFor = (
   });
 };
 
+/**
+ * Resolve (and cache) a task's command router `{url, jwt}`. Router request
+ * inputs carry `taskId`; callers that already know the sandbox id (create,
+ * attach-by-id) add a `sandboxId` hint so the v2 endpoint — which keys on
+ * sandbox ids — resolves directly. The router JWT's own expiry gates
+ * refresh at ~55% through its lifetime.
+ */
+const routerAccessFor = (
+  creds: Config,
+  binding: {
+    readonly taskId?: string | undefined;
+    readonly sandboxId?: string | undefined;
+  },
+): Effect.Effect<
+  RouterAccess,
+  UnknownModalError | HttpClientError.HttpClientError,
+  HttpClient.HttpClient
+> => {
+  const identity = binding.sandboxId ?? binding.taskId;
+  const key = `${creds.apiBaseUrl}\n${Redacted.value(creds.tokenId)}\n${identity}`;
+  const now = Date.now();
+  const cached = routerCache.get(key);
+  if (cached !== undefined && now < cached.refreshAt) {
+    return Effect.succeed(cached);
+  }
+  return Effect.gen(function* () {
+    const call =
+      binding.sandboxId !== undefined
+        ? controlPlaneCall(
+            creds,
+            "/modal.client.ModalClient/SandboxGetCommandRouterAccess",
+            { sandboxId: binding.sandboxId },
+            SandboxRouterAccessRequest.ast,
+            RouterAccessResponse.ast,
+          )
+        : controlPlaneCall(
+            creds,
+            "/modal.client.ModalClient/TaskGetCommandRouterAccess",
+            { taskId: binding.taskId },
+            TaskRouterAccessRequest.ast,
+            RouterAccessResponse.ast,
+          );
+    const access = (yield* call) as {
+      readonly jwt?: string;
+      readonly url?: string;
+    };
+    if (access.jwt === undefined || access.url === undefined) {
+      return yield* Effect.fail(
+        new UnknownModalError({
+          message: `Command router access for ${identity} returned no credentials`,
+          body: undefined,
+        }),
+      );
+    }
+    const expiry = jwtExpiry(access.jwt);
+    const refreshAt =
+      expiry > 0
+        ? now + Math.floor((expiry * 1000 - now) * 0.55)
+        : now + 300_000;
+    const entry: CachedRouterAccess = {
+      url: access.url.replace(/\/$/, ""),
+      jwt: access.jwt,
+      refreshAt,
+    };
+    routerCache.set(key, entry);
+    return entry;
+  });
+};
+
 export const ModalProtocol: Layer.Layer<API.Protocol> =
   makeGrpcProtocol<Config>({
     credentials: Effect.gen(function* () {
@@ -191,11 +353,57 @@ export const ModalProtocol: Layer.Layer<API.Protocol> =
       "x-modal-client-version": CLIENT_VERSION,
       "x-modal-libmodal-version": "distilled-modal/1.0.0-rc.8",
     }),
+    route: ({ credentials: creds, path, input }) => {
+      if (!path.startsWith(ROUTER_PREFIX)) {
+        return Effect.succeed(undefined);
+      }
+      // Router requests are encoded from declared schema members only, so
+      // hint fields ride along to the route hook without hitting the wire:
+      // `routerUrl`/`routerJwt` prime directly (e.g. create-response access);
+      // `sandboxId` selects the v2 access endpoint over the task one.
+      const hint = input as
+        | {
+            readonly taskId?: string;
+            readonly sandboxId?: string;
+            readonly routerUrl?: string;
+            readonly routerJwt?: string;
+          }
+        | undefined;
+      if (hint?.routerUrl !== undefined && hint?.routerJwt !== undefined) {
+        return Effect.succeed({
+          baseUrl: hint.routerUrl.replace(/\/$/, ""),
+          headers: { authorization: `Bearer ${hint.routerJwt}` },
+        });
+      }
+      if (hint?.sandboxId === undefined && hint?.taskId === undefined) {
+        return Effect.fail(
+          new UnknownModalError({
+            message: `TaskCommandRouter call ${path} carried no taskId/sandboxId in its input`,
+            body: undefined,
+          }),
+        );
+      }
+      return Effect.map(
+        routerAccessFor(creds, {
+          taskId: hint.taskId,
+          sandboxId: hint.sandboxId,
+        }),
+        (access) => ({
+          baseUrl: access.url,
+          headers: { authorization: `Bearer ${access.jwt}` },
+        }),
+      );
+    },
     authenticate: ({ credentials: creds, path }) => {
       const bootstrap = {
         "x-modal-token-id": Redacted.value(creds.tokenId),
         "x-modal-token-secret": Redacted.value(creds.tokenSecret),
       };
+      // Router calls authenticate with the per-task Bearer JWT the `route`
+      // hook resolved — no token-id/secret and no session auth-token.
+      if (path.startsWith(ROUTER_PREFIX)) {
+        return Effect.succeed({});
+      }
       // Modal's server requires the token-id/secret pair on every call; the
       // auth-token JWT alone is only accepted on some read paths.
       return path === AUTH_TOKEN_GET_PATH

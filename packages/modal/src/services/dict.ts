@@ -90,6 +90,41 @@ export const DictContainsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DictContainsResponse",
 }) as any as S.Schema<DictContainsResponse>;
 
+export interface DictContentsRequest {
+  dictId?: string;
+  /** Setting these to True will populate the corresponding field in the response, otherwise it will be null This lets us support the keys/values/items SDK API through one RPC without unnecessary data transfer */
+  keys?: boolean;
+  values?: boolean;
+}
+export const DictContentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dictId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    keys: S.optional(S.Boolean.pipe(T.ProtoField({ n: 2, t: "bool" }))),
+    values: S.optional(S.Boolean.pipe(T.ProtoField({ n: 3, t: "bool" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/DictContents",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DictContentsRequest",
+}) as any as S.Schema<DictContentsRequest>;
+
+export interface DictContentsResponse {
+  key?: string;
+  value?: string;
+}
+export const DictContentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "bytes" }))),
+    value: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+  }),
+).annotate({
+  identifier: "DictContentsResponse",
+}) as any as S.Schema<DictContentsResponse>;
+
 export interface DictGetByIdRequest {
   dictId?: string;
 }
@@ -495,6 +530,20 @@ export const dictContains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DictContainsRequest,
   output: DictContainsResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DictContentsError = ModalOpError;
+export const dictContents: API.StreamingOperationMethod<
+  DictContentsRequest,
+  DictContentsResponse,
+  DictContentsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: DictContentsRequest,
+  output: DictContentsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

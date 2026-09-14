@@ -38,6 +38,127 @@ export const ContainerCheckpointResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ContainerCheckpointResponse",
 }) as any as S.Schema<ContainerCheckpointResponse>;
 
+export type FileDescriptor =
+  | "FILE_DESCRIPTOR_UNSPECIFIED"
+  | "FILE_DESCRIPTOR_STDOUT"
+  | "FILE_DESCRIPTOR_STDERR"
+  | "FILE_DESCRIPTOR_INFO";
+export const FileDescriptor = S.String;
+
+export interface ContainerExecGetOutputRequest {
+  execId?: string;
+  timeout?: number;
+  lastBatchIndex?: string;
+  fileDescriptor?: FileDescriptor | (string & {});
+  /** Old clients (up to 0.65.39) expect string output. Newer clients stream raw bytes */
+  getRawBytes?: boolean;
+}
+export const ContainerExecGetOutputRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    lastBatchIndex: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "uint64" })),
+    ),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 4,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    getRawBytes: S.optional(S.Boolean.pipe(T.ProtoField({ n: 5, t: "bool" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/ContainerExecGetOutput",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ContainerExecGetOutputRequest",
+}) as any as S.Schema<ContainerExecGetOutputRequest>;
+
+/** Used for `modal container exec`, `modal shell`, and Sandboxes */
+export interface RuntimeOutputMessage {
+  /** only stdout / stderr is used */
+  fileDescriptor?: FileDescriptor;
+  message?: string;
+  messageBytes?: string;
+}
+export const RuntimeOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    message: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "string" }))),
+    messageBytes: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "bytes" }))),
+  }),
+).annotate({
+  identifier: "RuntimeOutputMessage",
+}) as any as S.Schema<RuntimeOutputMessage>;
+
+export type RuntimeOutputMessageList = Array<RuntimeOutputMessage>;
+export const RuntimeOutputMessageList = /*@__PURE__*/ S.Array(
+  RuntimeOutputMessage,
+) as any as S.Schema<RuntimeOutputMessageList>;
+
+export interface ContainerExecGetOutputResponse {
+  items?: RuntimeOutputMessageList;
+  batchIndex?: string;
+  /** if an exit code is given, this is the final message that will be sent. */
+  exitCode?: number;
+  stdout?: RuntimeOutputMessageList;
+  stderr?: RuntimeOutputMessageList;
+  info?: RuntimeOutputMessageList;
+}
+export const ContainerExecGetOutputResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(
+      RuntimeOutputMessageList.pipe(
+        T.ProtoField({ n: 1, t: "message", rep: true }),
+      ),
+    ),
+    batchIndex: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    exitCode: S.optional(S.Number.pipe(T.ProtoField({ n: 3, t: "int32" }))),
+    stdout: S.optional(
+      RuntimeOutputMessageList.pipe(
+        T.ProtoField({ n: 4, t: "message", rep: true }),
+      ),
+    ),
+    stderr: S.optional(
+      RuntimeOutputMessageList.pipe(
+        T.ProtoField({ n: 5, t: "message", rep: true }),
+      ),
+    ),
+    info: S.optional(
+      RuntimeOutputMessageList.pipe(
+        T.ProtoField({ n: 6, t: "message", rep: true }),
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "ContainerExecGetOutputResponse",
+}) as any as S.Schema<ContainerExecGetOutputResponse>;
+
 /** Whether to use RDMA interfaces */
 export interface RuntimeInputMessage {
   message?: string;
@@ -115,6 +236,110 @@ export const ContainerExecWaitResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ContainerExecWaitResponse",
 }) as any as S.Schema<ContainerExecWaitResponse>;
+
+export interface ContainerFilesystemExecGetOutputRequest {
+  execId?: string;
+  timeout?: number;
+}
+export const ContainerFilesystemExecGetOutputRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      execId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+      timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/modal.client.ModalClient/ContainerFilesystemExecGetOutput",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ContainerFilesystemExecGetOutputRequest",
+}) as any as S.Schema<ContainerFilesystemExecGetOutputRequest>;
+
+export type BlobList = Array<string>;
+export const BlobList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BlobList>;
+
+export type SystemErrorCode =
+  | "SYSTEM_ERROR_CODE_UNSPECIFIED"
+  | "SYSTEM_ERROR_CODE_PERM"
+  | "SYSTEM_ERROR_CODE_NOENT"
+  | "SYSTEM_ERROR_CODE_IO"
+  | "SYSTEM_ERROR_CODE_NXIO"
+  | "SYSTEM_ERROR_CODE_NOMEM"
+  | "SYSTEM_ERROR_CODE_ACCES"
+  | "SYSTEM_ERROR_CODE_EXIST"
+  | "SYSTEM_ERROR_CODE_NOTDIR"
+  | "SYSTEM_ERROR_CODE_ISDIR"
+  | "SYSTEM_ERROR_CODE_INVAL"
+  | "SYSTEM_ERROR_CODE_MFILE"
+  | "SYSTEM_ERROR_CODE_FBIG"
+  | "SYSTEM_ERROR_CODE_NOSPC";
+export const SystemErrorCode = S.String;
+
+export interface SystemErrorMessage {
+  errorCode?: SystemErrorCode;
+  errorMessage?: string;
+}
+export const SystemErrorMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errorCode: S.optional(
+      SystemErrorCode.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            SYSTEM_ERROR_CODE_UNSPECIFIED: 0,
+            SYSTEM_ERROR_CODE_PERM: 1,
+            SYSTEM_ERROR_CODE_NOENT: 2,
+            SYSTEM_ERROR_CODE_IO: 5,
+            SYSTEM_ERROR_CODE_NXIO: 6,
+            SYSTEM_ERROR_CODE_NOMEM: 12,
+            SYSTEM_ERROR_CODE_ACCES: 13,
+            SYSTEM_ERROR_CODE_EXIST: 17,
+            SYSTEM_ERROR_CODE_NOTDIR: 20,
+            SYSTEM_ERROR_CODE_ISDIR: 21,
+            SYSTEM_ERROR_CODE_INVAL: 22,
+            SYSTEM_ERROR_CODE_MFILE: 24,
+            SYSTEM_ERROR_CODE_FBIG: 27,
+            SYSTEM_ERROR_CODE_NOSPC: 28,
+          },
+        }),
+      ),
+    ),
+    errorMessage: S.optional(
+      S.String.pipe(T.ProtoField({ n: 2, t: "string" })),
+    ),
+  }),
+).annotate({
+  identifier: "SystemErrorMessage",
+}) as any as S.Schema<SystemErrorMessage>;
+
+export interface ContainerFilesystemExecGetOutputResponse {
+  output?: BlobList;
+  error?: SystemErrorMessage;
+  batchIndex?: string;
+  eof?: boolean;
+}
+export const ContainerFilesystemExecGetOutputResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      output: S.optional(
+        BlobList.pipe(T.ProtoField({ n: 1, t: "bytes", rep: true })),
+      ),
+      error: S.optional(
+        SystemErrorMessage.pipe(T.ProtoField({ n: 2, t: "message" })),
+      ),
+      batchIndex: S.optional(
+        S.String.pipe(T.ProtoField({ n: 3, t: "uint64" })),
+      ),
+      eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    }),
+).annotate({
+  identifier: "ContainerFilesystemExecGetOutputResponse",
+}) as any as S.Schema<ContainerFilesystemExecGetOutputResponse>;
 
 export interface ContainerHeartbeatRequest {
   canceledInputsReturnOutputs?: boolean;
@@ -213,13 +438,6 @@ export type TaskState =
   | "TASK_STATE_PREEMPTED"
   | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
 export const TaskState = S.String;
-
-export type FileDescriptor =
-  | "FILE_DESCRIPTOR_UNSPECIFIED"
-  | "FILE_DESCRIPTOR_STDOUT"
-  | "FILE_DESCRIPTOR_STDERR"
-  | "FILE_DESCRIPTOR_INFO";
-export const FileDescriptor = S.String;
 
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export const ProgressType = S.String;
@@ -853,6 +1071,20 @@ export const containerCheckpoint: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ContainerExecGetOutputError = ModalOpError;
+export const containerExecGetOutput: API.StreamingOperationMethod<
+  ContainerExecGetOutputRequest,
+  ContainerExecGetOutputResponse,
+  ContainerExecGetOutputError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: ContainerExecGetOutputRequest,
+  output: ContainerExecGetOutputResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ContainerExecPutInputError = ModalOpError;
 export const containerExecPutInput: API.OperationMethod<
   ContainerExecPutInputRequest,
@@ -876,6 +1108,20 @@ export const containerExecWait: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ContainerExecWaitRequest,
   output: ContainerExecWaitResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ContainerFilesystemExecGetOutputError = ModalOpError;
+export const containerFilesystemExecGetOutput: API.StreamingOperationMethod<
+  ContainerFilesystemExecGetOutputRequest,
+  ContainerFilesystemExecGetOutputResponse,
+  ContainerFilesystemExecGetOutputError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: ContainerFilesystemExecGetOutputRequest,
+  output: ContainerFilesystemExecGetOutputResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

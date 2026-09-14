@@ -1748,6 +1748,216 @@
         }
       }
     },
+    "com.modal.functions#FunctionCallGetDataInRequest": {
+      "type": "structure",
+      "members": {
+        "functionCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "attemptToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "lastIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#FunctionCallGetDataInResponse": {
+      "type": "structure",
+      "members": {
+        "dataFormat": {
+          "target": "com.modal.functions#DataFormat",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              }
+            }
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "index": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FunctionCallGetDataIn": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FunctionCallGetDataInRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FunctionCallGetDataInResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionCallGetDataIn",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
+    "com.modal.functions#FunctionCallGetDataOutRequest": {
+      "type": "structure",
+      "members": {
+        "functionCallId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "attemptToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "lastIndex": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#FunctionCallGetDataOutResponse": {
+      "type": "structure",
+      "members": {
+        "dataFormat": {
+          "target": "com.modal.functions#DataFormat",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "enum",
+              "e": {
+                "DATA_FORMAT_UNSPECIFIED": 0,
+                "DATA_FORMAT_PICKLE": 1,
+                "DATA_FORMAT_ASGI": 2,
+                "DATA_FORMAT_GENERATOR_DONE": 3,
+                "DATA_FORMAT_CBOR": 4
+              }
+            }
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        },
+        "dataBlobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "index": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "uint64"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FunctionCallGetDataOut": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FunctionCallGetDataOutRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FunctionCallGetDataOutResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionCallGetDataOut",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
     "com.modal.functions#FunctionCallGetInfoRequest": {
       "type": "structure",
       "members": {
@@ -7526,6 +7736,12 @@
         },
         {
           "target": "com.modal.functions#FunctionCallFromId"
+        },
+        {
+          "target": "com.modal.functions#FunctionCallGetDataIn"
+        },
+        {
+          "target": "com.modal.functions#FunctionCallGetDataOut"
         },
         {
           "target": "com.modal.functions#FunctionCallGetInfo"

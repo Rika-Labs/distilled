@@ -640,6 +640,180 @@ export const ImageGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImageGetOrCreateResponse",
 }) as any as S.Schema<ImageGetOrCreateResponse>;
 
+export interface ImageJoinStreamingRequest {
+  imageId?: string;
+  timeout?: number;
+  lastEntryId?: string;
+  includeLogsForFinished?: boolean;
+}
+export const ImageJoinStreamingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageId: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    timeout: S.optional(S.Number.pipe(T.ProtoField({ n: 2, t: "float" }))),
+    lastEntryId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    includeLogsForFinished: S.optional(
+      S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" })),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/ImageJoinStreaming",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ImageJoinStreamingRequest",
+}) as any as S.Schema<ImageJoinStreamingRequest>;
+
+export type TaskState =
+  | "TASK_STATE_UNSPECIFIED"
+  | "TASK_STATE_CREATED"
+  | "TASK_STATE_QUEUED"
+  | "TASK_STATE_WORKER_ASSIGNED"
+  | "TASK_STATE_LOADING_IMAGE"
+  | "TASK_STATE_ACTIVE"
+  | "TASK_STATE_COMPLETED"
+  | "TASK_STATE_CREATING_CONTAINER"
+  | "TASK_STATE_IDLE"
+  | "TASK_STATE_PREEMPTIBLE"
+  | "TASK_STATE_PREEMPTED"
+  | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
+export const TaskState = S.String;
+
+export type FileDescriptor =
+  | "FILE_DESCRIPTOR_UNSPECIFIED"
+  | "FILE_DESCRIPTOR_STDOUT"
+  | "FILE_DESCRIPTOR_STDERR"
+  | "FILE_DESCRIPTOR_INFO";
+export const FileDescriptor = S.String;
+
+export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
+export const ProgressType = S.String;
+
+export interface TaskProgress {
+  len?: string;
+  pos?: string;
+  progressType?: ProgressType;
+  description?: string;
+}
+export const TaskProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    len: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "uint64" }))),
+    pos: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+    progressType: S.optional(
+      ProgressType.pipe(
+        T.ProtoField({
+          n: 3,
+          t: "enum",
+          e: { IMAGE_SNAPSHOT_UPLOAD: 0, FUNCTION_QUEUED: 1 },
+        }),
+      ),
+    ),
+    description: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "string" }))),
+  }),
+).annotate({ identifier: "TaskProgress" }) as any as S.Schema<TaskProgress>;
+
+export interface TaskLogs {
+  data?: string;
+  taskState?: TaskState;
+  timestamp?: number;
+  fileDescriptor?: FileDescriptor;
+  taskProgress?: TaskProgress;
+  functionCallId?: string;
+  inputId?: string;
+  timestampNs?: string;
+  containerId?: string;
+  containerName?: string;
+}
+export const TaskLogs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 1, t: "string" }))),
+    taskState: S.optional(
+      TaskState.pipe(
+        T.ProtoField({
+          n: 6,
+          t: "enum",
+          e: {
+            TASK_STATE_UNSPECIFIED: 0,
+            TASK_STATE_CREATED: 6,
+            TASK_STATE_QUEUED: 1,
+            TASK_STATE_WORKER_ASSIGNED: 2,
+            TASK_STATE_LOADING_IMAGE: 3,
+            TASK_STATE_ACTIVE: 4,
+            TASK_STATE_COMPLETED: 5,
+            TASK_STATE_CREATING_CONTAINER: 7,
+            TASK_STATE_IDLE: 8,
+            TASK_STATE_PREEMPTIBLE: 9,
+            TASK_STATE_PREEMPTED: 10,
+            TASK_STATE_LOADING_CHECKPOINT_IMAGE: 11,
+          },
+        }),
+      ),
+    ),
+    timestamp: S.optional(S.Number.pipe(T.ProtoField({ n: 7, t: "double" }))),
+    fileDescriptor: S.optional(
+      FileDescriptor.pipe(
+        T.ProtoField({
+          n: 8,
+          t: "enum",
+          e: {
+            FILE_DESCRIPTOR_UNSPECIFIED: 0,
+            FILE_DESCRIPTOR_STDOUT: 1,
+            FILE_DESCRIPTOR_STDERR: 2,
+            FILE_DESCRIPTOR_INFO: 3,
+          },
+        }),
+      ),
+    ),
+    taskProgress: S.optional(
+      TaskProgress.pipe(T.ProtoField({ n: 9, t: "message" })),
+    ),
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 10, t: "string" })),
+    ),
+    inputId: S.optional(S.String.pipe(T.ProtoField({ n: 11, t: "string" }))),
+    timestampNs: S.optional(
+      S.String.pipe(T.ProtoField({ n: 12, t: "uint64" })),
+    ),
+    containerId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 13, t: "string" })),
+    ),
+    containerName: S.optional(
+      S.String.pipe(T.ProtoField({ n: 14, t: "string" })),
+    ),
+  }),
+).annotate({ identifier: "TaskLogs" }) as any as S.Schema<TaskLogs>;
+
+export type TaskLogsList = Array<TaskLogs>;
+export const TaskLogsList = /*@__PURE__*/ S.Array(
+  TaskLogs,
+) as any as S.Schema<TaskLogsList>;
+
+export interface ImageJoinStreamingResponse {
+  result?: GenericResult;
+  taskLogs?: TaskLogsList;
+  entryId?: string;
+  eof?: boolean;
+  metadata?: ImageMetadata;
+}
+export const ImageJoinStreamingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    result: S.optional(
+      GenericResult.pipe(T.ProtoField({ n: 1, t: "message" })),
+    ),
+    taskLogs: S.optional(
+      TaskLogsList.pipe(T.ProtoField({ n: 2, t: "message", rep: true })),
+    ),
+    entryId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    eof: S.optional(S.Boolean.pipe(T.ProtoField({ n: 4, t: "bool" }))),
+    metadata: S.optional(
+      ImageMetadata.pipe(T.ProtoField({ n: 5, t: "message" })),
+    ),
+  }),
+).annotate({
+  identifier: "ImageJoinStreamingResponse",
+}) as any as S.Schema<ImageJoinStreamingResponse>;
+
 export interface ImageListTagsRequest {
   environmentName?: string;
   /** Prefix search over full "name:tag" strings. */
@@ -897,6 +1071,20 @@ export const imageGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ImageGetOrCreateRequest,
   output: ImageGetOrCreateResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ImageJoinStreamingError = ModalOpError;
+export const imageJoinStreaming: API.StreamingOperationMethod<
+  ImageJoinStreamingRequest,
+  ImageJoinStreamingResponse,
+  ImageJoinStreamingError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: ImageJoinStreamingRequest,
+  output: ImageJoinStreamingResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

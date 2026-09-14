@@ -2156,6 +2156,118 @@ export const FunctionCallFromIdResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "FunctionCallFromIdResponse",
 }) as any as S.Schema<FunctionCallFromIdResponse>;
 
+export interface FunctionCallGetDataInRequest {
+  functionCallId?: string;
+  attemptToken?: string;
+  lastIndex?: string;
+}
+export const FunctionCallGetDataInRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    attemptToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    lastIndex: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/FunctionCallGetDataIn",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FunctionCallGetDataInRequest",
+}) as any as S.Schema<FunctionCallGetDataInRequest>;
+
+export interface FunctionCallGetDataInResponse {
+  dataFormat?: DataFormat;
+  data?: string;
+  dataBlobId?: string;
+  index?: string;
+}
+export const FunctionCallGetDataInResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataFormat: S.optional(
+      DataFormat.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+        }),
+      ),
+    ),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    index: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+  }),
+).annotate({
+  identifier: "FunctionCallGetDataInResponse",
+}) as any as S.Schema<FunctionCallGetDataInResponse>;
+
+export interface FunctionCallGetDataOutRequest {
+  functionCallId?: string;
+  attemptToken?: string;
+  lastIndex?: string;
+}
+export const FunctionCallGetDataOutRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    functionCallId: S.optional(
+      S.String.pipe(T.ProtoField({ n: 1, t: "string" })),
+    ),
+    attemptToken: S.optional(
+      S.String.pipe(T.ProtoField({ n: 3, t: "string" })),
+    ),
+    lastIndex: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "uint64" }))),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/FunctionCallGetDataOut",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FunctionCallGetDataOutRequest",
+}) as any as S.Schema<FunctionCallGetDataOutRequest>;
+
+export interface FunctionCallGetDataOutResponse {
+  dataFormat?: DataFormat;
+  data?: string;
+  dataBlobId?: string;
+  index?: string;
+}
+export const FunctionCallGetDataOutResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataFormat: S.optional(
+      DataFormat.pipe(
+        T.ProtoField({
+          n: 1,
+          t: "enum",
+          e: {
+            DATA_FORMAT_UNSPECIFIED: 0,
+            DATA_FORMAT_PICKLE: 1,
+            DATA_FORMAT_ASGI: 2,
+            DATA_FORMAT_GENERATOR_DONE: 3,
+            DATA_FORMAT_CBOR: 4,
+          },
+        }),
+      ),
+    ),
+    data: S.optional(S.String.pipe(T.ProtoField({ n: 2, t: "bytes" }))),
+    dataBlobId: S.optional(S.String.pipe(T.ProtoField({ n: 3, t: "string" }))),
+    index: S.optional(S.String.pipe(T.ProtoField({ n: 4, t: "uint64" }))),
+  }),
+).annotate({
+  identifier: "FunctionCallGetDataOutResponse",
+}) as any as S.Schema<FunctionCallGetDataOutResponse>;
+
 export interface FunctionCallGetInfoRequest {
   functionId?: string;
   functionCallId?: string;
@@ -3985,6 +4097,34 @@ export const functionCallFromId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FunctionCallFromIdRequest,
   output: FunctionCallFromIdResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FunctionCallGetDataInError = ModalOpError;
+export const functionCallGetDataIn: API.StreamingOperationMethod<
+  FunctionCallGetDataInRequest,
+  FunctionCallGetDataInResponse,
+  FunctionCallGetDataInError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: FunctionCallGetDataInRequest,
+  output: FunctionCallGetDataInResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FunctionCallGetDataOutError = ModalOpError;
+export const functionCallGetDataOut: API.StreamingOperationMethod<
+  FunctionCallGetDataOutRequest,
+  FunctionCallGetDataOutResponse,
+  FunctionCallGetDataOutError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: FunctionCallGetDataOutRequest,
+  output: FunctionCallGetDataOutResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

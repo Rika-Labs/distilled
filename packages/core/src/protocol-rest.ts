@@ -30,6 +30,7 @@ import type * as AST from "effect/SchemaAST";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as API from "./api.ts";
+import { debugHttp } from "./env.ts";
 import { makeAnnotation } from "./trait.ts";
 import {
   buildRequest,
@@ -279,7 +280,7 @@ export const makeRestProtocol = <C>(
     Effect.gen(function* () {
       // Read as text and parse tolerantly — error pages are often non-JSON.
       const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-      if (process.env.DISTILLED_DEBUG_HTTP) {
+      if (debugHttp()) {
         console.error(
           `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
         );
