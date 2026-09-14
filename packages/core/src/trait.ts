@@ -195,6 +195,48 @@ export const UnionCases = (cases: ReadonlyArray<ReadonlyArray<string>>) =>
   makeAnnotation(unionCasesSymbol, cases);
 //#endregion
 
+//#region Proto wire traits
+
+export const protoFieldSymbol = Symbol.for("@distilled.cloud/core/proto-field");
+
+/**
+ * Per-member protobuf wire descriptor, stamped by the proto converter as
+ * `com.distilled.proto#field` and emitted on generated member schemas by
+ * `memberTraitPipes` as `T.ProtoField({…})`. Read by `core/protobuf`'s
+ * schema-driven codec to encode/decode the binary wire format; JSON
+ * protocols ignore it.
+ *
+ * Compact shape (it is JSON-inlined per member in generated code):
+ *
+ *   n    field number. `0` marks the synthesized `value` member of RPCs
+ *        whose I/O type is a scalar/WKT/enum — the member's value IS the
+ *        whole message body.
+ *   t    proto3 scalar name ("int32", "string", "bytes", …) or one of
+ *        "message" | "enum" | "map" | "wkt"
+ *   rep  `repeated`. Numeric scalars/enums are packed per proto3 defaults.
+ *   k    map key scalar kind (t === "map"; proto keys are always scalar)
+ *   v    map value descriptor (t === "map")
+ *   e    enum wire name → number (t === "enum")
+ *   w    well-known type short name (t === "wkt"), e.g. "Timestamp"
+ */
+export interface ProtoFieldDesc {
+  /**
+   * Field number. Absent on nested map-value descriptors (`v`); `0` marks
+   * the synthesized `value` member of scalar/WKT/enum RPC I/O.
+   */
+  readonly n?: number;
+  readonly t: string;
+  readonly rep?: boolean;
+  readonly k?: string;
+  readonly v?: ProtoFieldDesc;
+  readonly e?: Record<string, number>;
+  readonly w?: string;
+}
+
+export const ProtoField = (desc: ProtoFieldDesc) =>
+  makeAnnotation(protoFieldSymbol, desc);
+//#endregion
+
 //#region Error matcher traits
 
 export const errorMatchersSymbol = Symbol.for(

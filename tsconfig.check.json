@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "typeRoots": ["/Users/dallenpyrah/Projects/rika-labs/effect-sandbox/node_modules/@types"],
+    "noCheck": false,
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "paths": {
+      "@distilled.cloud/core/*": ["./packages/core/src/*"],
+      "@distilled.cloud/modal": ["./packages/modal/src/index.ts"],
+      "@distilled.cloud/modal/*": ["./packages/modal/src/*"]
+    }
+  },
+  "include": ["packages/core/src/**/*.ts", "packages/modal/src/**/*.ts"],
+  // Pre-existing upstream dev-dependency gaps under the pinned local effect
+  // version (cli.ts needs @effect/platform-bun matching the catalog pin;
+  // graphql*.ts need the `graphql` package). Neither is reachable from the
+  // modal runtime path.
+  "exclude": [
+    "node_modules",
+    "dist",
+    "vendor",
+    "packages/core/src/**/*.test.ts",
+    "packages/modal/src/**/*.test.ts",
+    "packages/core/src/codegen/cli.ts",
+    "packages/core/src/codegen/format.ts",
+    "packages/core/src/codegen/graphql.ts",
+    "packages/core/src/codegen/graphql-client.ts",
+    "packages/core/src/graphql.ts",
+    "packages/core/src/graphql.types.ts",
+    "packages/core/src/graphql.fixture.ts"
+  ]
+}

@@ -86,6 +86,8 @@ const WKT_TARGETS: Record<string, string> = {
 export interface ProtoField {
   readonly name: string;
   readonly type: string;
+  /** The protobuf field number — preserved for binary wire encoding. */
+  readonly number: number;
   readonly repeated: boolean;
   readonly optional: boolean;
   readonly mapKey?: string;
@@ -417,12 +419,13 @@ class Parser {
     }
     const name = this.ident();
     this.expect("=");
-    this.number();
+    const number = this.number();
     const opts = this.parseOptions();
     this.expect(";");
     return {
       name,
       type,
+      number,
       repeated,
       optional,
       mapKey,
@@ -781,6 +784,70 @@ const isSensitive = (name: string): boolean =>
 
 const EMPTY_STRUCT_ID = "GoogleProtobufEmpty";
 
+/**
+ * `com.distilled.proto#field` — member-level trait carrying the protobuf
+ * wire descriptor needed by binary (`application/grpc`) transports. The
+ * value is a compact record consumed by `core/protobuf`'s schema-driven
+ * codec; JSON protocols ignore it.
+ *
+ * Descriptor shape (kept terse — it is inlined per member in generated
+ * code):
+ *
+ *   n    field number. `0` on the synthesized `value` member of RPCs whose
+ *        I/O type is a scalar/WKT/enum — meaning the member's value IS the
+ *        whole message body.
+ *   t    proto3 scalar name ("int32", "string", "bytes", …) or one of
+ *        "message" | "enum" | "map" | "wkt"
+ *   rep  `repeated`. Numeric scalars/enums are packed per proto3 defaults.
+ *   k    map key scalar kind (t === "map")
+ *   v    map value descriptor (t === "map")
+ *   e    enum wire name → number (t === "enum")
+ *   w    well-known type short name (t === "wkt"), e.g. "Timestamp"
+ */
+export const PROTO_FIELD_TRAIT = "com.distilled.proto#field";
+
+const descForType = (
+  ctx: EmitCtx,
+  raw: string,
+  scope: string | undefined,
+): Record<string, unknown> => {
+  if (SCALAR_TARGETS[raw]) return { t: raw };
+  const resolved = resolveName(raw, ctx.pkg, scope, ctx.index);
+  if (SCALAR_TARGETS[resolved]) return { t: resolved };
+  if (WKT_TARGETS[resolved]) {
+    return { t: "wkt", w: resolved.split(".").pop() };
+  }
+  const en = ctx.index.enums.get(resolved);
+  if (en) {
+    return {
+      t: "enum",
+      e: Object.fromEntries(en.values.map((v) => [v.name, v.number])),
+    };
+  }
+  if (ctx.index.messages.has(resolved)) return { t: "message" };
+  throw new Error(`no message or enum for ${resolved}`);
+};
+
+const fieldDesc = (
+  ctx: EmitCtx,
+  field: ProtoField,
+  scope: string | undefined,
+): Record<string, unknown> => {
+  if (field.mapKey && field.mapValue) {
+    return {
+      n: field.number,
+      t: "map",
+      k: field.mapKey,
+      v: descForType(ctx, field.mapValue, scope),
+    };
+  }
+  return {
+    n: field.number,
+    ...descForType(ctx, field.type, scope),
+    ...(field.repeated ? { rep: true } : {}),
+  };
+};
+
 type EmitCtx = {
   bag: Bag;
   index: TypeIndex;
@@ -889,8 +956,10 @@ const fieldTarget = (
 };
 
 const memberTraits = (
+  ctx: EmitCtx,
   field: ProtoField,
   tsName: string,
+  scope: string,
 ): Record<string, any> => {
   const traits: Record<string, any> = {};
   const doc = oneLineDoc(field.documentation);
@@ -901,6 +970,7 @@ const memberTraits = (
     traits["smithy.api#sensitive"] = {};
   }
   if (field.deprecated) traits["smithy.api#deprecated"] = {};
+  traits[PROTO_FIELD_TRAIT] = fieldDesc(ctx, field, scope);
   return traits;
 };
 
@@ -916,7 +986,7 @@ const emitMembers = (
     let k = 2;
     while (used.has(tsName)) tsName = `${ident(camel(field.name))}${k++}`;
     used.add(tsName);
-    const traits = memberTraits(field, tsName);
+    const traits = memberTraits(ctx, field, tsName, scope);
     members[tsName] = {
       target: fieldTarget(ctx, field, scope),
       ...(Object.keys(traits).length ? { traits } : {}),
@@ -949,7 +1019,10 @@ const copyIo = (
       members: {
         value: {
           target: SCALAR_TARGETS[typeName],
-          traits: { "smithy.api#required": {} },
+          traits: {
+            "smithy.api#required": {},
+            [PROTO_FIELD_TRAIT]: { n: 0, t: typeName },
+          },
         },
       },
       traits: {
@@ -965,7 +1038,14 @@ const copyIo = (
       members: {
         value: {
           target: WKT_TARGETS[resolved],
-          traits: { "smithy.api#required": {} },
+          traits: {
+            "smithy.api#required": {},
+            [PROTO_FIELD_TRAIT]: {
+              n: 0,
+              t: "wkt",
+              w: resolved.split(".").pop(),
+            },
+          },
         },
       },
       traits: {
@@ -980,7 +1060,14 @@ const copyIo = (
       members: {
         value: {
           target: emitEnum(ctx, en),
-          traits: { "smithy.api#required": {} },
+          traits: {
+            "smithy.api#required": {},
+            [PROTO_FIELD_TRAIT]: {
+              n: 0,
+              t: "enum",
+              e: Object.fromEntries(en.values.map((v) => [v.name, v.number])),
+            },
+          },
         },
       },
       traits: {
