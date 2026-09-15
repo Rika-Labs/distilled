@@ -12,7 +12,9 @@
   "module": "src/index.ts",
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "exports": {
     ".": {

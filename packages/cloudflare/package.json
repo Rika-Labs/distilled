@@ -11,7 +11,9 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "exports": {
     "./Credentials": {
