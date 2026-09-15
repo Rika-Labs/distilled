@@ -287,6 +287,12 @@
       "path": "./packages/datadog/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/daytona/tsconfig.json"
+    },
+    {
+      "path": "./packages/daytona/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/docker/tsconfig.json"
     },
     {
@@ -297,6 +303,12 @@
     },
     {
       "path": "./packages/doppler/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/e2b/tsconfig.json"
+    },
+    {
+      "path": "./packages/e2b/tsconfig.scripts.json"
     },
     {
       "path": "./packages/elasticsearch/tsconfig.json"
