@@ -1,0 +1,919 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.webhooks#WebhookDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook unique identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the team",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook user friendly name",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was created",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "com.e2b.webhooks#WebhookDetailEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook detail response"
+      }
+    },
+    "com.e2b.webhooks#WebhookDetailEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhooksResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.webhooks#WebhookDetail"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhooksResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.webhooks#ListEventWebhooksResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.webhooks#ListEventWebhooks": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#ListEventWebhooksResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/webhooks",
+          "code": 200
+        },
+        "smithy.api#documentation": "List registered webhooks."
+      }
+    },
+    "com.e2b.webhooks#CreateEventWebhookRequestEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#CreateEventWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "com.e2b.webhooks#CreateEventWebhookRequestEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "signatureSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret used to sign the webhook payloads",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#WebhookCreation": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook unique identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook user friendly name",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was created",
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the team",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "com.e2b.webhooks#WebhookCreationEventsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook creation response"
+      }
+    },
+    "com.e2b.webhooks#WebhookCreationEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#CreateEventWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#CreateEventWebhookRequest"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#WebhookCreation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/events/webhooks",
+          "code": 200
+        },
+        "smithy.api#documentation": "Register events webhook."
+      }
+    },
+    "com.e2b.webhooks#GetEventWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "webhookID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#GetEventWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#GetEventWebhookRequest"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#WebhookDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/webhooks/{webhookID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a registered webhook."
+      }
+    },
+    "com.e2b.webhooks#UpdateEventWebhookRequestEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#UpdateEventWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "webhookID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook user friendly name"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "events": {
+          "target": "com.e2b.webhooks#UpdateEventWebhookRequestEventsList"
+        },
+        "signatureSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret used to sign the webhook payloads"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#UpdateEventWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#UpdateEventWebhookRequest"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#WebhookDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/events/webhooks/{webhookID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a registered webhook configuration."
+      }
+    },
+    "com.e2b.webhooks#DeleteEventWebhookRequest": {
+      "type": "structure",
+      "members": {
+        "webhookID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#DeleteEventWebhook": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#DeleteEventWebhookRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/events/webhooks/{webhookID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a registered webhook."
+      }
+    },
+    "com.e2b.webhooks#ListEventWebhookDeliveriesRequestDeliveryStatusItem": {
+      "type": "enum",
+      "members": {
+        "SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "success"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhookDeliveriesRequestDeliveryStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.webhooks#ListEventWebhookDeliveriesRequestDeliveryStatusItem"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhookDeliveriesRequestEventTypeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhookDeliveriesRequest": {
+      "type": "structure",
+      "members": {
+        "webhookID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque cursor from the previous response's nextCursor field."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "orderAsc": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "orderAsc"
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Include deliveries at or after this timestamp."
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "Include deliveries before this timestamp."
+          }
+        },
+        "deliveryStatus": {
+          "target": "com.e2b.webhooks#ListEventWebhookDeliveriesRequestDeliveryStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "deliveryStatus",
+            "smithy.api#documentation": "Filter deliveries by delivery status",
+            "com.e2b.api#queryJoin": ","
+          }
+        },
+        "eventType": {
+          "target": "com.e2b.webhooks#ListEventWebhookDeliveriesRequestEventTypeList",
+          "traits": {
+            "smithy.api#httpQuery": "eventType",
+            "smithy.api#documentation": "Filter deliveries by event type",
+            "com.e2b.api#queryJoin": ","
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveriesListPayload": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.e2b.webhooks#WebhookDeliveriesListPayloadDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor to pass to the next list request, or null when there is no next page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated webhook delivery attempts grouped by event"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryGroup": {
+      "type": "structure",
+      "members": {
+        "eventId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "eventType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempts": {
+          "target": "com.e2b.webhooks#WebhookDeliveryGroupAttemptsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook delivery attempts grouped by sandbox event"
+      }
+    },
+    "com.e2b.webhooks#WebhookDelivery": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Delivery attempt identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "webhookId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook configuration identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "eventId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox event identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "eventType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sandbox event type",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.e2b.webhooks#WebhookDeliveryStatus",
+          "traits": {
+            "smithy.api#documentation": "Delivery attempt status",
+            "smithy.api#required": {}
+          }
+        },
+        "durationMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Delivery request duration in milliseconds",
+            "smithy.api#required": {}
+          }
+        },
+        "requestBody": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Serialized webhook request body",
+            "smithy.api#required": {}
+          }
+        },
+        "requestHeaders": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded request headers with sensitive values redacted",
+            "smithy.api#required": {}
+          }
+        },
+        "requestUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL attempted for this delivery",
+            "smithy.api#required": {}
+          }
+        },
+        "responseBody": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Truncated response body, if a response was received",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseHeaders": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded response headers, if a response was received",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "responseHttpStatusCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "HTTP response status code, if a response was received",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "errorClass": {
+          "target": "com.e2b.webhooks#WebhookDeliveryErrorClass",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable non-HTTP or HTTP failure class",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message for failures without a useful response body",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the delivery attempt started",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook delivery attempt"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryStatus": {
+      "type": "enum",
+      "members": {
+        "SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "success"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Delivery attempt status"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryErrorClass": {
+      "type": "enum",
+      "members": {
+        "HTTP_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http_error"
+          }
+        },
+        "DNS_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dns_error"
+          }
+        },
+        "TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "timeout"
+          }
+        },
+        "TRANSPORT_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transport_error"
+          }
+        },
+        "REQUEST_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "request_error"
+          }
+        },
+        "SIGNATURE_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "signature_error"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Machine-readable non-HTTP or HTTP failure class"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryGroupAttemptsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.webhooks#WebhookDelivery"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#WebhookDeliveriesListPayloadDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.webhooks#WebhookDeliveryGroup"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhookDeliveries": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#ListEventWebhookDeliveriesRequest"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#WebhookDeliveriesListPayload"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/webhooks/{webhookID}/deliveries",
+          "code": 200
+        },
+        "smithy.api#documentation": "List webhook delivery attempts."
+      }
+    },
+    "com.e2b.webhooks#ListEventWebhookStatsRequest": {
+      "type": "structure",
+      "members": {
+        "webhookID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Inclusive stats range start. Defaults to 24 hours ago."
+          }
+        },
+        "end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "Exclusive stats range end. Defaults to now."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryStats": {
+      "type": "structure",
+      "members": {
+        "buckets": {
+          "target": "com.e2b.webhooks#WebhookDeliveryStatsBucketsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "durationMs": {
+          "target": "com.e2b.webhooks#WebhookDeliveryDurationStats",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook delivery aggregate stats"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryStatsBucket": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "durationMs": {
+          "target": "com.e2b.webhooks#WebhookDeliveryDurationStats",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook delivery stats for a time bucket"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryDurationStats": {
+      "type": "structure",
+      "members": {
+        "minimum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "average": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maximum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook delivery duration statistics in milliseconds"
+      }
+    },
+    "com.e2b.webhooks#WebhookDeliveryStatsBucketsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.webhooks#WebhookDeliveryStatsBucket"
+      },
+      "traits": {}
+    },
+    "com.e2b.webhooks#ListEventWebhookStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.webhooks#ListEventWebhookStatsRequest"
+      },
+      "output": {
+        "target": "com.e2b.webhooks#WebhookDeliveryStats"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/webhooks/{webhookID}/stats",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get webhook delivery aggregate stats."
+      }
+    },
+    "com.e2b.webhooks#Webhooks": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.webhooks#ListEventWebhooks"
+        },
+        {
+          "target": "com.e2b.webhooks#CreateEventWebhook"
+        },
+        {
+          "target": "com.e2b.webhooks#GetEventWebhook"
+        },
+        {
+          "target": "com.e2b.webhooks#UpdateEventWebhook"
+        },
+        {
+          "target": "com.e2b.webhooks#DeleteEventWebhook"
+        },
+        {
+          "target": "com.e2b.webhooks#ListEventWebhookDeliveries"
+        },
+        {
+          "target": "com.e2b.webhooks#ListEventWebhookStats"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

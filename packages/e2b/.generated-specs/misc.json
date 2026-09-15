@@ -1,0 +1,51 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.misc#GetHealth": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/health",
+          "code": 200
+        },
+        "smithy.api#documentation": "Health check\n\nHealth check"
+      }
+    },
+    "com.e2b.misc#Misc": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.misc#GetHealth"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

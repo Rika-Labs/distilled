@@ -1,0 +1,460 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.envd#GetHealth": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/health",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check the health of the service"
+      }
+    },
+    "com.e2b.envd#Metrics": {
+      "type": "structure",
+      "members": {
+        "ts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp in UTC for current sandbox time"
+          }
+        },
+        "cpu_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of CPU cores"
+          }
+        },
+        "cpu_used_pct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "CPU usage percentage"
+          }
+        },
+        "mem_total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total virtual memory in bytes"
+          }
+        },
+        "mem_used": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Used virtual memory in bytes"
+          }
+        },
+        "mem_cache": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Cached memory (page cache) in bytes"
+          }
+        },
+        "mem_total_mib": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total virtual memory in MiB"
+          }
+        },
+        "mem_used_mib": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Used virtual memory in MiB"
+          }
+        },
+        "disk_used": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Used disk space in bytes"
+          }
+        },
+        "disk_total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total disk space in bytes"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource usage metrics"
+      }
+    },
+    "com.e2b.envd#GetMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.envd#Metrics"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "Service stats"
+      }
+    },
+    "com.e2b.envd#EnvVars": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables to set"
+      }
+    },
+    "com.e2b.envd#GetEnvsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.envd#EnvVars",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd#GetEnvs": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.envd#GetEnvsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/envs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Environment variables"
+      }
+    },
+    "com.e2b.envd#GetFilesRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#documentation": "Path to the file, URL encoded. Can be relative to the user's home directory (e.g. \"file.txt\" resolves to ~/file.txt)."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "username",
+            "smithy.api#documentation": "User for setting file ownership and resolving relative paths. Defaults to the sandbox's default user."
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "signature",
+            "smithy.api#documentation": "Signature used for file access permission verification."
+          }
+        },
+        "signature_expiration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "signature_expiration",
+            "smithy.api#documentation": "Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd#GetFiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd#GetFilesRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd#DownloadFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/files",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download a file"
+      }
+    },
+    "com.e2b.envd#CreateFileRequest": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#documentation": "Path to the file, URL encoded. Can be relative to the user's home directory (e.g. \"file.txt\" resolves to ~/file.txt)."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "username",
+            "smithy.api#documentation": "User for setting file ownership and resolving relative paths. Defaults to the sandbox's default user."
+          }
+        },
+        "signature": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "signature",
+            "smithy.api#documentation": "Signature used for file access permission verification."
+          }
+        },
+        "signature_expiration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "signature_expiration",
+            "smithy.api#documentation": "Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter."
+          }
+        },
+        "file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.e2b.envd#formDataFile": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd#EntryInfo": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path to the file",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the file",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.e2b.envd#EntryInfoType",
+          "traits": {
+            "smithy.api#documentation": "Type of the file",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.e2b.envd#EntryInfoMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "User-defined metadata stored as extended attributes on the file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.envd#EntryInfoType": {
+      "type": "enum",
+      "members": {
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of the file"
+      }
+    },
+    "com.e2b.envd#EntryInfoMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "User-defined metadata stored as extended attributes on the file."
+      }
+    },
+    "com.e2b.envd#CreateFileResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.envd#EntryInfo"
+      },
+      "traits": {}
+    },
+    "com.e2b.envd#CreateFileResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.envd#CreateFileResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd#CreateFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd#CreateFileRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd#CreateFileResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Upload a file and ensure the parent directories exist. If the file exists, it will be overwritten.\n\nAny request header of the form `X-Metadata-<key>: <value>` is persisted\nas a user-defined extended attribute on the uploaded file. The\n`X-Metadata-` prefix is stripped and the remaining header name is\nlowercased to form the metadata key; the resulting map is returned on\n`EntryInfo` lookups (e.g. `Stat`, `ListDir`).\n\nEach upload replaces the file's metadata with the keys provided in\nthat request: keys previously stored but absent from the new request\nare removed, and an upload that sends no `X-Metadata-*` header clears\nall existing metadata.\n\nBoth keys and values must be printable US-ASCII (bytes `0x20`-`0x7E`)\nand are rejected with HTTP 400 otherwise. Each key is capped at 246\nbytes (the Linux VFS xattr-name limit minus the namespace prefix), and\nthe combined size of all metadata on a file (keys plus values, with the\nnamespace prefix counted per key) is capped at 4096 bytes to stay within\nthe filesystem's per-inode xattr budget. Multiple files in a single\nmultipart upload receive the same metadata. If the same\n`X-Metadata-<key>` header is sent more than once, only the first\nvalue is used.",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.e2b.envd#CreateFileComposeRequestSourcePathsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of source file paths to concatenate"
+      }
+    },
+    "com.e2b.envd#CreateFileComposeRequest": {
+      "type": "structure",
+      "members": {
+        "source_paths": {
+          "target": "com.e2b.envd#CreateFileComposeRequestSourcePathsList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of source file paths to concatenate",
+            "smithy.api#required": {}
+          }
+        },
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination file path for the composed file",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User for setting ownership and resolving relative paths"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd#CreateFileCompose": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd#CreateFileComposeRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd#EntryInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/files/compose",
+          "code": 200
+        },
+        "smithy.api#documentation": "Compose multiple files into a single file using zero-copy concatenation. Source files are deleted after successful composition."
+      }
+    },
+    "com.e2b.envd#Envd": {
+      "type": "service",
+      "version": "0.1.3",
+      "operations": [
+        {
+          "target": "com.e2b.envd#GetHealth"
+        },
+        {
+          "target": "com.e2b.envd#GetMetrics"
+        },
+        {
+          "target": "com.e2b.envd#GetEnvs"
+        },
+        {
+          "target": "com.e2b.envd#GetFiles"
+        },
+        {
+          "target": "com.e2b.envd#CreateFile"
+        },
+        {
+          "target": "com.e2b.envd#CreateFileCompose"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "envd",
+        "smithy.api#documentation": "API for managing files' content and controlling envd"
+      }
+    },
+    "com.e2b.envd#DownloadFileResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    }
+  }
+}

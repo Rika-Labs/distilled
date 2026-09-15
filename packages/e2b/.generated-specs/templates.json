@@ -1,0 +1,1432 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.templates#CreateTemplateRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to assign to the template build"
+      }
+    },
+    "com.e2b.templates#CreateTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the template. Can include a tag with colon separator (e.g. \"my-template\" or \"my-template:v1\"). If tag is included, it will be treated as if the tag was provided in the tags array."
+          }
+        },
+        "tags": {
+          "target": "com.e2b.templates#CreateTemplateRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to assign to the template build"
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alias of the template. Deprecated, use name instead."
+          }
+        },
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the team"
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer"
+        },
+        "memoryMB": {
+          "target": "smithy.api#Integer"
+        },
+        "minFreeDiskMb": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#CreateTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#CreateTemplateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/templates",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create template (v3)\n\nCreate a new template"
+      }
+    },
+    "com.e2b.templates#ListTemplatesRequest": {
+      "type": "structure",
+      "members": {
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamID"
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nextToken",
+            "smithy.api#documentation": "Cursor to start the list from"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of items to return per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#Template": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the last successful build for given template",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskSizeMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the template is public or only accessible by the team",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.e2b.templates#TemplateAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Aliases of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "names": {
+          "target": "com.e2b.templates#TemplateNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was last updated",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "com.e2b.templates#TeamUser",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastSpawnedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was last used",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spawnCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of times the template was used",
+            "smithy.api#required": {}
+          }
+        },
+        "buildCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of times the template was built",
+            "smithy.api#required": {}
+          }
+        },
+        "envdVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "buildStatus": {
+          "target": "com.e2b.templates#TemplateBuildStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aliases of the template"
+      }
+    },
+    "com.e2b.templates#TemplateNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)"
+      }
+    },
+    "com.e2b.templates#TeamUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the user",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateBuildStatus": {
+      "type": "enum",
+      "members": {
+        "BUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building"
+          }
+        },
+        "WAITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the template build"
+      }
+    },
+    "com.e2b.templates#ListTemplatesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#Template"
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#ListTemplatesResponse": {
+      "type": "structure",
+      "members": {
+        "templates": {
+          "target": "com.e2b.templates#ListTemplatesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Next-Token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.templates#ListTemplates": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#ListTemplatesRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#ListTemplatesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/templates",
+          "code": 200
+        },
+        "smithy.api#documentation": "List templates (v2)\n\nList all templates",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "nextToken",
+          "outputToken": "nextToken",
+          "items": "templates"
+        }
+      }
+    },
+    "com.e2b.templates#GetTemplateFileRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateBuildFileUpload": {
+      "type": "structure",
+      "members": {
+        "present": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the file is already present in the cache",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Url where the file should be uploaded to"
+          }
+        },
+        "headers": {
+          "target": "com.e2b.templates#TemplateBuildFileUploadHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Request headers that must be sent with the upload request"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateBuildFileUploadHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Request headers that must be sent with the upload request"
+      }
+    },
+    "com.e2b.templates#GetTemplateFile": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#GetTemplateFileRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateBuildFileUpload"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/{templateID}/files/{hash}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Template build file upload URL\n\nGet an upload link for a tar file containing build layer files"
+      }
+    },
+    "com.e2b.templates#GetTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nextToken",
+            "smithy.api#documentation": "Cursor to start the list from"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of items to return per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateWithBuilds": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the template is public or only accessible by the team",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.e2b.templates#TemplateWithBuildsAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Aliases of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "names": {
+          "target": "com.e2b.templates#TemplateWithBuildsNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was last updated",
+            "smithy.api#required": {}
+          }
+        },
+        "lastSpawnedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the template was last used",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "spawnCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of times the template was used",
+            "smithy.api#required": {}
+          }
+        },
+        "builds": {
+          "target": "com.e2b.templates#TemplateWithBuildsBuildsList",
+          "traits": {
+            "smithy.api#documentation": "List of builds for the template",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateWithBuildsAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Aliases of the template"
+      }
+    },
+    "com.e2b.templates#TemplateWithBuildsNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)"
+      }
+    },
+    "com.e2b.templates#TemplateBuild": {
+      "type": "structure",
+      "members": {
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the build",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.e2b.templates#TemplateBuildStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the build was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the build was last updated",
+            "smithy.api#required": {}
+          }
+        },
+        "finishedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the build was finished"
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskSizeMB": {
+          "target": "smithy.api#Integer"
+        },
+        "envdVersion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateWithBuildsBuildsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#TemplateBuild"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of builds for the template"
+      }
+    },
+    "com.e2b.templates#GetTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#GetTemplateRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateWithBuilds"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/{templateID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "List template builds\n\nList all builds for a template"
+      }
+    },
+    "com.e2b.templates#DeleteTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#DeleteTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#DeleteTemplateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/templates/{templateID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete template\n\nDelete a template"
+      }
+    },
+    "com.e2b.templates#FromImageRegistry": {
+      "type": "union",
+      "members": {
+        "AWSRegistry": {
+          "target": "com.e2b.templates#AWSRegistry"
+        },
+        "GCPRegistry": {
+          "target": "com.e2b.templates#GCPRegistry"
+        },
+        "GeneralRegistry": {
+          "target": "com.e2b.templates#GeneralRegistry"
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#AWSRegistry": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.e2b.templates#AWSRegistryType",
+          "traits": {
+            "smithy.api#documentation": "Type of registry authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "awsAccessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AWS Access Key ID for ECR authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "awsSecretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AWS Secret Access Key for ECR authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "awsRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AWS Region where the ECR registry is located",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#AWSRegistryType": {
+      "type": "enum",
+      "members": {
+        "AWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aws"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of registry authentication"
+      }
+    },
+    "com.e2b.templates#GCPRegistry": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.e2b.templates#GCPRegistryType",
+          "traits": {
+            "smithy.api#documentation": "Type of registry authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceAccountJson": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service Account JSON for GCP authentication",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#GCPRegistryType": {
+      "type": "enum",
+      "members": {
+        "GCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of registry authentication"
+      }
+    },
+    "com.e2b.templates#GeneralRegistry": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.e2b.templates#GeneralRegistryType",
+          "traits": {
+            "smithy.api#documentation": "Type of registry authentication",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Username to use for the registry",
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password to use for the registry",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#GeneralRegistryType": {
+      "type": "enum",
+      "members": {
+        "REGISTRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "registry"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of registry authentication"
+      }
+    },
+    "com.e2b.templates#TemplateStep": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the step",
+            "smithy.api#required": {}
+          }
+        },
+        "args": {
+          "target": "com.e2b.templates#TemplateStepArgsList",
+          "traits": {
+            "smithy.api#documentation": "Arguments for the step"
+          }
+        },
+        "filesHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hash of the files used in the step"
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the step should be forced to run regardless of the cache"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Step in the template build process"
+      }
+    },
+    "com.e2b.templates#TemplateStepArgsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arguments for the step"
+      }
+    },
+    "com.e2b.templates#UpdateTemplateBuildRequestStepsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#TemplateStep"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of steps to execute in the template build"
+      }
+    },
+    "com.e2b.templates#UpdateTemplateBuildRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "fromImage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Image to use as a base for the template build"
+          }
+        },
+        "fromTemplate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Template to use as a base for the template build"
+          }
+        },
+        "fromImageRegistry": {
+          "target": "com.e2b.templates#FromImageRegistry"
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the whole build should be forced to run regardless of the cache"
+          }
+        },
+        "steps": {
+          "target": "com.e2b.templates#UpdateTemplateBuildRequestStepsList",
+          "traits": {
+            "smithy.api#documentation": "List of steps to execute in the template build"
+          }
+        },
+        "startCmd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start command to execute in the template after the build"
+          }
+        },
+        "readyCmd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ready check command to execute in the template after the build"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#UpdateTemplateBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#UpdateTemplateBuildRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/templates/{templateID}/builds/{buildID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start template build (v2)\n\nStart the build"
+      }
+    },
+    "com.e2b.templates#UpdateTemplateRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the template is public or only accessible by the team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.e2b.templates#TemplateUpdateResponseNamesList",
+          "traits": {
+            "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateUpdateResponseNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Names of the template (namespace/alias format when namespaced)"
+      }
+    },
+    "com.e2b.templates#UpdateTemplate": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#UpdateTemplateRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateUpdateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v2/templates/{templateID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update template (v2)\n\nUpdate template"
+      }
+    },
+    "com.e2b.templates#LogLevel": {
+      "type": "enum",
+      "members": {
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "State of the sandbox"
+      }
+    },
+    "com.e2b.templates#GetTemplateBuildStatusRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "logsOffset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "logsOffset",
+            "smithy.api#documentation": "Index of the starting build log that should be returned with the template"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of logs that should be returned"
+          }
+        },
+        "level": {
+          "target": "com.e2b.templates#LogLevel",
+          "traits": {
+            "smithy.api#httpQuery": "level"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateBuildInfo": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.e2b.templates#TemplateBuildInfoLogsList",
+          "traits": {
+            "smithy.api#documentation": "Build logs (always empty since the V1 build path was removed, use logEntries)",
+            "smithy.api#required": {}
+          }
+        },
+        "logEntries": {
+          "target": "com.e2b.templates#TemplateBuildInfoLogEntriesList",
+          "traits": {
+            "smithy.api#documentation": "Build logs structured",
+            "smithy.api#required": {}
+          }
+        },
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the build",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.e2b.templates#TemplateBuildStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "com.e2b.templates#BuildStatusReason"
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateBuildInfoLogsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Build logs (always empty since the V1 build path was removed, use logEntries)"
+      }
+    },
+    "com.e2b.templates#BuildLogEntry": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the log entry",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message content",
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.e2b.templates#LogLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Step in the build process related to the log entry"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateBuildInfoLogEntriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#BuildLogEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Build logs structured"
+      }
+    },
+    "com.e2b.templates#BuildStatusReason": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message with the status reason, currently reporting only for error status",
+            "smithy.api#required": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Step that failed"
+          }
+        },
+        "logEntries": {
+          "target": "com.e2b.templates#BuildStatusReasonLogEntriesList",
+          "traits": {
+            "smithy.api#documentation": "Log entries related to the status reason"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#BuildStatusReasonLogEntriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#BuildLogEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Log entries related to the status reason"
+      }
+    },
+    "com.e2b.templates#GetTemplateBuildStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#GetTemplateBuildStatusRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateBuildInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/{templateID}/builds/{buildID}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Template build status\n\nGet template build info"
+      }
+    },
+    "com.e2b.templates#LogsDirection": {
+      "type": "enum",
+      "members": {
+        "FORWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forward"
+          }
+        },
+        "BACKWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backward"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Direction of the logs that should be returned"
+      }
+    },
+    "com.e2b.templates#LogsSource": {
+      "type": "enum",
+      "members": {
+        "TEMPORARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "temporary"
+          }
+        },
+        "PERSISTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "persistent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Source of the logs that should be returned"
+      }
+    },
+    "com.e2b.templates#ListTemplateBuildLogsRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Starting timestamp of the logs that should be returned in milliseconds"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of logs that should be returned"
+          }
+        },
+        "direction": {
+          "target": "com.e2b.templates#LogsDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "level": {
+          "target": "com.e2b.templates#LogLevel",
+          "traits": {
+            "smithy.api#httpQuery": "level"
+          }
+        },
+        "source": {
+          "target": "com.e2b.templates#LogsSource",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Source of the logs that should be returned from"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateBuildLogsResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.e2b.templates#TemplateBuildLogsResponseLogsList",
+          "traits": {
+            "smithy.api#documentation": "Build logs structured",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#TemplateBuildLogsResponseLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.templates#BuildLogEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Build logs structured"
+      }
+    },
+    "com.e2b.templates#ListTemplateBuildLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#ListTemplateBuildLogsRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateBuildLogsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/{templateID}/builds/{buildID}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Template build logs\n\nGet template build logs"
+      }
+    },
+    "com.e2b.templates#GetTemplateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.templates#TemplateAliasResponse": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the template is public or only accessible by the team",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.templates#GetTemplateAlias": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.templates#GetTemplateAliasRequest"
+      },
+      "output": {
+        "target": "com.e2b.templates#TemplateAliasResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/aliases/{alias}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check template alias\n\nCheck if template with given alias exists"
+      }
+    },
+    "com.e2b.templates#Templates": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.templates#CreateTemplate"
+        },
+        {
+          "target": "com.e2b.templates#ListTemplates"
+        },
+        {
+          "target": "com.e2b.templates#GetTemplateFile"
+        },
+        {
+          "target": "com.e2b.templates#GetTemplate"
+        },
+        {
+          "target": "com.e2b.templates#DeleteTemplate"
+        },
+        {
+          "target": "com.e2b.templates#UpdateTemplateBuild"
+        },
+        {
+          "target": "com.e2b.templates#UpdateTemplate"
+        },
+        {
+          "target": "com.e2b.templates#GetTemplateBuildStatus"
+        },
+        {
+          "target": "com.e2b.templates#ListTemplateBuildLogs"
+        },
+        {
+          "target": "com.e2b.templates#GetTemplateAlias"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

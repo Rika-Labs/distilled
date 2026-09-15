@@ -1,0 +1,292 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.events#GetEventSandboxRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.events#GetEventSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "orderAsc": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "orderAsc"
+          }
+        },
+        "types": {
+          "target": "com.e2b.events#GetEventSandboxRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "Filter events to the provided event types"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.events#SandboxEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event unique identifier",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event structure version",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event name",
+            "smithy.api#required": {}
+          }
+        },
+        "eventCategory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category of the event (e.g., 'lifecycle', 'process', etc.)"
+          }
+        },
+        "eventLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label for the specific event type (e.g., 'sandbox_started', 'process_oom', etc.)"
+          }
+        },
+        "eventData": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional JSON data associated with the event",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the event",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxExecutionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the sandbox execution",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxTemplateId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the sandbox template",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxBuildId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the sandbox build",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxTeamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team identifier associated with the sandbox",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox event"
+      }
+    },
+    "com.e2b.events#GetEventSandboxResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.events#SandboxEvent"
+      },
+      "traits": {}
+    },
+    "com.e2b.events#GetEventSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.events#GetEventSandboxResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.events#GetEventSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.events#GetEventSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.events#GetEventSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/sandboxes/{sandboxID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get sandbox events"
+      }
+    },
+    "com.e2b.events#ListEventSandboxesRequestTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.events#ListEventSandboxesRequest": {
+      "type": "structure",
+      "members": {
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "orderAsc": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "orderAsc"
+          }
+        },
+        "types": {
+          "target": "com.e2b.events#ListEventSandboxesRequestTypesList",
+          "traits": {
+            "smithy.api#httpQuery": "types",
+            "smithy.api#documentation": "Filter events to the provided event types"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.events#ListEventSandboxesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.events#SandboxEvent"
+      },
+      "traits": {}
+    },
+    "com.e2b.events#ListEventSandboxesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.events#ListEventSandboxesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.events#ListEventSandboxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.events#ListEventSandboxesRequest"
+      },
+      "output": {
+        "target": "com.e2b.events#ListEventSandboxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/events/sandboxes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get all sandbox events for the team associated with the API key"
+      }
+    },
+    "com.e2b.events#Events": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.events#GetEventSandbox"
+        },
+        {
+          "target": "com.e2b.events#ListEventSandboxes"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

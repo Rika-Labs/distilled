@@ -1,0 +1,1782 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.sandboxes#SandboxAutoResumeConfig": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Auto-resume configuration for paused sandboxes."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfig": {
+      "type": "structure",
+      "members": {
+        "allowPublicTraffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specify if the sandbox URLs should be accessible only with authentication."
+          }
+        },
+        "allowOut": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfigAllowOutList",
+          "traits": {
+            "smithy.api#documentation": "List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. \"8.8.8.8/32\"), a bare IP address (e.g. \"8.8.8.8\"), or a domain name (e.g. \"example.com\", \"*.example.com\"). Allowed entries always take precedence over denied entries."
+          }
+        },
+        "denyOut": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfigDenyOutList",
+          "traits": {
+            "smithy.api#documentation": "List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules."
+          }
+        },
+        "egressProxy": {
+          "target": "com.e2b.sandboxes#SandboxEgressProxyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maskRequestHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify host mask which will be used for all sandbox requests"
+          }
+        },
+        "httpsPorts": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfigHttpsPortsList",
+          "traits": {
+            "smithy.api#documentation": "Sandbox ports that serve HTTPS rather than plaintext HTTP. Affects how the proxy reaches the service inside the sandbox; the public URL is HTTPS either way. Certificates are not verified, so self-signed ones work. The envd port (49983) cannot be listed."
+          }
+        },
+        "rules": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfigRulesMap",
+          "traits": {
+            "smithy.api#documentation": "Per-domain transform rules applied to matching outbound HTTPS requests. Keys may be exact DNS names (for example, \"api.example.com\") or a leading wildcard (for example, \"*.example.com\"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare \"*\" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as \"*.com\" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfigAllowOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. \"8.8.8.8/32\"), a bare IP address (e.g. \"8.8.8.8\"), or a domain name (e.g. \"example.com\", \"*.example.com\"). Allowed entries always take precedence over denied entries."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfigDenyOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules."
+      }
+    },
+    "com.e2b.sandboxes#SandboxEgressProxyConfig": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SOCKS5 proxy address in host:port format (e.g. \"proxy.example.com:1080\").",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional SOCKS5 username (RFC 1929), max 255 bytes."
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional SOCKS5 password (RFC 1929), max 255 bytes.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "SOCKS5 proxy for sandbox egress. Outbound TCP is tunneled through the proxy after allow/deny filtering; the sandbox is unaware. Domain-matched flows use remote DNS (ATYP=domain)."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfigHttpsPortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox ports that serve HTTPS rather than plaintext HTTP. Affects how the proxy reaches the service inside the sandbox; the public URL is HTTPS either way. Certificates are not verified, so self-signed ones work. The envd port (49983) cannot be listed."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkRule": {
+      "type": "structure",
+      "members": {
+        "transform": {
+          "target": "com.e2b.sandboxes#SandboxNetworkTransform"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transform rule applied to egress requests matching a domain pattern."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkTransform": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.e2b.sandboxes#SandboxNetworkTransformHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "HTTP headers to inject or override in matching requests. An existing header with the same name is replaced. Values are plain strings; secret resolution happens client-side before sending to the API.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Transformations applied to matching egress requests before forwarding."
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkTransformHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP headers to inject or override in matching requests. An existing header with the same name is replaced. Values are plain strings; secret resolution happens client-side before sending to the API.\n"
+      }
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfigRulesValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxNetworkRule"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxNetworkConfigRulesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.e2b.sandboxes#SandboxNetworkConfigRulesValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-domain transform rules applied to matching outbound HTTPS requests. Keys may be exact DNS names (for example, \"api.example.com\") or a leading wildcard (for example, \"*.example.com\"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare \"*\" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as \"*.com\" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination.\n"
+      }
+    },
+    "com.e2b.sandboxes#SandboxMetadata": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#EnvVars": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#Mcp": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "MCP configuration for the sandbox"
+      }
+    },
+    "com.e2b.sandboxes#SandboxIam": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.e2b.sandboxes#SandboxIamTokens"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox workload identity configuration. A non-empty, valid tokens map enables workload identity for the sandbox."
+      }
+    },
+    "com.e2b.sandboxes#SandboxIamTokens": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.e2b.sandboxes#SandboxIamToken"
+      },
+      "traits": {
+        "smithy.api#documentation": "Named workload-token definitions, keyed by a caller-chosen token name."
+      }
+    },
+    "com.e2b.sandboxes#SandboxIamToken": {
+      "type": "structure",
+      "members": {
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Audience of the workload token, stored exactly as provided.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokenType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Workload token type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxVolumeMount": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the volume",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path of the volume",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#CreateSandboxRequestVolumeMountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxVolumeMount"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#CreateSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the required template",
+            "smithy.api#required": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to live for the sandbox in seconds."
+          }
+        },
+        "autoPause": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Automatically pauses the sandbox after the timeout"
+          }
+        },
+        "autoPauseMemory": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Controls the snapshot kind taken when the sandbox auto-pauses on timeout (only relevant when autoPause is true). When false, the auto-pause drops the in-memory state and persists only the filesystem (a filesystem-only snapshot); resuming it cold-boots (reboots) the sandbox from disk. Such a snapshot cannot be auto-resumed by traffic and must be resumed explicitly, so it cannot be combined with autoResume. Defaults to true (full memory snapshot)."
+          }
+        },
+        "autoResume": {
+          "target": "com.e2b.sandboxes#SandboxAutoResumeConfig"
+        },
+        "secure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Secure all system communication with sandbox"
+          }
+        },
+        "allow_internet_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow sandbox to access the internet. When set to false, it behaves the same as specifying denyOut to 0.0.0.0/0 in the network config."
+          }
+        },
+        "network": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfig"
+        },
+        "metadata": {
+          "target": "com.e2b.sandboxes#SandboxMetadata"
+        },
+        "envVars": {
+          "target": "com.e2b.sandboxes#EnvVars"
+        },
+        "mcp": {
+          "target": "com.e2b.sandboxes#Mcp",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "iam": {
+          "target": "com.e2b.sandboxes#SandboxIam"
+        },
+        "volumeMounts": {
+          "target": "com.e2b.sandboxes#CreateSandboxRequestVolumeMountsList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#Sandbox": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template from which is the sandbox created",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alias of the template"
+          }
+        },
+        "clientID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the client",
+            "smithy.api#required": {}
+          }
+        },
+        "envdVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "envdAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token used for envd communication"
+          }
+        },
+        "trafficAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token required for accessing sandbox via proxy.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base domain where the sandbox traffic is accessible",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#CreateSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#CreateSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#Sandbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create sandbox\n\nCreate a sandbox from the template"
+      }
+    },
+    "com.e2b.sandboxes#SandboxState": {
+      "type": "enum",
+      "members": {
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "State of the sandbox"
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxesRequestStateList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxState"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#OrderDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sort direction"
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxesRequest": {
+      "type": "structure",
+      "members": {
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "metadata",
+            "smithy.api#documentation": "Metadata query used to filter the sandboxes (e.g. \"user=abc&app=prod\"). Each key and values must be URL encoded."
+          }
+        },
+        "state": {
+          "target": "com.e2b.sandboxes#ListSandboxesRequestStateList",
+          "traits": {
+            "smithy.api#httpQuery": "state",
+            "smithy.api#documentation": "Filter sandboxes by one or more states",
+            "com.e2b.api#queryJoin": ","
+          }
+        },
+        "order": {
+          "target": "com.e2b.sandboxes#OrderDirection",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort direction by sandbox start time. Defaults to desc (newest first)."
+          }
+        },
+        "startedAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "startedAfter",
+            "smithy.api#documentation": "Return sandboxes started at or after this timestamp."
+          }
+        },
+        "template": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "template",
+            "smithy.api#documentation": "Filter sandboxes by a template ID or alias."
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nextToken",
+            "smithy.api#documentation": "Cursor to start the list from"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of items to return per page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#ListedSandbox": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template from which is the sandbox created",
+            "smithy.api#required": {}
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alias of the template"
+          }
+        },
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "clientID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the client",
+            "smithy.api#required": {}
+          }
+        },
+        "startedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the sandbox was started",
+            "smithy.api#required": {}
+          }
+        },
+        "endAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the sandbox will expire",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskSizeMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.e2b.sandboxes#SandboxMetadata"
+        },
+        "state": {
+          "target": "com.e2b.sandboxes#SandboxState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "envdVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "volumeMounts": {
+          "target": "com.e2b.sandboxes#ListedSandboxVolumeMountsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ListedSandboxVolumeMountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxVolumeMount"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ListSandboxesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#ListedSandbox"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ListSandboxesResponse": {
+      "type": "structure",
+      "members": {
+        "sandboxes": {
+          "target": "com.e2b.sandboxes#ListSandboxesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Next-Token"
+          }
+        },
+        "totalRunning": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "X-Total-Running"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxes": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#ListSandboxesRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#ListSandboxesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/sandboxes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List sandboxes (v2)\n\nList all sandboxes",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "nextToken",
+          "outputToken": "nextToken",
+          "items": "sandboxes"
+        }
+      }
+    },
+    "com.e2b.sandboxes#GetSandboxMetricsRequestSandboxIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#GetSandboxMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "sandbox_ids": {
+          "target": "com.e2b.sandboxes#GetSandboxMetricsRequestSandboxIdsList",
+          "traits": {
+            "smithy.api#httpQuery": "sandbox_ids",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Comma-separated list of sandbox IDs to get metrics for",
+            "com.e2b.api#queryJoin": ","
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#SandboxesWithMetrics": {
+      "type": "structure",
+      "members": {
+        "sandboxes": {
+          "target": "com.e2b.sandboxes#SandboxesWithMetricsSandboxesMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxMetric": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the metric entry",
+            "smithy.api#required": {}
+          }
+        },
+        "timestampUnix": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the metric entry in Unix time (seconds since epoch)",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of CPU cores",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuUsedPct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "CPU usage percentage",
+            "smithy.api#required": {}
+          }
+        },
+        "memUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory used in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "memTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total memory in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "memCache": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Cached memory (page cache) in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "diskUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Disk used in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "diskTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total disk space in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metric entry with timestamp and line"
+      }
+    },
+    "com.e2b.sandboxes#SandboxesWithMetricsSandboxesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.e2b.sandboxes#SandboxMetric"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#GetSandboxMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#GetSandboxMetricsRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#SandboxesWithMetrics"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandboxes/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "List sandbox metrics\n\nList metrics for given sandboxes"
+      }
+    },
+    "com.e2b.sandboxes#LogsDirection": {
+      "type": "enum",
+      "members": {
+        "FORWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "forward"
+          }
+        },
+        "BACKWARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "backward"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Direction of the logs that should be returned"
+      }
+    },
+    "com.e2b.sandboxes#LogLevel": {
+      "type": "enum",
+      "members": {
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "State of the sandbox"
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxLogsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Starting timestamp of the logs that should be returned in milliseconds"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of logs that should be returned"
+          }
+        },
+        "direction": {
+          "target": "com.e2b.sandboxes#LogsDirection",
+          "traits": {
+            "smithy.api#httpQuery": "direction",
+            "smithy.api#documentation": "Direction of the logs that should be returned"
+          }
+        },
+        "level": {
+          "target": "com.e2b.sandboxes#LogLevel",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Minimum log level to return. Logs below this level are excluded"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-sensitive substring match on log message content"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#SandboxLogsV2Response": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.e2b.sandboxes#SandboxLogsV2ResponseLogsList",
+          "traits": {
+            "smithy.api#documentation": "Sandbox logs structured",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxLogEntry": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the log entry",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message content",
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.e2b.sandboxes#LogLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.e2b.sandboxes#SandboxLogEntryFieldsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxLogEntryFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxLogsV2ResponseLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxLogEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox logs structured"
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#ListSandboxLogsRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#SandboxLogsV2Response"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/sandboxes/{sandboxID}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sandbox logs (v2)\n\nGet sandbox logs"
+      }
+    },
+    "com.e2b.sandboxes#GetSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#SandboxDetail": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the template from which is the sandbox created",
+            "smithy.api#required": {}
+          }
+        },
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alias of the template"
+          }
+        },
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the sandbox",
+            "smithy.api#required": {}
+          }
+        },
+        "clientID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the client",
+            "smithy.api#required": {}
+          }
+        },
+        "startedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the sandbox was started",
+            "smithy.api#required": {}
+          }
+        },
+        "endAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the sandbox will expire",
+            "smithy.api#required": {}
+          }
+        },
+        "envdVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "envdAccessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token used for envd communication"
+          }
+        },
+        "allowInternetAccess": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether internet access was explicitly enabled or disabled for the sandbox. Null means it was not explicitly set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base domain where the sandbox traffic is accessible",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memoryMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "diskSizeMB": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.e2b.sandboxes#SandboxMetadata"
+        },
+        "state": {
+          "target": "com.e2b.sandboxes#SandboxState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.e2b.sandboxes#SandboxNetworkConfig"
+        },
+        "lifecycle": {
+          "target": "com.e2b.sandboxes#SandboxLifecycle"
+        },
+        "volumeMounts": {
+          "target": "com.e2b.sandboxes#SandboxDetailVolumeMountsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SandboxLifecycle": {
+      "type": "structure",
+      "members": {
+        "autoResume": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the sandbox can auto-resume.",
+            "smithy.api#required": {}
+          }
+        },
+        "onTimeout": {
+          "target": "com.e2b.sandboxes#SandboxOnTimeout",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox lifecycle policy returned by sandbox info."
+      }
+    },
+    "com.e2b.sandboxes#SandboxOnTimeout": {
+      "type": "enum",
+      "members": {
+        "KILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kill"
+          }
+        },
+        "PAUSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pause"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Action taken when the sandbox times out."
+      }
+    },
+    "com.e2b.sandboxes#SandboxDetailVolumeMountsList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxVolumeMount"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#GetSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#GetSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#SandboxDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandboxes/{sandboxID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sandbox\n\nGet a sandbox by id"
+      }
+    },
+    "com.e2b.sandboxes#DeleteSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#DeleteSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#DeleteSandboxRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/sandboxes/{sandboxID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Kill sandbox\n\nKill a sandbox"
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Unix timestamp for the start of the interval, in seconds, for which the metrics"
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxMetricsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxMetric"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ListSandboxMetricsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.sandboxes#ListSandboxMetricsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.sandboxes#ListSandboxMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#ListSandboxMetricsRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#ListSandboxMetricsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/sandboxes/{sandboxID}/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "Sandbox metrics\n\nGet sandbox metrics"
+      }
+    },
+    "com.e2b.sandboxes#PauseSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to capture a full memory snapshot. When false, only the filesystem is persisted and resuming the sandbox cold-boots (reboots) it from disk, losing in-memory state, running processes, and open connections. Resume it with an explicit request (connect or resume); auto-resume, which can be triggered by arbitrary traffic, refuses such a sandbox. Defaults to true."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#PauseSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#PauseSandboxRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause sandbox\n\nPause the sandbox"
+      }
+    },
+    "com.e2b.sandboxes#ForkSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time to live for the new forked sandboxes in seconds."
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of forked sandboxes to create. All forks boot from the same snapshot, so the snapshot is captured once regardless of count. Each fork succeeds or fails independently; the outcome of each is reported in its entry of the response list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#SandboxForkResult": {
+      "type": "structure",
+      "members": {
+        "sandbox": {
+          "target": "com.e2b.sandboxes#Sandbox"
+        },
+        "error": {
+          "target": "com.e2b.sandboxes#Error"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Result of one requested fork. Exactly one of sandbox or error is set: sandbox when the fork started successfully, error when it failed to start."
+      }
+    },
+    "com.e2b.sandboxes#Error": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Error code",
+            "smithy.api#required": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed, internal_server_error."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ForkSandboxResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxForkResult"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#ForkSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.sandboxes#ForkSandboxResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.sandboxes#ForkSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#ForkSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#ForkSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/fork",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fork sandbox\n\nFork the sandbox: checkpoint the running sandbox in place (it is briefly paused, snapshotted with its full memory state, and resumed on its node, keeping its ID and expiration untouched) and create count new sandboxes from that snapshot. Returns one result per requested fork, each carrying either the created sandbox or the error that prevented it from starting. A non-201 status means the request failed before any fork was attempted."
+      }
+    },
+    "com.e2b.sandboxes#ConnectSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timeout in seconds from the current time after which the sandbox should expire",
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Defaults to true. When false and the sandbox is paused, resume from disk state only: the sandbox cold-boots fresh and any memory in the snapshot is ignored, never modified or deleted. Disk state has crash-recovery semantics — writes not flushed before the pause may be lost. A no-op for snapshots that contain no memory. Rejected with an error in environments where this capability is not enabled, never silently downgraded to a memory restore."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#ConnectSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#ConnectSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#Sandbox"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/connect",
+          "code": 200
+        },
+        "smithy.api#documentation": "Connect sandbox\n\nReturns sandbox details. If the sandbox is paused, it will be resumed. TTL is only extended."
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxTimeoutRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Timeout in seconds from the current time after which the sandbox should expire",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxTimeout": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#CreateSandboxTimeoutRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/timeout",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set sandbox timeout\n\nSet the timeout for the sandbox. The sandbox will expire x seconds from the time of the request. Calling this method multiple times overwrites the TTL, each time using the current timestamp as the starting point to measure the timeout duration."
+      }
+    },
+    "com.e2b.sandboxes#PutSandboxNetworkRequestAllowOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. \"8.8.8.8/32\"), a bare IP address (e.g. \"8.8.8.8\"), or a domain name (e.g. \"example.com\", \"*.example.com\"). Allowed entries always take precedence over denied entries."
+      }
+    },
+    "com.e2b.sandboxes#PutSandboxNetworkRequestDenyOutList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules."
+      }
+    },
+    "com.e2b.sandboxes#PutSandboxNetworkRequestRulesValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.sandboxes#SandboxNetworkRule"
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#PutSandboxNetworkRequestRulesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.e2b.sandboxes#PutSandboxNetworkRequestRulesValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-domain transform rules applied to matching outbound HTTPS requests. Replaces all existing rules when provided. Keys may be exact DNS names or a single leading wildcard (for example, \"*.example.com\"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare \"*\" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as \"*.com\" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination.\n"
+      }
+    },
+    "com.e2b.sandboxes#PutSandboxNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "allowOut": {
+          "target": "com.e2b.sandboxes#PutSandboxNetworkRequestAllowOutList",
+          "traits": {
+            "smithy.api#documentation": "List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. \"8.8.8.8/32\"), a bare IP address (e.g. \"8.8.8.8\"), or a domain name (e.g. \"example.com\", \"*.example.com\"). Allowed entries always take precedence over denied entries."
+          }
+        },
+        "denyOut": {
+          "target": "com.e2b.sandboxes#PutSandboxNetworkRequestDenyOutList",
+          "traits": {
+            "smithy.api#documentation": "List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules."
+          }
+        },
+        "egressProxy": {
+          "target": "com.e2b.sandboxes#SandboxEgressProxyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rules": {
+          "target": "com.e2b.sandboxes#PutSandboxNetworkRequestRulesMap",
+          "traits": {
+            "smithy.api#documentation": "Per-domain transform rules applied to matching outbound HTTPS requests. Replaces all existing rules when provided. Keys may be exact DNS names or a single leading wildcard (for example, \"*.example.com\"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare \"*\" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as \"*.com\" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination.\n"
+          }
+        },
+        "allow_internet_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow sandbox to access the internet. When set to false, it behaves the same as specifying denyOut to 0.0.0.0/0 in the network config."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#PutSandboxNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#PutSandboxNetworkRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/sandboxes/{sandboxID}/network",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update sandbox network\n\nUpdate the network configuration for a running sandbox. Replaces the current egress rules with the provided configuration. Omitting field clears it."
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxRefreshRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration for which the sandbox should be kept alive in seconds"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxRefresh": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#CreateSandboxRefreshRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/refreshes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Refresh sandbox\n\nRefresh the sandbox extending its time to live"
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional name for the snapshot template. If a snapshot template with this name already exists, a new build will be assigned to the existing template instead of creating a new one."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.sandboxes#SnapshotInfo": {
+      "type": "structure",
+      "members": {
+        "snapshotID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the snapshot template including the tag. Uses namespace/alias when a name was provided (e.g. team-slug/my-snapshot:default), otherwise falls back to the raw template ID (e.g. abc123:default).",
+            "smithy.api#required": {}
+          }
+        },
+        "names": {
+          "target": "com.e2b.sandboxes#SnapshotInfoNamesList",
+          "traits": {
+            "smithy.api#documentation": "Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.sandboxes#SnapshotInfoNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2)"
+      }
+    },
+    "com.e2b.sandboxes#CreateSandboxSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.sandboxes#CreateSandboxSnapshotRequest"
+      },
+      "output": {
+        "target": "com.e2b.sandboxes#SnapshotInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/sandboxes/{sandboxID}/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create snapshot\n\nCreate a persistent snapshot from the sandbox's current state. Snapshots can be used to create new sandboxes and persist beyond the original sandbox's lifetime."
+      }
+    },
+    "com.e2b.sandboxes#Sandboxes": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.sandboxes#CreateSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#ListSandboxes"
+        },
+        {
+          "target": "com.e2b.sandboxes#GetSandboxMetrics"
+        },
+        {
+          "target": "com.e2b.sandboxes#ListSandboxLogs"
+        },
+        {
+          "target": "com.e2b.sandboxes#GetSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#DeleteSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#ListSandboxMetrics"
+        },
+        {
+          "target": "com.e2b.sandboxes#PauseSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#ForkSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#ConnectSandbox"
+        },
+        {
+          "target": "com.e2b.sandboxes#CreateSandboxTimeout"
+        },
+        {
+          "target": "com.e2b.sandboxes#PutSandboxNetwork"
+        },
+        {
+          "target": "com.e2b.sandboxes#CreateSandboxRefresh"
+        },
+        {
+          "target": "com.e2b.sandboxes#CreateSandboxSnapshot"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

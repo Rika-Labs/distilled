@@ -1,0 +1,758 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.envd.process#ListRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#ProcessInfo": {
+      "type": "structure",
+      "members": {
+        "config": {
+          "target": "com.e2b.envd.process#ProcessConfig",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "pid": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessConfig": {
+      "type": "structure",
+      "members": {
+        "cmd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "string"
+            }
+          }
+        },
+        "args": {
+          "target": "com.e2b.envd.process#StringList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string",
+              "rep": true
+            }
+          }
+        },
+        "envs": {
+          "target": "com.e2b.envd.process#StringMap",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "map",
+              "k": "string",
+              "v": {
+                "t": "string"
+              }
+            }
+          }
+        },
+        "cwd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.e2b.envd.process#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.e2b.envd.process#ProcessInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.envd.process#ProcessInfo"
+      }
+    },
+    "com.e2b.envd.process#ListResponse": {
+      "type": "structure",
+      "members": {
+        "processes": {
+          "target": "com.e2b.envd.process#ProcessInfoList",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message",
+              "rep": true
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#List": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#ListRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#ListResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/List",
+          "code": 200
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessSelector": {
+      "type": "structure",
+      "members": {
+        "pid": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "string"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ConnectRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessSelector",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#ProcessEvent": {
+      "type": "structure",
+      "members": {
+        "start": {
+          "target": "com.e2b.envd.process#ProcessEventStartEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "data": {
+          "target": "com.e2b.envd.process#ProcessEventDataEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        },
+        "end": {
+          "target": "com.e2b.envd.process#ProcessEventEndEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "message"
+            }
+          }
+        },
+        "keepalive": {
+          "target": "com.e2b.envd.process#ProcessEventKeepAlive",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "message"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessEventStartEvent": {
+      "type": "structure",
+      "members": {
+        "pid": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessEventDataEvent": {
+      "type": "structure",
+      "members": {
+        "stdout": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
+        },
+        "stderr": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        },
+        "pty": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "bytes"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessEventEndEvent": {
+      "type": "structure",
+      "members": {
+        "exitCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "sint32"
+            }
+          }
+        },
+        "exited": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bool"
+            }
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "string"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessEventKeepAlive": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.e2b.envd.process#ConnectResponse": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.e2b.envd.process#ProcessEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#Connect": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#ConnectRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#ConnectResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/Connect",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
+    "com.e2b.envd.process#PTY": {
+      "type": "structure",
+      "members": {
+        "size": {
+          "target": "com.e2b.envd.process#PTYSize",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#PTYSize": {
+      "type": "structure",
+      "members": {
+        "cols": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "uint32"
+            }
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "uint32"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#StartRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessConfig",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "pty": {
+          "target": "com.e2b.envd.process#PTY",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 3,
+              "t": "string"
+            }
+          }
+        },
+        "stdin": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This is optional for backwards compatibility. We default to true. New SDK versions will set this to false by default.",
+            "com.distilled.proto#field": {
+              "n": 4,
+              "t": "bool"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#StartResponse": {
+      "type": "structure",
+      "members": {
+        "event": {
+          "target": "com.e2b.envd.process#ProcessEvent",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#Start": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#StartRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#StartResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/Start",
+          "code": 200
+        },
+        "com.distilled.proto#streaming": {
+          "response": true
+        }
+      }
+    },
+    "com.e2b.envd.process#UpdateRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessSelector",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "pty": {
+          "target": "com.e2b.envd.process#PTY",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#UpdateResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#Update": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#UpdateRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#UpdateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/Update",
+          "code": 200
+        }
+      }
+    },
+    "com.e2b.envd.process#ProcessInput": {
+      "type": "structure",
+      "members": {
+        "stdin": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "bytes"
+            }
+          }
+        },
+        "pty": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "bytes"
+            }
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#SendInputRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessSelector",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "input": {
+          "target": "com.e2b.envd.process#ProcessInput",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#SendInputResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#SendInput": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#SendInputRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#SendInputResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/SendInput",
+          "code": 200
+        }
+      }
+    },
+    "com.e2b.envd.process#Signal": {
+      "type": "enum",
+      "members": {
+        "SIGNAL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_UNSPECIFIED"
+          }
+        },
+        "SIGNAL_SIGTERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_SIGTERM"
+          }
+        },
+        "SIGNAL_SIGKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIGNAL_SIGKILL"
+          }
+        }
+      }
+    },
+    "com.e2b.envd.process#SendSignalRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessSelector",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        },
+        "signal": {
+          "target": "com.e2b.envd.process#Signal",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 2,
+              "t": "enum",
+              "e": {
+                "SIGNAL_UNSPECIFIED": 0,
+                "SIGNAL_SIGTERM": 15,
+                "SIGNAL_SIGKILL": 9
+              }
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#SendSignalResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#SendSignal": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#SendSignalRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#SendSignalResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/SendSignal",
+          "code": 200
+        }
+      }
+    },
+    "com.e2b.envd.process#CloseStdinRequest": {
+      "type": "structure",
+      "members": {
+        "process": {
+          "target": "com.e2b.envd.process#ProcessSelector",
+          "traits": {
+            "com.distilled.proto#field": {
+              "n": 1,
+              "t": "message"
+            }
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.envd.process#CloseStdinResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.envd.process#CloseStdin": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.envd.process#CloseStdinRequest"
+      },
+      "output": {
+        "target": "com.e2b.envd.process#CloseStdinResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/process.Process/CloseStdin",
+          "code": 200
+        },
+        "smithy.api#documentation": "Close stdin to signal EOF to the process. Only works for non-PTY processes. For PTY, send Ctrl+D (0x04) instead."
+      }
+    },
+    "com.e2b.envd.process#ProcessService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.e2b.envd.process#List"
+        },
+        {
+          "target": "com.e2b.envd.process#Connect"
+        },
+        {
+          "target": "com.e2b.envd.process#Start"
+        },
+        {
+          "target": "com.e2b.envd.process#Update"
+        },
+        {
+          "target": "com.e2b.envd.process#SendInput"
+        },
+        {
+          "target": "com.e2b.envd.process#SendSignal"
+        },
+        {
+          "target": "com.e2b.envd.process#CloseStdin"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B envd Process",
+        "smithy.api#documentation": "process.Process — Connect-RPC service served by envd inside each sandbox. Unary calls are POSTs with an application/proto body; server-streaming calls are application/connect+proto envelopes. Requests route to the sandbox's envd URL with X-Access-Token auth."
+      }
+    }
+  }
+}

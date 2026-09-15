@@ -1,0 +1,1379 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.admin#ListNodesRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "clusterID",
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#Node": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the orchestrator",
+            "smithy.api#required": {}
+          }
+        },
+        "commit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit of the orchestrator",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceInstanceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service instance identifier of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the cluster",
+            "smithy.api#required": {}
+          }
+        },
+        "machineInfo": {
+          "target": "com.e2b.admin#MachineInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.e2b.admin#NodeStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusChangedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the node status was last changed",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandboxes running on the node",
+            "smithy.api#required": {}
+          }
+        },
+        "maxSandboxes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Node-scoped configured sandbox admission limit. Nonpositive values reject creation. Omitted when unknown or not an orchestrator."
+          }
+        },
+        "outstandingWork": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Observed work holds on the node. Omitted when unknown; zero does not authorize deletion."
+          }
+        },
+        "metrics": {
+          "target": "com.e2b.admin#NodeMetrics",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createSuccesses": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandbox create successes",
+            "smithy.api#required": {}
+          }
+        },
+        "createFails": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandbox create fails",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxStartingCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of starting Sandboxes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#MachineInfo": {
+      "type": "structure",
+      "members": {
+        "cpuFamily": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU family of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU model of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuModelName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU model name of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuArchitecture": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU architecture of the node",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#NodeStatus": {
+      "type": "enum",
+      "members": {
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "DRAINING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draining"
+          }
+        },
+        "CONNECTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connecting"
+          }
+        },
+        "UNHEALTHY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unhealthy"
+          }
+        },
+        "STANDBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standby"
+          }
+        },
+        "SHUTTING_DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shutting_down"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the node.\n- standby: the node is not actively used, but it can return to ready and continue serving traffic.\n"
+      }
+    },
+    "com.e2b.admin#NodeMetrics": {
+      "type": "structure",
+      "members": {
+        "allocatedCPU": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of allocated CPU cores",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Node CPU usage percentage",
+            "smithy.api#required": {}
+          }
+        },
+        "cpuCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of CPU cores on the node",
+            "smithy.api#required": {}
+          }
+        },
+        "allocatedMemoryBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of allocated memory in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "memoryUsedBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Node memory used in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "memoryTotalBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total node memory in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "hugePagesTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of preallocated hugepages on the node",
+            "smithy.api#required": {}
+          }
+        },
+        "hugePagesUsed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of hugepages in use (total - free)",
+            "smithy.api#required": {}
+          }
+        },
+        "hugePagesReserved": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of reserved hugepages (committed but not yet faulted)",
+            "smithy.api#required": {}
+          }
+        },
+        "hugePageSizeBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of a single hugepage in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "disks": {
+          "target": "com.e2b.admin#NodeMetricsDisksList",
+          "traits": {
+            "smithy.api#documentation": "Detailed metrics for each disk/mount point",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Node metrics"
+      }
+    },
+    "com.e2b.admin#DiskMetrics": {
+      "type": "structure",
+      "members": {
+        "mountPoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount point of the disk",
+            "smithy.api#required": {}
+          }
+        },
+        "device": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Device name",
+            "smithy.api#required": {}
+          }
+        },
+        "filesystemType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filesystem type (e.g., ext4, xfs)",
+            "smithy.api#required": {}
+          }
+        },
+        "usedBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Used space in bytes",
+            "smithy.api#required": {}
+          }
+        },
+        "totalBytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total space in bytes",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#NodeMetricsDisksList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.admin#DiskMetrics"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detailed metrics for each disk/mount point"
+      }
+    },
+    "com.e2b.admin#ListNodesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.admin#Node"
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#ListNodesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.admin#ListNodesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.admin#ListNodes": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#ListNodesRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#ListNodesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/nodes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List nodes\n\nList all nodes"
+      }
+    },
+    "com.e2b.admin#GetNodeRequest": {
+      "type": "structure",
+      "members": {
+        "nodeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "clusterID",
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#NodeDetail": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the cluster",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the orchestrator",
+            "smithy.api#required": {}
+          }
+        },
+        "commit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit of the orchestrator",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "serviceInstanceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service instance identifier of the node",
+            "smithy.api#required": {}
+          }
+        },
+        "machineInfo": {
+          "target": "com.e2b.admin#MachineInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.e2b.admin#NodeStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusChangedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the node status was last changed",
+            "smithy.api#required": {}
+          }
+        },
+        "sandboxCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandboxes running on the node",
+            "smithy.api#required": {}
+          }
+        },
+        "maxSandboxes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Node-scoped configured sandbox admission limit. Nonpositive values reject creation. Omitted when unknown or not an orchestrator."
+          }
+        },
+        "outstandingWork": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Observed work holds on the node. Omitted when unknown; zero does not authorize deletion."
+          }
+        },
+        "metrics": {
+          "target": "com.e2b.admin#NodeMetrics",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createSuccesses": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandbox create successes",
+            "smithy.api#required": {}
+          }
+        },
+        "createFails": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandbox create fails",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#GetNode": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#GetNodeRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#NodeDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/nodes/{nodeID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Node info\n\nGet node info"
+      }
+    },
+    "com.e2b.admin#UpdateNodeRequest": {
+      "type": "structure",
+      "members": {
+        "nodeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        },
+        "status": {
+          "target": "com.e2b.admin#NodeStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#UpdateNode": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#UpdateNodeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/nodes/{nodeID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Change node status\n\nChange status of a node"
+      }
+    },
+    "com.e2b.admin#KillAdminTeamsSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#AdminSandboxKillResult": {
+      "type": "structure",
+      "members": {
+        "killedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandboxes successfully killed",
+            "smithy.api#required": {}
+          }
+        },
+        "failedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of sandboxes that failed to kill",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#KillAdminTeamsSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#KillAdminTeamsSandboxRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#AdminSandboxKillResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin/teams/{teamID}/sandboxes/kill",
+          "code": 200
+        },
+        "smithy.api#documentation": "Kill all sandboxes for a team\n\nKills all sandboxes for the specified team"
+      }
+    },
+    "com.e2b.admin#AdminTeamRunningSandboxCounts": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cached live sandbox index count keyed by team ID. Counts may briefly\ninclude sandboxes transitioning out of running; teams without indexed\nsandboxes are omitted.\n"
+      }
+    },
+    "com.e2b.admin#GetAdminSandboxRunningCountsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.admin#AdminTeamRunningSandboxCounts",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.admin#GetAdminSandboxRunningCounts": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.admin#GetAdminSandboxRunningCountsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/admin/sandboxes/running-counts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Count running sandboxes by team\n\nReturns a shared snapshot normally refreshed after five seconds. A\nsandbox transitioning out of running can remain counted until removal."
+      }
+    },
+    "com.e2b.admin#CancelAdminTeamsBuildRequest": {
+      "type": "structure",
+      "members": {
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#AdminBuildCancelResult": {
+      "type": "structure",
+      "members": {
+        "cancelledCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of builds successfully cancelled",
+            "smithy.api#required": {}
+          }
+        },
+        "failedCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of builds that failed to cancel",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#CancelAdminTeamsBuild": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#CancelAdminTeamsBuildRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#AdminBuildCancelResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin/teams/{teamID}/builds/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel all builds for a team\n\nCancels all in-progress and pending builds for the specified team"
+      }
+    },
+    "com.e2b.admin#CreateAdminTeamApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team ID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#CreatedTeamAPIKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raw value of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "mask": {
+          "target": "com.e2b.admin#IdentifierMaskingDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of API key creation",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "com.e2b.admin#TeamUser",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUsed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time this API key was used",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#IdentifierMaskingDetails": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix that identifies the token or key type",
+            "smithy.api#required": {}
+          }
+        },
+        "valueLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the token or key",
+            "smithy.api#required": {}
+          }
+        },
+        "maskedValuePrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix used in masked version of the token or key",
+            "smithy.api#required": {}
+          }
+        },
+        "maskedValueSuffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suffix used in masked version of the token or key",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#TeamUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the user",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#CreateAdminTeamApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#CreateAdminTeamApiKeyRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#CreatedTeamAPIKey"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin/teams/{teamID}/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create team API key as admin\n\nCreates a team API key for internal service workflows."
+      }
+    },
+    "com.e2b.admin#DeleteAdminTeamApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "teamID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Team ID"
+          }
+        },
+        "apiKeyID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#DeleteAdminTeamApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#DeleteAdminTeamApiKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/admin/teams/{teamID}/api-keys/{apiKeyID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete team API key as admin\n\nDeletes a team API key for internal service workflows."
+      }
+    },
+    "com.e2b.admin#ListClusterRigsRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#Rig": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rig identifier (e.g. \"default\")",
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud provider backing the rig (\"aws\" or \"gcp\")",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canonical cloud resource ID of the scaling group backing the rig (ARN on AWS, self-link on GCP)",
+            "smithy.api#required": {}
+          }
+        },
+        "capacityDesired": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Desired number of instances in the rig",
+            "smithy.api#required": {}
+          }
+        },
+        "capacityMin": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum capacity enforced on the rig's scaling group. Omitted when nothing enforces bounds (GCP MIG without an active autoscaler).\n"
+          }
+        },
+        "capacityMax": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum capacity enforced on the rig's scaling group. Omitted when nothing enforces bounds (GCP MIG without an active autoscaler).\n"
+          }
+        },
+        "capacityCurrent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of instances currently attached to the rig",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An orchestrator node pool backed by one cloud scaling group"
+      }
+    },
+    "com.e2b.admin#ListClusterRigsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.admin#Rig"
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#ListClusterRigsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.admin#ListClusterRigsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.admin#ListClusterRigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#ListClusterRigsRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#ListClusterRigsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/clusters/{clusterID}/rigs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List rigs of a cluster\n\nList the orchestrator node pools (\"rigs\") of a cluster with a snapshot of their scaling groups. Forwarded to the cluster's edge service; a cluster with no rig management configured returns an empty list, and the local cluster answers 501."
+      }
+    },
+    "com.e2b.admin#PutClusterRigCapacityRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        },
+        "rigID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Rig identifier (e.g. \"default\")"
+          }
+        },
+        "desired": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Absolute desired number of instances in the rig",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#PutClusterRigCapacity": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#PutClusterRigCapacityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/clusters/{clusterID}/rigs/{rigID}/capacity",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the capacity of a rig\n\nSet the desired instance count on the rig's scaling group. The value is passed to the cloud provider unchanged; violations of the group's bounds or conflicting concurrent operations surface as errors."
+      }
+    },
+    "com.e2b.admin#DeleteClusterRigInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        },
+        "instanceID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Provider instance ID"
+          }
+        },
+        "decrementDesired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "decrementDesired",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "When true, desired capacity is decremented (rig shrinks); when false, the scaling group launches a replacement instance\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#DeleteClusterRigInstance": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#DeleteClusterRigInstanceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/clusters/{clusterID}/rigs/instances/{instanceID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Terminate an instance of a rig\n\nTerminate an instance in whichever rig's scaling group it belongs to. The caller chooses whether the rig shrinks or the instance is replaced."
+      }
+    },
+    "com.e2b.admin#ListClusterRigInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        },
+        "rigID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Rig identifier (e.g. \"default\")"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#RigInstance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider instance ID (EC2 instance ID on AWS, instance name on GCP), also the node ID the orchestrator reports",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the provider created the instance. Omitted while the instance is transitioning."
+          }
+        },
+        "transitioning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The provider is creating, deleting, recreating or otherwise mutating the instance",
+            "smithy.api#required": {}
+          }
+        },
+        "terminating": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The instance is on its way out of the group and can never become healthy again",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An instance attached to a rig's scaling group"
+      }
+    },
+    "com.e2b.admin#ListClusterRigInstancesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.admin#RigInstance"
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#ListClusterRigInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.admin#ListClusterRigInstancesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.admin#ListClusterRigInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#ListClusterRigInstancesRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#ListClusterRigInstancesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/clusters/{clusterID}/rigs/{rigID}/instances",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the instances attached to a rig\n\nList the instances attached to the rig's scaling group with their creation time and transition state, sorted by instance ID."
+      }
+    },
+    "com.e2b.admin#ListClusterRigErrorsRequest": {
+      "type": "structure",
+      "members": {
+        "clusterID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the cluster"
+          }
+        },
+        "rigID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Rig identifier (e.g. \"default\")"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of errors to return"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.admin#RigError": {
+      "type": "structure",
+      "members": {
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the error occurred",
+            "smithy.api#required": {}
+          }
+        },
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider-specific error code (e.g. ZONE_RESOURCE_POOL_EXHAUSTED, Failed)",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable error message",
+            "smithy.api#required": {}
+          }
+        },
+        "instance": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance the error relates to, if any"
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Action being performed when the error occurred (e.g. CREATING)"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling error on the rig's scaling group, e.g. a failed instance creation due to resource exhaustion\n"
+      }
+    },
+    "com.e2b.admin#ListClusterRigErrorsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.admin#RigError"
+      },
+      "traits": {}
+    },
+    "com.e2b.admin#ListClusterRigErrorsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.admin#ListClusterRigErrorsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.admin#ListClusterRigErrors": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.admin#ListClusterRigErrorsRequest"
+      },
+      "output": {
+        "target": "com.e2b.admin#ListClusterRigErrorsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/clusters/{clusterID}/rigs/{rigID}/errors",
+          "code": 200
+        },
+        "smithy.api#documentation": "List recent scaling errors of a rig\n\nList recent scaling errors on the rig's scaling group (e.g. failed instance creations due to resource exhaustion), newest first."
+      }
+    },
+    "com.e2b.admin#Admin": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.admin#ListNodes"
+        },
+        {
+          "target": "com.e2b.admin#GetNode"
+        },
+        {
+          "target": "com.e2b.admin#UpdateNode"
+        },
+        {
+          "target": "com.e2b.admin#KillAdminTeamsSandbox"
+        },
+        {
+          "target": "com.e2b.admin#GetAdminSandboxRunningCounts"
+        },
+        {
+          "target": "com.e2b.admin#CancelAdminTeamsBuild"
+        },
+        {
+          "target": "com.e2b.admin#CreateAdminTeamApiKey"
+        },
+        {
+          "target": "com.e2b.admin#DeleteAdminTeamApiKey"
+        },
+        {
+          "target": "com.e2b.admin#ListClusterRigs"
+        },
+        {
+          "target": "com.e2b.admin#PutClusterRigCapacity"
+        },
+        {
+          "target": "com.e2b.admin#DeleteClusterRigInstance"
+        },
+        {
+          "target": "com.e2b.admin#ListClusterRigInstances"
+        },
+        {
+          "target": "com.e2b.admin#ListClusterRigErrors"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

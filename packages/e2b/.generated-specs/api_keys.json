@@ -1,0 +1,339 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.api.keys#TeamAPIKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "mask": {
+          "target": "com.e2b.api.keys#IdentifierMaskingDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of API key creation",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "com.e2b.api.keys#TeamUser",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUsed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time this API key was used",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.api.keys#IdentifierMaskingDetails": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix that identifies the token or key type",
+            "smithy.api#required": {}
+          }
+        },
+        "valueLength": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the token or key",
+            "smithy.api#required": {}
+          }
+        },
+        "maskedValuePrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix used in masked version of the token or key",
+            "smithy.api#required": {}
+          }
+        },
+        "maskedValueSuffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suffix used in masked version of the token or key",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.api.keys#TeamUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the user",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.api.keys#ListApiKeysResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.api.keys#TeamAPIKey"
+      },
+      "traits": {}
+    },
+    "com.e2b.api.keys#ListApiKeysResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.api.keys#ListApiKeysResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.api.keys#ListApiKeys": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.api.keys#ListApiKeysResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List team API keys\n\nList all team API keys"
+      }
+    },
+    "com.e2b.api.keys#CreateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.api.keys#CreatedTeamAPIKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raw value of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "mask": {
+          "target": "com.e2b.api.keys#IdentifierMaskingDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of API key creation",
+            "smithy.api#required": {}
+          }
+        },
+        "createdBy": {
+          "target": "com.e2b.api.keys#TeamUser",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUsed": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time this API key was used",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.api.keys#CreateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.api.keys#CreateApiKeyRequest"
+      },
+      "output": {
+        "target": "com.e2b.api.keys#CreatedTeamAPIKey"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create team API key\n\nCreate a new team API key"
+      }
+    },
+    "com.e2b.api.keys#UpdateApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "apiKeyID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the API key",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.api.keys#UpdateApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.api.keys#UpdateApiKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api-keys/{apiKeyID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update team API key\n\nUpdate a team API key"
+      }
+    },
+    "com.e2b.api.keys#DeleteApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "apiKeyID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.api.keys#DeleteApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.api.keys#DeleteApiKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api-keys/{apiKeyID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete team API key\n\nDelete a team API key"
+      }
+    },
+    "com.e2b.api.keys#ApiKeys": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.api.keys#ListApiKeys"
+        },
+        {
+          "target": "com.e2b.api.keys#CreateApiKey"
+        },
+        {
+          "target": "com.e2b.api.keys#UpdateApiKey"
+        },
+        {
+          "target": "com.e2b.api.keys#DeleteApiKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

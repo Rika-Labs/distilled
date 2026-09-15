@@ -1,0 +1,246 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.tags#CreateTemplateTagRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to assign to the template"
+      }
+    },
+    "com.e2b.tags#CreateTemplateTagRequest": {
+      "type": "structure",
+      "members": {
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target template in \"name:tag\" format",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.e2b.tags#CreateTemplateTagRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to assign to the template",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.tags#AssignedTemplateTags": {
+      "type": "structure",
+      "members": {
+        "tags": {
+          "target": "com.e2b.tags#AssignedTemplateTagsTagsList",
+          "traits": {
+            "smithy.api#documentation": "Assigned tags of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the build associated with these tags",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.tags#AssignedTemplateTagsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Assigned tags of the template"
+      }
+    },
+    "com.e2b.tags#CreateTemplateTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.tags#CreateTemplateTagRequest"
+      },
+      "output": {
+        "target": "com.e2b.tags#AssignedTemplateTags"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/templates/tags",
+          "code": 200
+        },
+        "smithy.api#documentation": "Assign template tags\n\nAssign tag(s) to a template build"
+      }
+    },
+    "com.e2b.tags#DeleteTemplateTagsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to delete"
+      }
+    },
+    "com.e2b.tags#DeleteTemplateTagsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the template",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.e2b.tags#DeleteTemplateTagsRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to delete",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.tags#DeleteTemplateTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.tags#DeleteTemplateTagsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/templates/tags",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete template tags\n\nDelete multiple tags from templates"
+      }
+    },
+    "com.e2b.tags#ListTemplateTagsRequest": {
+      "type": "structure",
+      "members": {
+        "templateID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.tags#TemplateTag": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tag name",
+            "smithy.api#required": {}
+          }
+        },
+        "buildID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the build associated with this tag",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the tag was assigned",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.tags#ListTemplateTagsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.tags#TemplateTag"
+      },
+      "traits": {}
+    },
+    "com.e2b.tags#ListTemplateTagsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.tags#ListTemplateTagsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.tags#ListTemplateTags": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.tags#ListTemplateTagsRequest"
+      },
+      "output": {
+        "target": "com.e2b.tags#ListTemplateTagsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/templates/{templateID}/tags",
+          "code": 200
+        },
+        "smithy.api#documentation": "List template tags\n\nList all tags for a template"
+      }
+    },
+    "com.e2b.tags#Tags": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.tags#CreateTemplateTag"
+        },
+        {
+          "target": "com.e2b.tags#DeleteTemplateTags"
+        },
+        {
+          "target": "com.e2b.tags#ListTemplateTags"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

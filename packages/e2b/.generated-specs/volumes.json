@@ -1,0 +1,231 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.volumes#Volume": {
+      "type": "structure",
+      "members": {
+        "volumeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the volume",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the volume",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.volumes#ListVolumesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.volumes#Volume"
+      },
+      "traits": {}
+    },
+    "com.e2b.volumes#ListVolumesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.e2b.volumes#ListVolumesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.volumes#ListVolumes": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.e2b.volumes#ListVolumesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/volumes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List team volumes\n\nList all team volumes"
+      }
+    },
+    "com.e2b.volumes#CreateVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the volume",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.volumes#VolumeAndToken": {
+      "type": "structure",
+      "members": {
+        "volumeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the volume",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the volume",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auth token to use for interacting with volume content",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain to use as the destination for volume content requests,\nreplacing the default `api.<E2B_DOMAIN>`. Only returned when the\nteam is connected to a custom (BYOC) cluster; absent otherwise, in\nwhich case the default domain is used.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.volumes#CreateVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.volumes#CreateVolumeRequest"
+      },
+      "output": {
+        "target": "com.e2b.volumes#VolumeAndToken"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/volumes",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create team volume\n\nCreate a new team volume"
+      }
+    },
+    "com.e2b.volumes#GetVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.volumes#GetVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.volumes#GetVolumeRequest"
+      },
+      "output": {
+        "target": "com.e2b.volumes#VolumeAndToken"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/volumes/{volumeID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Team volume\n\nGet team volume info"
+      }
+    },
+    "com.e2b.volumes#DeleteVolumeRequest": {
+      "type": "structure",
+      "members": {
+        "volumeID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.volumes#DeleteVolume": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.volumes#DeleteVolumeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/volumes/{volumeID}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete team volume\n\nDelete a team volume"
+      }
+    },
+    "com.e2b.volumes#Volumes": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.volumes#ListVolumes"
+        },
+        {
+          "target": "com.e2b.volumes#CreateVolume"
+        },
+        {
+          "target": "com.e2b.volumes#GetVolume"
+        },
+        {
+          "target": "com.e2b.volumes#DeleteVolume"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}

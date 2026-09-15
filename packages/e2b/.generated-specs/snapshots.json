@@ -1,0 +1,149 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.e2b.snapshots#ListSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "sandboxID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sandboxID"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "name",
+            "smithy.api#documentation": "Filter snapshots by name or ID, optionally tag-qualified (e.g. \"my-snapshot\", \"my-team/my-snapshot\" or \"my-snapshot:v1\")."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of items to return per page"
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "nextToken",
+            "smithy.api#documentation": "Cursor to start the list from"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.e2b.snapshots#SnapshotInfo": {
+      "type": "structure",
+      "members": {
+        "snapshotID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the snapshot template including the tag. Uses namespace/alias when a name was provided (e.g. team-slug/my-snapshot:default), otherwise falls back to the raw template ID (e.g. abc123:default).",
+            "smithy.api#required": {}
+          }
+        },
+        "names": {
+          "target": "com.e2b.snapshots#SnapshotInfoNamesList",
+          "traits": {
+            "smithy.api#documentation": "Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.e2b.snapshots#SnapshotInfoNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2)"
+      }
+    },
+    "com.e2b.snapshots#ListSnapshotsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.e2b.snapshots#SnapshotInfo"
+      },
+      "traits": {}
+    },
+    "com.e2b.snapshots#ListSnapshotsResponse": {
+      "type": "structure",
+      "members": {
+        "snapshots": {
+          "target": "com.e2b.snapshots#ListSnapshotsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        },
+        "nextToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Next-Token"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.e2b.snapshots#ListSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.e2b.snapshots#ListSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.e2b.snapshots#ListSnapshotsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/snapshots",
+          "code": 200
+        },
+        "smithy.api#documentation": "List snapshots\n\nList all snapshots for the team",
+        "smithy.api#paginated": {
+          "mode": "token",
+          "inputToken": "nextToken",
+          "outputToken": "nextToken",
+          "items": "snapshots"
+        }
+      }
+    },
+    "com.e2b.snapshots#Snapshots": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.e2b.snapshots#ListSnapshots"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "E2B API"
+      }
+    }
+  }
+}
