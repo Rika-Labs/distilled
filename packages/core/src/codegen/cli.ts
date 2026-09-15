@@ -94,20 +94,31 @@ export interface GeneratorCliOptions {
   readonly spec: (model: any) => SdkSpec;
 }
 
+/**
+ * `Flag.string` was renamed to `Flag.String` in effect rc.115. The unified
+ * workspace resolves either depending on the install (the core↔effect-sandbox
+ * graph pins rc.112), so pick whichever the runtime exports.
+ */
+const flagString: (name: string) => Flag.Flag<string> =
+  (Flag as unknown as Record<string, (name: string) => Flag.Flag<string>>)
+    .string ??
+  (Flag as unknown as Record<string, (name: string) => Flag.Flag<string>>)
+    .String;
+
 /** Run the generator CLI (BunRuntime main — call at module top level). */
 export const runGeneratorCli = (options: GeneratorCliOptions): void => {
   const command = Command.make(
     "generate",
     {
-      smithy: Flag.String("smithy").pipe(
+      smithy: flagString("smithy").pipe(
         Flag.withDefault(options.smithyDir ?? ".generated-specs"),
         Flag.withDescription("Directory of Smithy JSON models"),
       ),
-      out: Flag.String("out").pipe(
+      out: flagString("out").pipe(
         Flag.withDefault(options.outDir ?? "src/services"),
         Flag.withDescription("Output directory for generated service modules"),
       ),
-      resource: Flag.String("resource").pipe(
+      resource: flagString("resource").pipe(
         Flag.withDefault(""),
         Flag.withDescription("Only generate this resource (e.g. ai)"),
       ),

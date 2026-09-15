@@ -197,6 +197,31 @@ export interface RestProtocolOptions<C> {
    */
   readonly errorEnvelope?: (body: unknown) => RestErrorEnvelope | undefined;
   /**
+   * Per-request route override — mirrors `protocol-grpc`'s `route` hook.
+   * Receives the resolved credentials, the raw input (pre-`unwrapRedactedDeep`),
+   * the input AST (the `Http()` trait is readable via `getAnn`/`httpSymbol`),
+   * and the operation's memoized {@link API.ProtocolOperationConfig}. Return
+   * `{baseUrl?, headers?}` to redirect the request — e.g. a per-resource
+   * endpoint resolved from an input member (Daytona's per-sandbox toolbox
+   * proxy) — or undefined to use `baseUrl(credentials)`. Runs on the calling
+   * fiber inside encode, so `HttpClient` and other context services are
+   * available; its error channel surfaces as the operation's error.
+   */
+  readonly route?: (args: {
+    readonly credentials: C;
+    readonly input: unknown;
+    readonly inputAst: AST.AST;
+    readonly config: API.ProtocolOperationConfig;
+  }) => Effect.Effect<
+    | {
+        readonly baseUrl?: string;
+        readonly headers?: Record<string, string>;
+      }
+    | undefined,
+    any,
+    any
+  >;
+  /**
    * HTTP status → error class constructed as `new Cls({ message, retryAfter
    * })`. Default: core `HTTP_STATUS_MAP`. Consulted after per-op typed error
    * matching; unmapped 5xx fall back to `InternalServerError`, everything
@@ -252,17 +277,27 @@ export const makeRestProtocol = <C>(
   const encode = ({
     input,
     inputAst,
+    config,
   }: {
     readonly input: unknown;
     readonly inputAst: AST.AST;
+    readonly config: API.ProtocolOperationConfig;
   }) =>
     Effect.gen(function* () {
       const creds = yield* options.credentials as Effect.Effect<C>;
+      const routed = options.route
+        ? yield* options.route({
+            credentials: creds,
+            input,
+            inputAst,
+            config,
+          })
+        : undefined;
       return buildRequest({
         input: unwrapRedactedDeep(input),
         inputAst,
-        baseUrl: options.baseUrl(creds),
-        headers: options.headers(creds),
+        baseUrl: routed?.baseUrl ?? options.baseUrl(creds),
+        headers: { ...options.headers(creds), ...routed?.headers },
         mapMemberHeader: options.mapMemberHeader,
         unknownKeyToWire: options.unknownKeyToWire,
       });
