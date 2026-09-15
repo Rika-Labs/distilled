@@ -927,6 +927,12 @@
           "traits": {
             "smithy.api#enumValue": "import-recommended-integrations"
           }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
         }
       },
       "traits": {}
@@ -1509,6 +1515,12 @@
             "smithy.api#enumValue": "oauth"
           }
         },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
+        },
         "RESOURCE_CLAIMS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2079,6 +2091,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "oauth"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
           }
         },
         "RESOURCE_CLAIMS": {
@@ -2887,6 +2905,12 @@
             "smithy.api#enumValue": "oauth"
           }
         },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
+        },
         "RESOURCE_CLAIMS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3013,6 +3037,41 @@
             "smithy.api#required": {}
           }
         },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The slug of the integration the configuration is created for.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A timestamp that tells you when the configuration was created",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A timestamp that tells you when the configuration was updated.",
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user or team ID that owns the configuration",
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A timestamp that tells you when the configuration was deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "integrationId": {
           "target": "smithy.api#String",
           "traits": {
@@ -3027,27 +3086,6 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "A timestamp that tells you when the configuration was created",
-            "smithy.api#required": {}
-          }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "A timestamp that tells you when the configuration was deleted.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The slug of the integration the configuration is created for.",
-            "smithy.api#required": {}
-          }
-        },
         "teamId": {
           "target": "smithy.api#String",
           "traits": {
@@ -3055,24 +3093,10 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "updatedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "A timestamp that tells you when the configuration was updated.",
-            "smithy.api#required": {}
-          }
-        },
         "scopes": {
           "target": "com.vercel.integrations#GetConfigurationResponseBodyCase0ScopesList",
           "traits": {
             "smithy.api#documentation": "The resources that are allowed to be accessed by the configuration.",
-            "smithy.api#required": {}
-          }
-        },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user or team ID that owns the configuration",
             "smithy.api#required": {}
           }
         },
@@ -3237,6 +3261,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "oauth"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
           }
         },
         "RESOURCE_CLAIMS": {
@@ -3590,6 +3620,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "oauth"
+          }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
           }
         },
         "RESOURCE_CLAIMS": {
@@ -4807,9 +4843,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase0EnumList"
         },
@@ -4820,6 +4853,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -5093,13 +5129,13 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#Double"
-        },
         "exclusiveMaximum": {
           "target": "smithy.api#Double"
         },
         "exclusiveMinimum": {
+          "target": "smithy.api#Double"
+        },
+        "default": {
           "target": "smithy.api#Double"
         },
         "ui_label": {
@@ -5457,13 +5493,13 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#Double"
-        },
         "exclusiveMaximum": {
           "target": "smithy.api#Double"
         },
         "exclusiveMinimum": {
+          "target": "smithy.api#Double"
+        },
+        "default": {
           "target": "smithy.api#Double"
         }
       },
@@ -5698,14 +5734,14 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3DefaultList"
-        },
         "maxItems": {
           "target": "smithy.api#Double"
         },
         "minItems": {
           "target": "smithy.api#Double"
+        },
+        "default": {
+          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase3DefaultList"
         },
         "ui_label": {
           "target": "smithy.api#String",
@@ -6104,9 +6140,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase4EnumList"
         },
@@ -6117,6 +6150,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -6522,9 +6558,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase5EnumList"
         },
@@ -6535,6 +6568,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -6631,9 +6667,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ItemsEnumList"
         },
@@ -6644,6 +6677,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         }
       },
@@ -7002,14 +7038,14 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6DefaultList"
-        },
         "maxItems": {
           "target": "smithy.api#Double"
         },
         "minItems": {
           "target": "smithy.api#Double"
+        },
+        "default": {
+          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6DefaultList"
         },
         "example": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase6ExampleList"
@@ -7543,9 +7579,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase7EnumList"
         },
@@ -7556,6 +7589,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -7652,9 +7688,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ItemsEnumList"
         },
@@ -7665,6 +7698,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         }
       },
@@ -8149,14 +8185,14 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8DefaultList"
-        },
         "maxItems": {
           "target": "smithy.api#Double"
         },
         "minItems": {
           "target": "smithy.api#Double"
+        },
+        "default": {
+          "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8DefaultList"
         },
         "example": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase8ExampleList"
@@ -8690,9 +8726,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase9EnumList"
         },
@@ -8703,6 +8736,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -8977,9 +9013,6 @@
         "description": {
           "target": "smithy.api#String"
         },
-        "default": {
-          "target": "smithy.api#String"
-        },
         "enum": {
           "target": "com.vercel.integrations#GetConfigurationProductsResponseProductsItemMetadataSchemaPropertiesValueCase10EnumList"
         },
@@ -8990,6 +9023,9 @@
           "target": "smithy.api#Double"
         },
         "pattern": {
+          "target": "smithy.api#String"
+        },
+        "default": {
           "target": "smithy.api#String"
         },
         "ui_label": {
@@ -9689,6 +9725,12 @@
           "traits": {
             "smithy.api#enumValue": "import-recommended-integrations"
           }
+        },
+        "ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization"
+          }
         }
       },
       "traits": {
@@ -10244,34 +10286,10 @@
       },
       "traits": {}
     },
-    "com.vercel.integrations#CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.integrations#CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.integrations#CreateIntegrationStoreDirectResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },

@@ -263,10 +263,73 @@
       },
       "traits": {}
     },
-    "com.vercel.feature_flags#FlagVariantsList": {
+    "com.vercel.feature_flags#FlagVariantsItemValueCase2Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagVariantsItemValueCase3List": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagVariantsItemValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "com.vercel.feature_flags#FlagVariantsItemValueCase2Map"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#FlagVariantsItemValueCase3List"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagVariantsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.vercel.feature_flags#FlagVariantsItemValue",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#FlagVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.feature_flags#FlagVariantsItem"
       },
       "traits": {}
     },
@@ -3086,10 +3149,73 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.feature_flags#CreateFlagResponseVariantsList": {
+    "com.vercel.feature_flags#CreateFlagResponseVariantsItemValueCase2Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseVariantsItemValueCase3List": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseVariantsItemValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseVariantsItemValueCase2Map"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseVariantsItemValueCase3List"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseVariantsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.vercel.feature_flags#CreateFlagResponseVariantsItemValue",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#CreateFlagResponseVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.feature_flags#CreateFlagResponseVariantsItem"
       },
       "traits": {}
     },
@@ -5717,10 +5843,73 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsList": {
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValueCase2Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValueCase3List": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValueCase2Map"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValueCase3List"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItemValue",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.feature_flags#UpdateFlagResponseBodyCase0VariantsItem"
       },
       "traits": {}
     },
@@ -7266,10 +7455,73 @@
       },
       "traits": {}
     },
-    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsList": {
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValueCase2Map": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValueCase3List": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        },
+        "Case2": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValueCase2Map"
+        },
+        "Case3": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValueCase3List"
+        },
+        "Case4": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "label": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItemValue",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.feature_flags#ListFlagVersionsResponseVersionsItemDataVariantsItem"
       },
       "traits": {}
     },

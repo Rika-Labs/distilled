@@ -1691,7 +1691,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemEnvItemContentHintCase0Type": {
@@ -2394,7 +2394,7 @@
         "visibility": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -5036,6 +5036,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase5Type",
           "traits": {
@@ -5075,10 +5081,10 @@
     "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -5127,6 +5133,115 @@
     "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -5155,7 +5270,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6Type",
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5164,7 +5279,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6DeployHooksList",
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5213,6 +5328,9 @@
         },
         "Case6": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemLinkCase7"
         }
       },
       "traits": {}
@@ -8124,6 +8242,13 @@
       },
       "traits": {}
     },
+    "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemPermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.microfrontends#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -9611,6 +9736,9 @@
         "auditLog": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemPermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemPermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingAddressList"
         },
@@ -10863,6 +10991,12 @@
     "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsMap"
         },
@@ -12062,6 +12196,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },

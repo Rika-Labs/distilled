@@ -22,11 +22,11 @@ export {
   HTTP_STATUS_MAP,
   DEFAULT_ERRORS,
   API_ERRORS,
-} from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+} from "@rikalabs/distilled-core/errors";
+import type { DefaultErrors as CoreDefaultErrors } from "@rikalabs/distilled-core/errors";
 
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
+import * as Category from "@rikalabs/distilled-core/category";
 
 /**
  * HTTP 402 — the account cannot be billed for the request: a missing payment

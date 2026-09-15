@@ -509,34 +509,10 @@
       },
       "traits": {}
     },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1502,34 +1478,10 @@
       },
       "traits": {}
     },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },

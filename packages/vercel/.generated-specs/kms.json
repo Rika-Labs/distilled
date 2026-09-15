@@ -652,16 +652,10 @@
           "traits": {
             "smithy.api#enumValue": "ES512"
           }
-        },
-        "EDDSA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EdDSA"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The signing algorithm to use for the issuer."
+        "smithy.api#documentation": "The signing algorithm to use for the issuer. EdDSA is not accepted for new issuers."
       }
     },
     "com.vercel.kms#CreateKmsIssuerRequestClaimsSchemaMap": {
@@ -836,7 +830,7 @@
         "algorithm": {
           "target": "com.vercel.kms#CreateKmsIssuerRequestAlgorithm",
           "traits": {
-            "smithy.api#documentation": "The signing algorithm to use for the issuer."
+            "smithy.api#documentation": "The signing algorithm to use for the issuer. EdDSA is not accepted for new issuers."
           }
         },
         "claimsSchema": {

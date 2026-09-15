@@ -16,7 +16,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError } from "@rikalabs/distilled-core/errors";
 
 /** Vercel's REST API root. */
 export const DEFAULT_API_BASE_URL = "https://api.vercel.com";

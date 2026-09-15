@@ -8,7 +8,7 @@
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Vercel's provider spec: the
+ * `@rikalabs/distilled-core/codegen`; this script is Vercel's provider spec: the
  * `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, and the protocol/retry/error names.
@@ -28,8 +28,8 @@
  * two endpoints can drive and the rest can't, `limit`/`since`/`until` stay
  * plain input fields; callers advance them.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@rikalabs/distilled-core/codegen/generator";
+import { runGeneratorCli } from "@rikalabs/distilled-core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -46,6 +46,7 @@ const camel = (slug: string): string =>
 
 /** Vercel's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
+  corePackage: "@rikalabs/distilled-core",
   // Wire names ARE the TS surface (camelCase already) — no renaming.
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
@@ -101,8 +102,8 @@ const spec: SdkSpec = {
     let out = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
     if (out.includes("Redacted.Redacted<")) {
       out = out.replace(
-        `import * as S from "@distilled.cloud/core/schema";`,
-        `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+        `import * as S from "@rikalabs/distilled-core/schema";`,
+        `import * as S from "@rikalabs/distilled-core/schema";\nimport * as Redacted from "effect/Redacted";`,
       );
     }
     return out;

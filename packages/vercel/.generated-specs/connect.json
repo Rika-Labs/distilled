@@ -681,6 +681,12 @@
             "smithy.api#enumValue": "api-key"
           }
         },
+        "AWS_ALPHA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aws-alpha"
+          }
+        },
         "CUSTOM": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -814,6 +820,12 @@
             "smithy.api#required": {}
           }
         },
+        "supportsResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether callers can request resource-specific app tokens."
+          }
+        },
         "requiresReinstallation": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -876,6 +888,12 @@
           "traits": {
             "smithy.api#documentation": "Whether callers can narrow user-token grants per request.",
             "smithy.api#required": {}
+          }
+        },
+        "supportsResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether callers can request resource-specific user tokens."
           }
         },
         "scopes": {
@@ -2061,6 +2079,12 @@
           "target": "com.vercel.connect#ConnectConnectorCreateDataCase1ServiceUrlsList",
           "traits": {
             "smithy.api#documentation": "The HTTPS resources the API key authenticates against."
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste."
           }
         }
       },
@@ -3726,6 +3750,12 @@
             "smithy.api#enumValue": "api-key"
           }
         },
+        "AWS_ALPHA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aws-alpha"
+          }
+        },
         "CUSTOM": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3859,6 +3889,12 @@
             "smithy.api#required": {}
           }
         },
+        "supportsResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether callers can request resource-specific app tokens."
+          }
+        },
         "requiresReinstallation": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -3921,6 +3957,12 @@
           "traits": {
             "smithy.api#documentation": "Whether callers can narrow user-token grants per request.",
             "smithy.api#required": {}
+          }
+        },
+        "supportsResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether callers can request resource-specific user tokens."
           }
         },
         "scopes": {
@@ -4950,6 +4992,12 @@
           "target": "com.vercel.connect#ConnectConnectorUpdateDataCase1ToUpdateList",
           "traits": {
             "smithy.api#documentation": "Existing API key values to update."
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste."
           }
         }
       },

@@ -1518,7 +1518,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectsResponseBodyCase0ItemEnvItemContentHintCase0Type": {
@@ -2221,7 +2221,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -3935,6 +3935,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase5Type",
           "traits": {
@@ -3974,10 +3980,10 @@
     "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -4026,6 +4032,115 @@
     "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -4054,7 +4169,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6Type",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4063,7 +4178,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4112,6 +4227,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemLinkCase7"
         }
       },
       "traits": {}
@@ -5787,6 +5905,12 @@
     "com.vercel.projects#GetProjectsResponseBodyCase0ItemTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemTrustedSourcesProjectsMap"
         },
@@ -6000,6 +6124,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -7287,6 +7417,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -9871,7 +10007,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemEnvItemContentHintCase0Type": {
@@ -10574,7 +10710,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -12288,6 +12424,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase5Type",
           "traits": {
@@ -12327,10 +12469,10 @@
     "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -12379,6 +12521,115 @@
     "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -12407,7 +12658,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6Type",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12416,7 +12667,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12465,6 +12716,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemLinkCase7"
         }
       },
       "traits": {}
@@ -14140,6 +14394,12 @@
     "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemTrustedSourcesProjectsMap"
         },
@@ -14353,6 +14613,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -15640,6 +15906,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -18596,7 +18868,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemEnvItemContentHintCase0Type": {
@@ -19299,7 +19571,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -21941,6 +22213,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase5Type",
           "traits": {
@@ -21980,10 +22258,10 @@
     "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -22032,6 +22310,115 @@
     "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -22060,7 +22447,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6Type",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -22069,7 +22456,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -22118,6 +22505,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemLinkCase7"
         }
       },
       "traits": {}
@@ -24448,6 +24838,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemPermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemPermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -26267,6 +26664,9 @@
         "auditLog": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemPermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemPermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemPermissionsBillingAddressList"
         },
@@ -27768,6 +28168,12 @@
     "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemTrustedSourcesProjectsMap"
         },
@@ -28931,6 +29337,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -34150,7 +34562,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#CreateProjectResponseEnvItemContentHintCase0Type": {
@@ -34853,7 +35265,7 @@
         "visibility": {
           "target": "com.vercel.projects#CreateProjectResponseEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -37495,6 +37907,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#CreateProjectResponseLinkCase5Type",
           "traits": {
@@ -37534,10 +37952,10 @@
     "com.vercel.projects#CreateProjectResponseLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -37586,6 +38004,115 @@
     "com.vercel.projects#CreateProjectResponseLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#CreateProjectResponseLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#CreateProjectResponseLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#CreateProjectResponseLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#CreateProjectResponseLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#CreateProjectResponseLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#CreateProjectResponseLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#CreateProjectResponseLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -37614,7 +38141,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#CreateProjectResponseLinkCase6Type",
+          "target": "com.vercel.projects#CreateProjectResponseLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -37623,7 +38150,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#CreateProjectResponseLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#CreateProjectResponseLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -37672,6 +38199,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#CreateProjectResponseLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#CreateProjectResponseLinkCase7"
         }
       },
       "traits": {}
@@ -39964,6 +40494,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#CreateProjectResponsePermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#CreateProjectResponsePermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -41783,6 +42320,9 @@
         "auditLog": {
           "target": "com.vercel.projects#CreateProjectResponsePermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#CreateProjectResponsePermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#CreateProjectResponsePermissionsBillingAddressList"
         },
@@ -43284,6 +43824,12 @@
     "com.vercel.projects#CreateProjectResponseTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#CreateProjectResponseTrustedSourcesProjectsMap"
         },
@@ -44447,6 +44993,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -48015,7 +48567,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectResponseEnvItemContentHintCase0Type": {
@@ -48718,7 +49270,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectResponseEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -51360,6 +51912,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#GetProjectResponseLinkCase5Type",
           "traits": {
@@ -51399,10 +51957,10 @@
     "com.vercel.projects#GetProjectResponseLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -51451,6 +52009,115 @@
     "com.vercel.projects#GetProjectResponseLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#GetProjectResponseLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#GetProjectResponseLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectResponseLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectResponseLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectResponseLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#GetProjectResponseLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#GetProjectResponseLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -51479,7 +52146,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#GetProjectResponseLinkCase6Type",
+          "target": "com.vercel.projects#GetProjectResponseLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -51488,7 +52155,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#GetProjectResponseLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#GetProjectResponseLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -51537,6 +52204,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#GetProjectResponseLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#GetProjectResponseLinkCase7"
         }
       },
       "traits": {}
@@ -53829,6 +54499,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#GetProjectResponsePermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#GetProjectResponsePermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -55648,6 +56325,9 @@
         "auditLog": {
           "target": "com.vercel.projects#GetProjectResponsePermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#GetProjectResponsePermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#GetProjectResponsePermissionsBillingAddressList"
         },
@@ -57149,6 +57829,12 @@
     "com.vercel.projects#GetProjectResponseTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#GetProjectResponseTrustedSourcesProjectsMap"
         },
@@ -58312,6 +58998,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -61642,6 +62334,12 @@
     "com.vercel.projects#UpdateProjectRequestTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the same repository as the CI run. The deployment source repository, not the current project repository link, is authoritative. Defaults to enabled when not stored. Omitting this field preserves its stored value, including when trustedSources is cleared. Set true explicitly to re-enable."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#UpdateProjectRequestTrustedSourcesProjectsMap"
         },
@@ -64112,7 +64810,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#UpdateProjectResponseEnvItemContentHintCase0Type": {
@@ -64815,7 +65513,7 @@
         "visibility": {
           "target": "com.vercel.projects#UpdateProjectResponseEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -67457,6 +68155,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#UpdateProjectResponseLinkCase5Type",
           "traits": {
@@ -67496,10 +68200,10 @@
     "com.vercel.projects#UpdateProjectResponseLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -67548,6 +68252,115 @@
     "com.vercel.projects#UpdateProjectResponseLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#UpdateProjectResponseLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#UpdateProjectResponseLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateProjectResponseLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateProjectResponseLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateProjectResponseLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#UpdateProjectResponseLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateProjectResponseLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -67576,7 +68389,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#UpdateProjectResponseLinkCase6Type",
+          "target": "com.vercel.projects#UpdateProjectResponseLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -67585,7 +68398,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#UpdateProjectResponseLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#UpdateProjectResponseLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -67634,6 +68447,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#UpdateProjectResponseLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#UpdateProjectResponseLinkCase7"
         }
       },
       "traits": {}
@@ -69926,6 +70742,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#UpdateProjectResponsePermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#UpdateProjectResponsePermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -71745,6 +72568,9 @@
         "auditLog": {
           "target": "com.vercel.projects#UpdateProjectResponsePermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#UpdateProjectResponsePermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#UpdateProjectResponsePermissionsBillingAddressList"
         },
@@ -73246,6 +74072,12 @@
     "com.vercel.projects#UpdateProjectResponseTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#UpdateProjectResponseTrustedSourcesProjectsMap"
         },
@@ -74409,6 +75241,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -77840,7 +78678,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#UploadProjectAvatarResponseEnvItemContentHintCase0Type": {
@@ -78543,7 +79381,7 @@
         "visibility": {
           "target": "com.vercel.projects#UploadProjectAvatarResponseEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -81185,6 +82023,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase5Type",
           "traits": {
@@ -81224,10 +82068,10 @@
     "com.vercel.projects#UploadProjectAvatarResponseLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -81276,6 +82120,115 @@
     "com.vercel.projects#UploadProjectAvatarResponseLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UploadProjectAvatarResponseLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UploadProjectAvatarResponseLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UploadProjectAvatarResponseLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UploadProjectAvatarResponseLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -81304,7 +82257,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase6Type",
+          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -81313,7 +82266,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -81362,6 +82315,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#UploadProjectAvatarResponseLinkCase7"
         }
       },
       "traits": {}
@@ -83654,6 +84610,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#UploadProjectAvatarResponsePermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#UploadProjectAvatarResponsePermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -85473,6 +86436,9 @@
         "auditLog": {
           "target": "com.vercel.projects#UploadProjectAvatarResponsePermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#UploadProjectAvatarResponsePermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#UploadProjectAvatarResponsePermissionsBillingAddressList"
         },
@@ -86974,6 +87940,12 @@
     "com.vercel.projects#UploadProjectAvatarResponseTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#UploadProjectAvatarResponseTrustedSourcesProjectsMap"
         },
@@ -88137,6 +89109,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },
@@ -91826,6 +92804,67 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase0SecurityIssuesItem": {
+      "type": "enum",
+      "members": {
+        "FLAGS_SECRET_NEEDS_SPLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flags-secret-needs-split"
+          }
+        },
+        "READABLE_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readable-secret"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase0SecurityIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0SecurityIssuesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Type": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secret"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase0TargetCase0Item": {
       "type": "enum",
       "members": {
@@ -91917,42 +92956,6 @@
       },
       "traits": {}
     },
-    "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Type": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SECRET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "secret"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Visibility": {
       "type": "enum",
       "members": {
@@ -91970,7 +92973,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase0ContentHintCase0Type": {
@@ -92601,13 +93604,70 @@
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase0": {
       "type": "structure",
       "members": {
-        "target": {
-          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Target"
+        "securityIssues": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0SecurityIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "type": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Type",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "edgeConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "edgeConfigTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "system": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Target"
+        },
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         },
         "sunsetSecretId": {
@@ -92625,67 +93685,16 @@
         "decrypted": {
           "target": "smithy.api#Boolean"
         },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "vsmValue": {
-          "target": "smithy.api#String"
-        },
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "configurationId": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double"
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "gitBranch": {
-          "target": "smithy.api#String"
-        },
         "visibility": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
-          }
-        },
-        "edgeConfigId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "edgeConfigTokenId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -92706,9 +93715,67 @@
         },
         "customEnvironmentIds": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase0CustomEnvironmentIdsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemSecurityIssuesItem": {
+      "type": "enum",
+      "members": {
+        "FLAGS_SECRET_NEEDS_SPLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flags-secret-needs-split"
+          }
         },
-        "system": {
-          "target": "smithy.api#Boolean"
+        "READABLE_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readable-secret"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemSecurityIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemSecurityIssuesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secret"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
         }
       },
       "traits": {}
@@ -92804,42 +93871,6 @@
       },
       "traits": {}
     },
-    "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemType": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SECRET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "secret"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemVisibility": {
       "type": "enum",
       "members": {
@@ -92857,7 +93888,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemContentHintCase0Type": {
@@ -93488,13 +94519,70 @@
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItem": {
       "type": "structure",
       "members": {
-        "target": {
-          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemTarget"
+        "securityIssues": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemSecurityIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "type": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "edgeConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "edgeConfigTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "system": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemTarget"
+        },
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         },
         "sunsetSecretId": {
@@ -93512,67 +94600,16 @@
         "decrypted": {
           "target": "smithy.api#Boolean"
         },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "vsmValue": {
-          "target": "smithy.api#String"
-        },
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "configurationId": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double"
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "gitBranch": {
-          "target": "smithy.api#String"
-        },
         "visibility": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
-          }
-        },
-        "edgeConfigId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "edgeConfigTokenId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -93593,9 +94630,6 @@
         },
         "customEnvironmentIds": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase1EnvsItemCustomEnvironmentIdsList"
-        },
-        "system": {
-          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -93620,6 +94654,67 @@
           "target": "com.vercel.projects#Pagination",
           "traits": {
             "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemSecurityIssuesItem": {
+      "type": "enum",
+      "members": {
+        "FLAGS_SECRET_NEEDS_SPLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flags-secret-needs-split"
+          }
+        },
+        "READABLE_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readable-secret"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemSecurityIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemSecurityIssuesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "secret"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
           }
         }
       },
@@ -93716,42 +94811,6 @@
       },
       "traits": {}
     },
-    "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemType": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SECRET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "secret"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemVisibility": {
       "type": "enum",
       "members": {
@@ -93769,7 +94828,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemContentHintCase0Type": {
@@ -94400,13 +95459,70 @@
     "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItem": {
       "type": "structure",
       "members": {
-        "target": {
-          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemTarget"
+        "securityIssues": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemSecurityIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "type": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemType",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "edgeConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "edgeConfigTokenId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "system": {
+          "target": "smithy.api#Boolean"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemTarget"
+        },
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         },
         "sunsetSecretId": {
@@ -94424,67 +95540,16 @@
         "decrypted": {
           "target": "smithy.api#Boolean"
         },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "vsmValue": {
-          "target": "smithy.api#String"
-        },
-        "id": {
-          "target": "smithy.api#String"
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "configurationId": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double"
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "gitBranch": {
-          "target": "smithy.api#String"
-        },
         "visibility": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
-          }
-        },
-        "edgeConfigId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "edgeConfigTokenId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -94505,9 +95570,6 @@
         },
         "customEnvironmentIds": {
           "target": "com.vercel.projects#FilterProjectEnvsResponseBodyCase2EnvsItemCustomEnvironmentIdsList"
-        },
-        "system": {
-          "target": "smithy.api#Boolean"
         }
       },
       "traits": {}
@@ -94777,7 +95839,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#CreateProjectEnvResponseCreatedCase0ContentHintCase0Type": {
@@ -95480,7 +96542,7 @@
         "visibility": {
           "target": "com.vercel.projects#CreateProjectEnvResponseCreatedCase0Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -95616,7 +96678,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#CreateProjectEnvResponseCreatedCase1ItemContentHintCase0Type": {
@@ -96319,7 +97381,7 @@
         "visibility": {
           "target": "com.vercel.projects#CreateProjectEnvResponseCreatedCase1ItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -96785,7 +97847,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectEnvResponseBodyCase0ContentHintCase0Type": {
@@ -97494,7 +98556,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectEnvResponseBodyCase0Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -97639,7 +98701,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#GetProjectEnvResponseBodyCase1ContentHintCase0Type": {
@@ -98351,7 +99413,7 @@
         "visibility": {
           "target": "com.vercel.projects#GetProjectEnvResponseBodyCase1Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -98727,7 +99789,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#EditProjectEnvResponseContentHintCase0Type": {
@@ -99439,7 +100501,7 @@
         "visibility": {
           "target": "com.vercel.projects#EditProjectEnvResponseVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -99674,7 +100736,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#RemoveProjectEnvResponseBodyCase0ItemContentHintCase0Type": {
@@ -100386,7 +101448,7 @@
         "visibility": {
           "target": "com.vercel.projects#RemoveProjectEnvResponseBodyCase0ItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -100553,7 +101615,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#RemoveProjectEnvResponseBodyCase1ContentHintCase0Type": {
@@ -101268,7 +102330,7 @@
         "visibility": {
           "target": "com.vercel.projects#RemoveProjectEnvResponseBodyCase1Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -101425,7 +102487,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#RemoveProjectEnvResponseBodyCase2ContentHintCase0Type": {
@@ -102137,7 +103199,7 @@
         "visibility": {
           "target": "com.vercel.projects#RemoveProjectEnvResponseBodyCase2Visibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "contentHint": {
@@ -104740,7 +105802,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+        "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
       }
     },
     "com.vercel.projects#UpdateMicrofrontendsResponseEnvItemContentHintCase0Type": {
@@ -105443,7 +106505,7 @@
         "visibility": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponseEnvItemVisibility",
           "traits": {
-            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths when the env-var-config-secret-ui flag is enabled. Legacy rows omit this field; legacy rows omit it and callers fall back to existing `type` behavior."
+            "smithy.api#documentation": "User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior."
           }
         },
         "edgeConfigId": {
@@ -108085,6 +109147,12 @@
             "smithy.api#required": {}
           }
         },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "type": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase5Type",
           "traits": {
@@ -108124,10 +109192,10 @@
     "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6Type": {
       "type": "enum",
       "members": {
-        "CURSOR_ORIGIN": {
+        "V0": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "cursor-origin"
+            "smithy.api#enumValue": "v0"
           }
         }
       },
@@ -108176,6 +109244,115 @@
     "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6": {
       "type": "structure",
       "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "deployHooks": {
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6DeployHooksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "gitCredentialId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double"
+        },
+        "sourceless": {
+          "target": "smithy.api#Boolean"
+        },
+        "productionBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7Type": {
+      "type": "enum",
+      "members": {
+        "CURSOR_ORIGIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cursor-origin"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7DeployHooksItem": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7DeployHooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7DeployHooksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7": {
+      "type": "structure",
+      "members": {
         "owner": {
           "target": "smithy.api#String",
           "traits": {
@@ -108204,7 +109381,7 @@
           }
         },
         "type": {
-          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6Type",
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -108213,7 +109390,7 @@
           "target": "smithy.api#Double"
         },
         "deployHooks": {
-          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6DeployHooksList",
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7DeployHooksList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -108262,6 +109439,9 @@
         },
         "Case6": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase6"
+        },
+        "Case7": {
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponseLinkCase7"
         }
       },
       "traits": {}
@@ -110554,6 +111734,13 @@
       },
       "traits": {}
     },
+    "com.vercel.projects#UpdateMicrofrontendsResponsePermissionsAutomationList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.projects#ACLAction"
+      },
+      "traits": {}
+    },
     "com.vercel.projects#UpdateMicrofrontendsResponsePermissionsBillingAddressList": {
       "type": "list",
       "member": {
@@ -112373,6 +113560,9 @@
         "auditLog": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponsePermissionsAuditLogList"
         },
+        "automation": {
+          "target": "com.vercel.projects#UpdateMicrofrontendsResponsePermissionsAutomationList"
+        },
         "billingAddress": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponsePermissionsBillingAddressList"
         },
@@ -113874,6 +115064,12 @@
     "com.vercel.projects#UpdateMicrofrontendsResponseTrustedSources": {
       "type": "structure",
       "members": {
+        "enableVercelCiSameRepository": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow same-team Vercel CI access to preview deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value."
+          }
+        },
         "projects": {
           "target": "com.vercel.projects#UpdateMicrofrontendsResponseTrustedSourcesProjectsMap"
         },
@@ -115037,6 +116233,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "critical"
+          }
+        },
+        "PRIORITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "priority"
           }
         }
       },

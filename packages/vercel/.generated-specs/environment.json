@@ -74,6 +74,31 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesItem": {
+      "type": "enum",
+      "members": {
+        "FLAGS_SECRET_NEEDS_SPLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flags-secret-needs-split"
+          }
+        },
+        "READABLE_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readable-secret"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesItem"
+      },
+      "traits": {}
+    },
     "com.vercel.environment#ListSharedEnvVariableResponseDataItemProjectIdList": {
       "type": "list",
       "member": {
@@ -162,16 +187,24 @@
     "com.vercel.environment#ListSharedEnvVariableResponseDataItem": {
       "type": "structure",
       "members": {
+        "securityIssues": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date when the Shared Env Var was created."
+            "smithy.api#documentation": "The date when the Shared Env Var was created.",
+            "smithy.api#required": {}
           }
         },
         "key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the Shared Env Var."
+            "smithy.api#documentation": "The name of the Shared Env Var.",
+            "smithy.api#required": {}
           }
         },
         "ownerId": {
@@ -184,7 +217,8 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
+            "smithy.api#documentation": "The unique identifier of the Shared Env Var.",
+            "smithy.api#required": {}
           }
         },
         "createdBy": {
@@ -265,7 +299,8 @@
         "decrypted": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "whether or not this env variable is decrypted"
+            "smithy.api#documentation": "whether or not this env variable is decrypted",
+            "smithy.api#required": {}
           }
         },
         "comment": {

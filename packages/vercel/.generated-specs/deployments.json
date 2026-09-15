@@ -1954,6 +1954,50 @@
         "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
       }
     },
+    "com.vercel.deployments#GetDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_OVERRIDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-override"
+          }
+        },
+        "ELASTIC_ALGORITHM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elastic-algorithm"
+          }
+        },
+        "PLAN_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan-default"
+          }
+        },
+        "PROJECT_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-setting"
+          }
+        },
+        "TEAM_ENTITLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-entitlement"
+          }
+        },
+        "TEAM_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-setting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
+      }
+    },
     "com.vercel.deployments#GetDeploymentResponseBodyCase1ResourceConfigBuildMachine": {
       "type": "structure",
       "members": {
@@ -1973,6 +2017,12 @@
           "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType",
           "traits": {
             "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
+          }
+        },
+        "selectionSource": {
+          "target": "com.vercel.deployments#GetDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource",
+          "traits": {
+            "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
           }
         },
         "cores": {
@@ -7253,6 +7303,12 @@
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
           }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
+          }
         }
       },
       "traits": {}
@@ -8042,6 +8098,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
+          }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
           }
         }
       },
@@ -16388,25 +16450,36 @@
       "type": "structure",
       "members": {
         "owner": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Origin workspace slug. Optional because Vercel resolves it from the linked project."
+          }
         },
         "ref": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The branch or Git reference to deploy.",
             "smithy.api#required": {}
           }
         },
         "repo": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Origin repository name. Optional because Vercel resolves it from the linked project."
+          }
         },
         "repoId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The stable Origin repository ID. Read it from the `link.repoId` field returned by the project API.",
             "smithy.api#required": {}
           }
         },
         "sha": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The commit SHA to deploy. When omitted, Vercel resolves the latest commit on `ref`."
+          }
         },
         "type": {
           "target": "com.vercel.deployments#CreateDeploymentRequestGitSourceCase8Type",
@@ -16415,7 +16488,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Deploys from the Cursor Origin repository linked to the target project. The repository ID must match the linked repository; Vercel resolves the owner and repository name from the project link."
+      }
     },
     "com.vercel.deployments#CreateDeploymentRequestGitSource": {
       "type": "union",
@@ -16461,7 +16536,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An object containing the deployment's metadata. Multiple key-value pairs can be attached to a deployment"
+        "smithy.api#documentation": "An object containing the deployment's metadata. Multiple key-value pairs can be attached to a deployment. For deployments created with a Cursor Origin `gitSource`, Vercel automatically adds `cursorOriginDeployment`, `cursorOriginCommitSha`, `cursorOriginCommitRef`, `cursorOriginCommitMessage`, `cursorOriginCommitAuthorName`, `cursorOriginCommitAuthorEmail` when available, `cursorOriginOwner`, `cursorOriginRepo`, `cursorOriginRepoId`, and `cursorOriginPrId` for pull request deployments."
       }
     },
     "com.vercel.deployments#CreateDeploymentRequestProjectSettingsFramework": {
@@ -17129,7 +17204,7 @@
         "meta": {
           "target": "com.vercel.deployments#CreateDeploymentRequestMetaMap",
           "traits": {
-            "smithy.api#documentation": "An object containing the deployment's metadata. Multiple key-value pairs can be attached to a deployment"
+            "smithy.api#documentation": "An object containing the deployment's metadata. Multiple key-value pairs can be attached to a deployment. For deployments created with a Cursor Origin `gitSource`, Vercel automatically adds `cursorOriginDeployment`, `cursorOriginCommitSha`, `cursorOriginCommitRef`, `cursorOriginCommitMessage`, `cursorOriginCommitAuthorName`, `cursorOriginCommitAuthorEmail` when available, `cursorOriginOwner`, `cursorOriginRepo`, `cursorOriginRepoId`, and `cursorOriginPrId` for pull request deployments."
           }
         },
         "monorepoManager": {
@@ -17514,6 +17589,50 @@
         "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
       }
     },
+    "com.vercel.deployments#CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_OVERRIDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-override"
+          }
+        },
+        "ELASTIC_ALGORITHM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elastic-algorithm"
+          }
+        },
+        "PLAN_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan-default"
+          }
+        },
+        "PROJECT_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-setting"
+          }
+        },
+        "TEAM_ENTITLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-entitlement"
+          }
+        },
+        "TEAM_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-setting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
+      }
+    },
     "com.vercel.deployments#CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine": {
       "type": "structure",
       "members": {
@@ -17533,6 +17652,12 @@
           "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineMachineSelectionType",
           "traits": {
             "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
+          }
+        },
+        "selectionSource": {
+          "target": "com.vercel.deployments#CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineSelectionSource",
+          "traits": {
+            "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
           }
         },
         "cores": {
@@ -22813,6 +22938,12 @@
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
           }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
+          }
         }
       },
       "traits": {}
@@ -23602,6 +23733,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
+          }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
           }
         }
       },
@@ -29014,6 +29151,50 @@
         "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
       }
     },
+    "com.vercel.deployments#CancelDeploymentResponseResourceConfigBuildMachineSelectionSource": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT_OVERRIDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-override"
+          }
+        },
+        "ELASTIC_ALGORITHM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elastic-algorithm"
+          }
+        },
+        "PLAN_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plan-default"
+          }
+        },
+        "PROJECT_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project-setting"
+          }
+        },
+        "TEAM_ENTITLEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-entitlement"
+          }
+        },
+        "TEAM_SETTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team-setting"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
+      }
+    },
     "com.vercel.deployments#CancelDeploymentResponseResourceConfigBuildMachine": {
       "type": "structure",
       "members": {
@@ -29033,6 +29214,12 @@
           "target": "com.vercel.deployments#CancelDeploymentResponseResourceConfigBuildMachineMachineSelectionType",
           "traits": {
             "smithy.api#documentation": "Whether the build ran on a fixed or elastic machine. Used to drive billing for the build."
+          }
+        },
+        "selectionSource": {
+          "target": "com.vercel.deployments#CancelDeploymentResponseResourceConfigBuildMachineSelectionSource",
+          "traits": {
+            "smithy.api#documentation": "The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history."
           }
         },
         "cores": {
@@ -34313,6 +34500,12 @@
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
           }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
+          }
         }
       },
       "traits": {}
@@ -35102,6 +35295,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Owning service name; scopes per-function config such as the v2beta consumer."
+          }
+        },
+        "buildpack": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Buildpack runtime slug (e.g. \"ruby\")."
           }
         }
       },

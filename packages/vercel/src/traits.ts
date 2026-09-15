@@ -31,7 +31,7 @@ export {
   keyDictionarySymbol,
   unionCasesSymbol,
   errorMatchersSymbol,
-} from "@distilled.cloud/core/trait";
+} from "@rikalabs/distilled-core/trait";
 
 // Bearer-REST protocol traits (sensitive strings, bare-payload responses).
 export {
@@ -41,4 +41,4 @@ export {
   sensitiveValueSymbol,
   rawResponseSymbol,
   rawResponseRootSymbol,
-} from "@distilled.cloud/core/protocol-rest";
+} from "@rikalabs/distilled-core/protocol-rest";

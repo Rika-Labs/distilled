@@ -1,5 +1,5 @@
 /**
- * Vercel retry surface — a veneer over `@distilled.cloud/core/retry`.
+ * Vercel retry surface — a veneer over `@rikalabs/distilled-core/retry`.
  *
  * The `Retry` service tag is threaded into every generated operation via
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
@@ -12,7 +12,7 @@
  *
  * @example
  * ```ts
- * import * as Vercel from "@distilled.cloud/vercel";
+ * import * as Vercel from "@rikalabs/distilled-vercel";
  *
  * myEffect.pipe(Vercel.Retry.transient);
  * ```
@@ -20,7 +20,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Retries from "@distilled.cloud/core/retry";
+import * as Retries from "@rikalabs/distilled-core/retry";
 
 export type Options = Retries.Options;
 export type Factory = Retries.Factory;

@@ -1,7 +1,6 @@
 {
-  "name": "@distilled.cloud/vercel",
-  "version": "1.0.0-rc.9",
-  "private": true,
+  "name": "@rikalabs/distilled-vercel",
+  "version": "1.0.0-rc.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -63,6 +62,12 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./SessionIo": {
+      "types": "./lib/session-io.d.ts",
+      "bun": "./src/session-io.ts",
+      "worker": "./src/session-io.ts",
+      "default": "./lib/session-io.js"
     }
   },
   "scripts": {
@@ -74,7 +79,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-vercel"
   },
   "dependencies": {
-    "@distilled.cloud/core": "1.0.0-rc.9"
+    "@rikalabs/distilled-core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

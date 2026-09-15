@@ -35,10 +35,10 @@ import {
   applyOperation,
   isStaleTargetError,
   type PatchFile,
-} from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@rikalabs/distilled-core/json-patch";
+import { convertOpenApiToSmithy } from "@rikalabs/distilled-core/codegen/openapi";
+import { finalizeConvert } from "@rikalabs/distilled-core/codegen/patches";
+import { resolveSpecPath } from "@rikalabs/distilled-core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
 const specPath = resolveSpecPath(

@@ -636,6 +636,85 @@
         "smithy.api#documentation": "The configuration for a credit purchase"
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The price intervals to add to the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The adjustment intervals to add to the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The price intervals to edit on the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The adjustment intervals to edit on the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options": {
+      "type": "structure",
+      "members": {
+        "orbSubscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Orb subscription to modify price intervals for",
+            "smithy.api#required": {}
+          }
+        },
+        "add": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList",
+          "traits": {
+            "smithy.api#documentation": "The price intervals to add to the subscription"
+          }
+        },
+        "addAdjustments": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList",
+          "traits": {
+            "smithy.api#documentation": "The adjustment intervals to add to the subscription"
+          }
+        },
+        "allowInvoiceCreditOrVoid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to allow invoice credit or void"
+          }
+        },
+        "edit": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList",
+          "traits": {
+            "smithy.api#documentation": "The price intervals to edit on the subscription"
+          }
+        },
+        "editAdjustments": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList",
+          "traits": {
+            "smithy.api#documentation": "The adjustment intervals to edit on the subscription"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Output": {
       "type": "structure",
       "members": {
@@ -665,7 +744,7 @@
       "type": "structure",
       "members": {
         "options": {
-          "target": "smithy.api#Document",
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options",
           "traits": {
             "smithy.api#required": {}
           }

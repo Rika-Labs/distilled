@@ -25,7 +25,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -185,6 +186,7 @@
         "projectId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400.",
             "smithy.api#required": {}
           }
         },
@@ -262,7 +264,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -340,7 +343,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -420,7 +424,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -674,7 +679,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -814,7 +820,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -898,7 +905,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -984,7 +992,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -1104,7 +1113,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -1337,7 +1347,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -1558,7 +1569,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -2621,7 +2633,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {

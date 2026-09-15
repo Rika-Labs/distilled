@@ -7,7 +7,7 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@rikalabs/distilled-core/*": ["../core/src/*"]
     }
   },
   "references": [{ "path": "../core" }]

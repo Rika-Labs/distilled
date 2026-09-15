@@ -30,8 +30,19 @@
         "virtualModelSlug": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "virtualModelSlug",
-            "smithy.api#required": {}
+            "smithy.api#httpQuery": "virtualModelSlug"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
           }
         },
         "teamId": {
@@ -649,13 +660,70 @@
         "smithy.api#documentation": "Only use fastest providers with short timeouts."
       }
     },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigList": {
+      "type": "structure",
+      "members": {
+        "virtualModelConfigs": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The page of VMCs.",
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for the next page, or null when no more pages remain.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "traits": {
+        "smithy.api#documentation": "The page of VMCs."
+      }
+    },
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigResponseBody": {
+      "type": "union",
+      "members": {
+        "AiGatewayVirtualModelConfig": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+        },
+        "AiGatewayVirtualModelConfigList": {
+          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigList"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfig": {
       "type": "operation",
       "input": {
         "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigRequest"
       },
       "output": {
-        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+        "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigResponse"
       },
       "errors": [
         {
@@ -793,6 +861,24 @@
             "smithy.api#required": {}
           }
         },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updatedBy"
+          }
+        },
+        "actingIp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actingIp"
+          }
+        },
+        "actingUserAgent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actingUserAgent"
+          }
+        },
         "teamId": {
           "target": "smithy.api#String",
           "traits": {
@@ -896,36 +982,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigList": {
-      "type": "structure",
-      "members": {
-        "virtualModelConfigs": {
-          "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList",
-          "traits": {
-            "smithy.api#documentation": "The page of VMCs.",
-            "smithy.api#required": {}
-          }
-        },
-        "cursor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Cursor for the next page, or null when no more pages remain.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfigListVirtualModelConfigsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
-      },
-      "traits": {
-        "smithy.api#documentation": "The page of VMCs."
-      }
-    },
     "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigs": {
       "type": "operation",
       "input": {
@@ -949,6 +1005,223 @@
           "code": 200
         },
         "smithy.api#documentation": "List virtual model configs\n\nList virtual model configs. With `ownerId`, returns all of that team's VMCs. Without it, pages through VMCs across all teams (newest-first, `limit`/`cursor`)."
+      }
+    },
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigBySlugRequest": {
+      "type": "structure",
+      "members": {
+        "vmcSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId"
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigBySlug": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigBySlugRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/ai-gateway/virtual-model-configs/{vmcSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get virtual model config\n\nGet a virtual model config by path slug"
+      }
+    },
+    "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigBySlugRequest": {
+      "type": "structure",
+      "members": {
+        "vmcSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigBySlug": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigBySlugRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#AiGatewayVirtualModelConfig"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/ai-gateway/virtual-model-configs/{vmcSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update virtual model config\n\nUpdate a virtual model config by path slug"
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlugRequest": {
+      "type": "structure",
+      "members": {
+        "vmcSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "ownerId"
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "updatedBy"
+          }
+        },
+        "actingIp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actingIp"
+          }
+        },
+        "actingUserAgent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "actingUserAgent"
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlugResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlug": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlugRequest"
+      },
+      "output": {
+        "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlugResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.api_ai_gateway#BadRequest"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#Forbidden"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/ai-gateway/virtual-model-configs/{vmcSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete virtual model config\n\nDelete a virtual model config by path slug (soft delete)"
       }
     },
     "com.vercel.api_ai_gateway#BadRequest": {
@@ -1021,6 +1294,15 @@
         },
         {
           "target": "com.vercel.api_ai_gateway#ListAiGatewayVirtualModelConfigs"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#GetAiGatewayVirtualModelConfigBySlug"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#UpdateAiGatewayVirtualModelConfigBySlug"
+        },
+        {
+          "target": "com.vercel.api_ai_gateway#DeleteAiGatewayVirtualModelConfigBySlug"
         }
       ],
       "traits": {

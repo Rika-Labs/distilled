@@ -972,14 +972,14 @@
     "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemNotification": {
       "type": "structure",
       "members": {
-        "level": {
-          "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemNotificationLevel",
+        "title": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "title": {
-          "target": "smithy.api#String",
+        "level": {
+          "target": "com.vercel.marketplace#GetIntegrationResourcesResponseResourcesItemNotificationLevel",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1344,14 +1344,14 @@
     "com.vercel.marketplace#GetIntegrationResourceResponseNotification": {
       "type": "structure",
       "members": {
-        "level": {
-          "target": "com.vercel.marketplace#GetIntegrationResourceResponseNotificationLevel",
+        "title": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "title": {
-          "target": "smithy.api#String",
+        "level": {
+          "target": "com.vercel.marketplace#GetIntegrationResourceResponseNotificationLevel",
           "traits": {
             "smithy.api#required": {}
           }

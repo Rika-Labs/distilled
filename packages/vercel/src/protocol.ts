@@ -16,13 +16,13 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type * as API from "@rikalabs/distilled-core/api";
+import type { ConfigError } from "@rikalabs/distilled-core/errors";
+import { HTTP_STATUS_MAP } from "@rikalabs/distilled-core/errors";
 import {
   makeRestProtocol,
   type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
+} from "@rikalabs/distilled-core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   Gone,

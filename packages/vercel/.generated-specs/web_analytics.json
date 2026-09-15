@@ -935,6 +935,9 @@
         "isPrivateModel": {
           "target": "smithy.api#String"
         },
+        "isStreaming": {
+          "target": "smithy.api#String"
+        },
         "isRequestZdr": {
           "target": "smithy.api#String"
         },
@@ -2026,6 +2029,12 @@
           }
         },
         "isPrivateModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isStreaming": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3416,6 +3425,9 @@
         "isPrivateModel": {
           "target": "smithy.api#String"
         },
+        "isStreaming": {
+          "target": "smithy.api#String"
+        },
         "isRequestZdr": {
           "target": "smithy.api#String"
         },
@@ -4507,6 +4519,12 @@
           }
         },
         "isPrivateModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isStreaming": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -6009,6 +6027,12 @@
           }
         },
         "isPrivateModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isStreaming": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -7522,6 +7546,12 @@
           }
         },
         "isPrivateModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isStreaming": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}

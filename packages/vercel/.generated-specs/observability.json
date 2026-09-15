@@ -335,6 +335,9 @@
         },
         {
           "target": "com.vercel.observability#Forbidden"
+        },
+        {
+          "target": "com.vercel.observability#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -594,6 +597,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 402
+          }
+        ]
+      }
+    },
+    "com.vercel.observability#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }
