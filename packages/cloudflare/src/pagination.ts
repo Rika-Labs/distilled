@@ -9,7 +9,7 @@
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
-import * as Pagination from "@distilled.cloud/core/pagination";
+import * as Pagination from "@rikalabs/distilled-core/pagination";
 
 // =============================================================================
 // ResultInfo — the envelope's `result_info`, shared by every paginated op

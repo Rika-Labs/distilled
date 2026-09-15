@@ -4,7 +4,7 @@
  * Speaks Cloudflare's client-v4 JSON protocol. The generic request/response
  * machinery (trait-driven request building, recursive wire-name mapping,
  * typed-error matcher evaluation) lives in
- * `@distilled.cloud/core/protocol-http`; this module supplies what is
+ * `@rikalabs/distilled-core/protocol-http`; this module supplies what is
  * Cloudflare's own:
  *
  *   request:  credentials → auth headers + API base URL, the Bearer-prefix
@@ -28,13 +28,13 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
+import * as API from "@rikalabs/distilled-core/api";
 import {
   bodySymbol,
   headerSymbol,
   keyDictionarySymbol,
   responseCodeSymbol,
-} from "@distilled.cloud/core/trait";
+} from "@rikalabs/distilled-core/trait";
 import {
   buildRequest,
   getAnn,
@@ -43,8 +43,8 @@ import {
   mapKeys,
   matchTypedError,
   nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import { retryableKey } from "@distilled.cloud/core/category";
+} from "@rikalabs/distilled-core/protocol-http";
+import { retryableKey } from "@rikalabs/distilled-core/category";
 import {
   ConfigError,
   Forbidden,
@@ -53,11 +53,11 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
-} from "@distilled.cloud/core/errors";
+} from "@rikalabs/distilled-core/errors";
 import {
   parseRetryAfterForStatus,
   parseServerRetryHint,
-} from "@distilled.cloud/core/retry-after";
+} from "@rikalabs/distilled-core/retry-after";
 import {
   Credentials,
   formatHeaders,

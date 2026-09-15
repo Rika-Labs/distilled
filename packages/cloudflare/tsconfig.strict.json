@@ -13,7 +13,6 @@
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"],
       "@rikalabs/distilled-core/*": ["../core/src/*"]
     }
   }

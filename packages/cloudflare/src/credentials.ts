@@ -16,7 +16,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError } from "@rikalabs/distilled-core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 

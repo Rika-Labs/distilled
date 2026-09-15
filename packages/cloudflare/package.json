@@ -539,7 +539,6 @@
     "extract-spec:sandbox": "bun scripts/sandbox-extract-spec.ts"
   },
   "dependencies": {
-    "@distilled.cloud/core": "1.0.0-rc.9",
     "@rikalabs/distilled-core": "workspace:*"
   },
   "devDependencies": {

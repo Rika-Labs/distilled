@@ -7,10 +7,10 @@
  *
  * Generic traits (Body / Header / Query / DeepQuery / Label / Http / ResponseCode /
  * HttpBody / FormDataFile / KeyDictionary / UnionCases / error matchers)
- * live in `@distilled.cloud/core/trait` because any REST protocol reuses
+ * live in `@rikalabs/distilled-core/trait` because any REST protocol reuses
  * them. Anything tied to Cloudflare's response envelope lives here.
  */
-import { makeAnnotation } from "@distilled.cloud/core/trait";
+import { makeAnnotation } from "@rikalabs/distilled-core/trait";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as Stream from "effect/Stream";
 
@@ -42,7 +42,7 @@ export {
   keyDictionarySymbol,
   unionCasesSymbol,
   errorMatchersSymbol,
-} from "@distilled.cloud/core/trait";
+} from "@rikalabs/distilled-core/trait";
 
 // =============================================================================
 // Cloudflare v4 envelope traits

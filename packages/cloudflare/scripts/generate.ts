@@ -6,15 +6,15 @@
  * Output: src/services/<resource>.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Cloudflare's provider
+ * `@rikalabs/distilled-core/codegen`; this script is Cloudflare's provider
  * spec: the envelope / form-data / nullable / key-dictionary trait
  * vocabulary and pipes, opaque union-cases, error matchers, resultInfo
  * injection, protocol/retry names, the import header, and route aliases.
  */
 
-import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { camel, lowerFirst } from "@rikalabs/distilled-core/codegen/naming";
+import { type SdkSpec } from "@rikalabs/distilled-core/codegen/generator";
+import { runGeneratorCli } from "@rikalabs/distilled-core/codegen/cli";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
@@ -93,6 +93,7 @@ const makeCfSpec = (
       : undefined,
 
   sourceNote: ".generated-specs",
+  corePackage: "@rikalabs/distilled-core",
 
   // Op I/O roots carry the service key dictionary (inside the suspend, so it
   // survives core's Suspend resolution): the protocol reads it off the root

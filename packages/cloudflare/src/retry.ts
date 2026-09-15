@@ -21,7 +21,7 @@ import {
   type Policy,
   throttlingFactory,
   transientFactory,
-} from "@distilled.cloud/core/retry";
+} from "@rikalabs/distilled-core/retry";
 
 export {
   type Options,
@@ -34,7 +34,7 @@ export {
   transientOptions,
   throttlingFactory,
   transientFactory,
-} from "@distilled.cloud/core/retry";
+} from "@rikalabs/distilled-core/retry";
 
 /** Context tag for configuring retry behavior of Cloudflare API calls. */
 export class Retry extends Context.Service<Retry, Policy>()(

@@ -17,11 +17,11 @@ export {
   HTTP_STATUS_MAP,
   DEFAULT_ERRORS,
   API_ERRORS,
-} from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+} from "@rikalabs/distilled-core/errors";
+import type { DefaultErrors as CoreDefaultErrors } from "@rikalabs/distilled-core/errors";
 
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
+import * as Category from "@rikalabs/distilled-core/category";
 
 // Schema parse error wrapper
 export class CloudflareParseError extends Schema.TaggedError<CloudflareParseError>()(
@@ -97,9 +97,9 @@ export type DefaultErrors = CoreDefaultErrors | ClientErrors;
 // =============================================================================
 
 import * as S from "effect/Schema";
-import { withThrottlingError } from "@distilled.cloud/core/category";
-import { withCategory } from "@distilled.cloud/core/error-category";
-import { RETRYABLE } from "@distilled.cloud/core/errors";
+import { withThrottlingError } from "@rikalabs/distilled-core/category";
+import { withCategory } from "@rikalabs/distilled-core/error-category";
+import { RETRYABLE } from "@rikalabs/distilled-core/errors";
 
 /** A single `{ code, message }` entry from the envelope's `errors` array. */
 export interface CloudflareApiError {
