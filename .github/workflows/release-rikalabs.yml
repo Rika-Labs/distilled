@@ -1,8 +1,8 @@
 name: Release (Rika Labs)
 
 # Fork-scoped release: publishes only the non-private packages —
-# @rikalabs/distilled-core and @rikalabs/distilled-modal — under the
-# @rikalabs npm scope. The other packages are marked private in this
+# @rikalabs/distilled-{core,modal,vercel,daytona,e2b,cloudflare} — under
+# the @rikalabs npm scope. The other packages are marked private in this
 # fork; upstream's release.yml publishes all packages under
 # @distilled.cloud and is left untouched for sync purposes.
 #
@@ -58,11 +58,12 @@ jobs:
           set -euo pipefail
           bun scripts/release/prepare.ts '${{ inputs.version }}' | tee -a "$GITHUB_OUTPUT"
 
-      - name: Build publishable packages (core first via project references)
+      - name: Build publishable packages (project references order dependencies)
         run: |
           set -euo pipefail
-          pnpm --dir packages/core run build
-          pnpm --dir packages/modal run build
+          while IFS= read -r dir; do
+            pnpm --dir "$dir" run build
+          done < <(jq -r '.[]' release-package-dirs.json)
 
       - name: Pack release artifacts
         run: |
