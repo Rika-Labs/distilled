@@ -17,3 +17,13 @@ export const debugHttp = (): boolean => {
   const value = env()?.DISTILLED_DEBUG_HTTP;
   return value !== undefined && value !== "" && value !== "0";
 };
+
+/**
+ * Read one environment variable, treating empty strings as unset. Provider
+ * credentials modules use this instead of `effect/Config`, whose member names
+ * differ across supported Effect versions.
+ */
+export const envVar = (name: string): string | undefined => {
+  const value = env()?.[name];
+  return value === undefined || value === "" ? undefined : value;
+};

@@ -12,14 +12,12 @@
  * Cloudflare platform API. There is no default: every deployment is
  * user-owned infrastructure.
  */
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Schema from "effect/Schema";
 import { ConfigError } from "@rikalabs/distilled-core/errors";
+import { envVar } from "@rikalabs/distilled-core/env";
 
 export interface Config {
   /** `SANDBOX_API_KEY` bearer token; absent when the bridge is unauthenticated. */
@@ -33,29 +31,31 @@ export class Credentials extends Context.Service<
   Effect.Effect<Config, ConfigError>
 >()("CloudflareSandboxCredentials") {}
 
-const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.schema(Schema.String, "CLOUDFLARE_SANDBOX_API_KEY").pipe(
-    EffectConfig.option,
-  ),
-  apiBaseUrl: EffectConfig.schema(Schema.String, "CLOUDFLARE_BRIDGE_URL").pipe(
-    EffectConfig.orElse(() =>
-      EffectConfig.schema(Schema.String, "SANDBOX_BRIDGE_URL"),
-    ),
-  ),
+const envConfig: Effect.Effect<
+  { apiKey: string | undefined; apiBaseUrl: string },
+  ConfigError
+> = Effect.suspend(() => {
+  const apiBaseUrl =
+    envVar("CLOUDFLARE_BRIDGE_URL") ?? envVar("SANDBOX_BRIDGE_URL");
+  if (apiBaseUrl === undefined) {
+    return Effect.fail(
+      new ConfigError({
+        message:
+          "CLOUDFLARE_BRIDGE_URL environment variable is required (URL of the deployed @cloudflare/sandbox bridge worker)",
+      }),
+    );
+  }
+  return Effect.succeed({
+    apiKey: envVar("CLOUDFLARE_SANDBOX_API_KEY"),
+    apiBaseUrl,
+  });
 });
 
 export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   envConfig.pipe(
-    Effect.mapError(
-      () =>
-        new ConfigError({
-          message:
-            "CLOUDFLARE_BRIDGE_URL environment variable is required (URL of the deployed @cloudflare/sandbox bridge worker)",
-        }),
-    ),
     Effect.map(({ apiKey, apiBaseUrl }) => ({
-      apiKey: Option.isSome(apiKey) ? Redacted.make(apiKey.value) : undefined,
+      apiKey: apiKey === undefined ? undefined : Redacted.make(apiKey),
       apiBaseUrl,
     })),
   ),

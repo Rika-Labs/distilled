@@ -11,12 +11,12 @@
  * fields rather than credential state, because a single token routinely spans
  * several teams.
  */
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { ConfigError } from "@rikalabs/distilled-core/errors";
+import { envVar } from "@rikalabs/distilled-core/env";
 
 /** Vercel's REST API root. */
 export const DEFAULT_API_BASE_URL = "https://api.vercel.com";
@@ -31,23 +31,27 @@ export class Credentials extends Context.Service<
   Effect.Effect<Config>
 >()("VercelCredentials") {}
 
-const envConfig = EffectConfig.all({
-  // `VERCEL_TOKEN` is what the Vercel CLI and the official SDK read.
-  token: EffectConfig.String("VERCEL_TOKEN"),
-  apiBaseUrl: EffectConfig.String("VERCEL_API_URL").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
-  ),
+const envConfig: Effect.Effect<
+  { token: string; apiBaseUrl: string },
+  ConfigError
+> = Effect.suspend(() => {
+  const token = envVar("VERCEL_TOKEN");
+  if (token === undefined) {
+    return Effect.fail(
+      new ConfigError({
+        message: "VERCEL_TOKEN environment variable is required",
+      }),
+    );
+  }
+  return Effect.succeed({
+    token,
+    apiBaseUrl: envVar("VERCEL_API_URL") ?? DEFAULT_API_BASE_URL,
+  });
 });
 
 export const CredentialsFromEnv = Layer.succeed(
   Credentials,
   envConfig.pipe(
-    Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "VERCEL_TOKEN environment variable is required",
-        }),
-    ),
     Effect.map(({ token, apiBaseUrl }) => ({
       token: Redacted.make(token),
       apiBaseUrl,

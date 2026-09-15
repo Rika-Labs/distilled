@@ -15,6 +15,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
 import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
@@ -205,10 +206,10 @@ const fromConfigError = (message: string) => () =>
   });
 
 const envConfig = Config.all({
-  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")),
-  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")),
-  email: Config.option(Config.String("CLOUDFLARE_EMAIL")),
-  apiBaseUrl: Config.String("CLOUDFLARE_API_BASE_URL").pipe(
+  apiToken: Config.option(Config.schema(Schema.String, "CLOUDFLARE_API_TOKEN")),
+  apiKey: Config.option(Config.schema(Schema.String, "CLOUDFLARE_API_KEY")),
+  email: Config.option(Config.schema(Schema.String, "CLOUDFLARE_EMAIL")),
+  apiBaseUrl: Config.schema(Schema.String, "CLOUDFLARE_API_BASE_URL").pipe(
     Config.withDefault(DEFAULT_API_BASE_URL),
   ),
 });
