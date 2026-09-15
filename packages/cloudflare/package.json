@@ -1,10 +1,9 @@
 {
-  "name": "@distilled.cloud/cloudflare",
-  "version": "1.0.0-rc.9",
-  "private": true,
+  "name": "@rikalabs/distilled-cloudflare",
+  "version": "1.0.0-rc.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alchemy-run/distilled",
+    "url": "https://github.com/Rika-Labs/distilled",
     "directory": "packages/cloudflare"
   },
   "license": "Apache-2.0",
@@ -498,6 +497,20 @@
       "workerd": "./src/index.ts",
       "default": "./lib/index.js"
     },
+    "./Sandbox": {
+      "types": "./lib/sandbox/index.d.ts",
+      "bun": "./src/sandbox/index.ts",
+      "worker": "./src/sandbox/index.ts",
+      "workerd": "./src/sandbox/index.ts",
+      "default": "./lib/sandbox/index.js"
+    },
+    "./sandbox/*": {
+      "types": "./lib/sandbox/*.d.ts",
+      "bun": "./src/sandbox/*.ts",
+      "worker": "./src/sandbox/*.ts",
+      "workerd": "./src/sandbox/*.ts",
+      "default": "./lib/sandbox/*.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
@@ -520,10 +533,14 @@
     "spec-to-smithy": "bun scripts/spec-to-smithy.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json"
+    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "convert:sandbox": "bun scripts/sandbox-convert.ts",
+    "generate:sandbox": "bun scripts/sandbox-generate.ts",
+    "extract-spec:sandbox": "bun scripts/sandbox-extract-spec.ts"
   },
   "dependencies": {
-    "@distilled.cloud/core": "1.0.0-rc.9"
+    "@distilled.cloud/core": "1.0.0-rc.9",
+    "@rikalabs/distilled-core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

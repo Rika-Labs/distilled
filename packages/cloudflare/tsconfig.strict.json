@@ -4,11 +4,17 @@
   // Full type checking for the hand-written src files only. src/index.ts is
   // excluded because it re-exports ./services, which would pull every
   // generated module into the checked program.
-  "exclude": ["src/services", "src/index.ts"],
+  "exclude": [
+    "src/services",
+    "src/index.ts",
+    "src/sandbox/services",
+    "src/sandbox/index.ts"
+  ],
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@rikalabs/distilled-core/*": ["../core/src/*"]
     }
   }
 }

@@ -7,7 +7,8 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@rikalabs/distilled-core/*": ["../core/src/*"]
     },
     "lib": ["ESNext", "DOM"]
   },

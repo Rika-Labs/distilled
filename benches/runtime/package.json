@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@distilled.cloud/aws": "workspace:*",
-    "@distilled.cloud/cloudflare": "workspace:*",
+    "@rikalabs/distilled-cloudflare": "workspace:*",
     "@distilled.cloud/core": "1.0.0-rc.9",
     "effect": "catalog:",
     "mitata": "catalog:"

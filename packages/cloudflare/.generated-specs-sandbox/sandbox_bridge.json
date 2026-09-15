@@ -1,0 +1,821 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.rikalabs.cloudflare.sandbox#CreateSandboxResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique sandbox ID for use with `/v1/sandbox/{id}/*` routes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#CreateSandboxResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/sandbox",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new sandbox session\n\nGenerates a new unique sandbox ID. Use this ID with all `/v1/sandbox/{id}/*` routes."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateTunnelRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Container port to tunnel. Port 3000 is reserved."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subdomain prefix for a named tunnel, such as `app`. Do not pass a full hostname. Omit to create or reuse an ephemeral tunnel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#Tunnel": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Container port served by the tunnel.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Present for named tunnels only."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateTunnel": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#CreateTunnelRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#Tunnel"
+      },
+      "errors": [
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/sandbox/{id}/tunnel/{port}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create or reuse a tunnel for a sandbox port\n\nReturns an existing tunnel for the port when one is already recorded, or provisions one when needed. The service must already be listening inside the sandbox. Omit `name` for an ephemeral `*.trycloudflare.com` tunnel, or pass `name` to choose the subdomain prefix for a named tunnel. Use a value such as `app`, not a full hostname."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteTunnelRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Container port whose tunnel should be deleted. Port 3000 is reserved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteTunnel": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#DeleteTunnelRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/sandbox/{id}/tunnel/{port}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete the tunnel for a sandbox port\n\nStops the tunnel process for the port and removes any named-tunnel Cloudflare resources tracked by the sandbox."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#IsSandboxRunningRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#RunningResponse": {
+      "type": "structure",
+      "members": {
+        "running": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` if the sandbox container is alive and responding.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#IsSandboxRunning": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#IsSandboxRunningRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#RunningResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/sandbox/{id}/running",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check whether the sandbox container is alive\n\nExecutes a no-op command inside the sandbox. Always returns HTTP 200; inspect the `running` field."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#MountBucketRequestOptions": {
+      "type": "structure",
+      "members": {
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3-compatible endpoint URL for remote mounts. Mutually exclusive with top-level `binding`."
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Mount filesystem as read-only (default: false)."
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional prefix/subdirectory within the bucket to mount. Must start with `/`. Trailing slashes are stripped automatically."
+          }
+        },
+        "credentials": {
+          "target": "com.rikalabs.cloudflare.sandbox#MountBucketCredentials",
+          "traits": {
+            "smithy.api#documentation": "Explicit credentials. When omitted, the SDK auto-detects from Worker secrets (R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY or AWS equivalents)."
+          }
+        },
+        "credentialProxy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Keep credentials in the Durable Object and sign intercepted s3fs requests from the Worker. Credentials may be explicit or auto-detected from Worker secrets."
+          }
+        },
+        "s3fsOptions": {
+          "target": "com.rikalabs.cloudflare.sandbox#MountBucketRequestOptionsS3fsOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Advanced: Override or extend s3fs mount options for both remote mounts and R2 binding mounts."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#MountBucketCredentials": {
+      "type": "structure",
+      "members": {
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3-compatible access key ID.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "S3-compatible secret access key.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#MountBucketRequestOptionsS3fsOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Advanced: Override or extend s3fs mount options for both remote mounts and R2 binding mounts."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#MountBucketRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Remote bucket name for endpoint-based S3-compatible mounts."
+          }
+        },
+        "binding": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Worker R2 binding name for credential-less R2 binding mounts. Mutually exclusive with `options.endpoint`."
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute path in the container to mount at.",
+            "smithy.api#required": {}
+          }
+        },
+        "options": {
+          "target": "com.rikalabs.cloudflare.sandbox#MountBucketRequestOptions",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#OkResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` on success.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#MountBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#MountBucketRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#OkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/sandbox/{id}/mount",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mount an S3-compatible bucket into the container\n\nMounts an S3-compatible bucket (R2, S3, GCS, etc.) as a local directory via s3fs-FUSE. Credentials are optional — the SDK auto-detects from Worker secrets when omitted."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#UnmountBucketRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute path where the bucket is currently mounted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#UnmountBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#UnmountBucketRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#OkResponse"
+      },
+      "errors": [
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/sandbox/{id}/unmount",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unmount a previously mounted bucket\n\nUnmounts a bucket filesystem that was previously mounted via `/v1/sandbox/{id}/mount`."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteSandboxRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteSandbox": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#DeleteSandboxRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/sandbox/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Destroy a sandbox instance (best-effort)\n\nCalls destroy() on the sandbox Durable Object to release container resources. Best-effort: unknown sandbox IDs return 204 without allocating a container."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateSessionRequestEnvMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables scoped to this session."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateSessionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "cwd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Initial working directory for the session."
+          }
+        },
+        "env": {
+          "target": "com.rikalabs.cloudflare.sandbox#CreateSessionRequestEnvMap",
+          "traits": {
+            "smithy.api#documentation": "Environment variables scoped to this session."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateSessionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Session ID to pass via `Session-Id` header.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CreateSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#CreateSessionRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#CreateSessionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/sandbox/{id}/session",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an execution session\n\nSessions isolate working directory and environment variables across commands. The returned session ID is used with the `Session-Id` header on exec, file, and PTY endpoints."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteSessionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox instance name."
+          }
+        },
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Session ID to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteSessionResponse": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`true` if the session was deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the deleted session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#DeleteSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.rikalabs.cloudflare.sandbox#DeleteSessionRequest"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#DeleteSessionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/sandbox/{id}/session/{sid}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an execution session\n\nRemoves a named session. The default session cannot be deleted."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CheckHealth": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#OkResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/health",
+          "code": 200
+        },
+        "smithy.api#documentation": "Worker health check\n\nSimple liveness probe. Not protected by authentication."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#GetOpenApiSchemaResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#GetOpenApiSchema": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#GetOpenApiSchemaResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/openapi.json",
+          "code": 200
+        },
+        "smithy.api#documentation": "OpenAPI schema\n\nReturns this OpenAPI 3.1 schema document."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#PoolStats": {
+      "type": "structure",
+      "members": {
+        "warm": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of warm (unassigned) containers ready for use.",
+            "smithy.api#required": {}
+          }
+        },
+        "assigned": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of containers assigned to sandbox IDs.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total containers tracked by the pool.",
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.rikalabs.cloudflare.sandbox#PoolStatsConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "maxInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Inferred max_instances limit, or null if not yet known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#PoolStatsConfig": {
+      "type": "structure",
+      "members": {
+        "warmTarget": {
+          "target": "smithy.api#Integer"
+        },
+        "refreshInterval": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.rikalabs.cloudflare.sandbox#GetPoolStats": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#PoolStats"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/pool/stats",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pool statistics\n\nReturns current warm pool statistics including warm/assigned counts and configuration."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#ShutdownPrewarmed": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#OkResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/pool/shutdown-prewarmed",
+          "code": 200
+        },
+        "smithy.api#documentation": "Shutdown pre-warmed containers\n\nStops all idle (unassigned) warm containers. Does not affect containers assigned to sandbox sessions."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#PrimePool": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rikalabs.cloudflare.sandbox#OkResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/pool/prime",
+          "code": 200
+        },
+        "smithy.api#documentation": "Prime the warm pool\n\nPushes the current pool configuration and starts the alarm loop. Called automatically by the cron trigger; can also be called manually after deploy."
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.rikalabs.cloudflare.sandbox#CloudflareSandbox": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#CreateSandbox"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#CreateTunnel"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#DeleteTunnel"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#IsSandboxRunning"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#MountBucket"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#UnmountBucket"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#DeleteSandbox"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#CreateSession"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#DeleteSession"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#CheckHealth"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#GetOpenApiSchema"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#GetPoolStats"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#ShutdownPrewarmed"
+        },
+        {
+          "target": "com.rikalabs.cloudflare.sandbox#PrimePool"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Cloudflare Sandbox Service API",
+        "smithy.api#documentation": "HTTP API consumed by the Python `CloudflareSandboxClient`. Forwards each operation to a named Cloudflare Sandbox Durable Object via the `@cloudflare/sandbox` SDK."
+      }
+    }
+  }
+}
