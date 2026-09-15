@@ -31,6 +31,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Encoding from "effect/Encoding";
+import * as Filter from "effect/Filter";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -155,7 +156,10 @@ const decodeError = (
     ]);
     if (typed !== undefined) return yield* fail(typed);
 
-    const StatusErrorClass = HTTP_STATUS_MAP[status];
+    const statusMap: Readonly<
+      Record<number, (new (args: any) => any) | undefined>
+    > = HTTP_STATUS_MAP;
+    const StatusErrorClass = statusMap[status];
     if (StatusErrorClass) {
       return yield* fail(
         new StatusErrorClass({
@@ -306,7 +310,9 @@ const frames = (
     ),
   );
 
-const parseJson = (data: string): unknown => {
+const parseJson = (
+  data: string,
+): { readonly ok: true; readonly value: unknown } | { readonly ok: false } => {
   try {
     return { ok: true as const, value: JSON.parse(data) };
   } catch {
@@ -400,7 +406,7 @@ const decodeExecStream = (
       )
     : frames(response.stream).pipe(
         Stream.mapEffect(toEvent),
-        Stream.filterMap((option) => option),
+        Stream.filterMap(Filter.fromPredicateOption((option) => option)),
       );
 
 // =============================================================================
