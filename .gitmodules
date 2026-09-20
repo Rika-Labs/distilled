@@ -13,6 +13,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-azure.git
 	shallow = true
 	ignore = dirty
+[submodule "packages/boat-dev/specs/spec-mirror-boat-dev"]
+	path = packages/boat-dev/specs/spec-mirror-boat-dev
+	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
+	shallow = true
+	ignore = dirty
 [submodule "packages/coinbase/specs/spec-mirror-coinbase"]
 	path = packages/coinbase/specs/spec-mirror-coinbase
 	url = https://github.com/distilled-mirror/spec-mirror-coinbase.git
